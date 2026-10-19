@@ -5,15 +5,15 @@ Story.chapter('ties', {
   hint: { text: 'Press New slice for other inputs', icon: 'controls', from: 2 },
   steps: [
     `<p>Take one input and slide it from low to high, keeping the other nine fixed. The curves are the ten answer scores. The highest curve is the network's answer at that value.</p>
-     <p>Every curve is <b>smooth</b>. The network is built from multiplying, adding, and clipping, so a tiny nudge to an input only nudges the scores.</p>`,
-    `<p>But the right answer is not smooth. The moment the sliding number passes the runner-up, the runner-up <i>changes</i>, and the right answer <b>jumps</b> to a new position.</p>
-     <p>Smooth curves cannot jump. They need some room to cross, and in that room the network is wrong: the red sliver, where the margin has crossed zero. No smooth network can avoid it. The best it can do is make the sliver thin.</p>`,
-    `<p>Now slide two inputs at once. Each pixel is one input: dark where the network is right, red where it's wrong. The thin lines mark ties, where two of the numbers are equal.</p>
+     <p>Every curve is <b>unbroken</b>: a clip can bend it, but nothing makes it jump. The network is built from multiplying, adding, and clipping, so a tiny nudge to an input only nudges the scores.</p>`,
+    `<p>But the right answer does jump. The moment the sliding number passes the runner-up, the runner-up <i>changes</i>, and the right answer <b>jumps</b> to a new position.</p>
+     <p>Unbroken curves cannot jump. They need some room to cross, and in that room the network is wrong: the red sliver, where the margin is on the wrong side of zero. No network whose scores move continuously can avoid it. The best it can do is make the sliver thin.</p>`,
+    `<p>Now slide two inputs at once. Each pixel is one input: pale where the network is right, red where it's wrong. The thin lines mark ties, where two of the numbers are equal.</p>
      <p>The errors hug the ties. Away from them the network is almost never wrong.</p>`,
     `<p>Across random inputs, when the runner-up and the third-largest are within 0.05 of each other, the network is right only <b data-fact="acc_st_near"></b> of the time. When they're far apart, <b data-fact="acc_st_far"></b>. Of all its mistakes, <b data-fact="err_third"></b> point to the <span class="third">third-largest</span>.</p>
      <p>Remember trying to fool it in <a data-ch="game"></a>? This is why near-equal numbers worked. Press <b>New slice</b> to change the other inputs.</p>`,
     `<p>Notice what the network is <i>not</i> confused about: order. Take ten typical numbers, well spread out, and feed them in every possible order, all <b data-fact="ord_total"></b> of them. It is wrong on only <b data-fact="ord_wrong"></b>, and every one of those has the runner-up first and the largest last.</p>
-     <p>So nearly all of its mistakes come from how close two numbers are, not from the order they arrive in.</p>`,
+     <p>So most of its mistakes come from how close two numbers are, not from the order they arrive in.</p>`,
   ],
   mount(fig, bar) {
     let x = [0.31, -1.2, 1.54, 0.1, -0.4, 1.05, -0.9, 0.66, -0.1, 0.4];
@@ -44,12 +44,12 @@ Story.chapter('ties', {
 
     const cv = V.canvas(fig, (ctx, w, h) => {
       if (stage < 2) {
-        const left = 104, right = 64, top = 66, bottom = 100, pw = w - left - right, ph = h - top - bottom;
+        const left = 104, right = 64, top = 66, bottom = 122, pw = w - left - right, ph = h - top - bottom;
         const all = s1.flatMap(o => o.L), Lmin = Math.min(...all), Lmax = Math.max(...all);
         const X = v => left + (v - lo) / (hi - lo) * pw, Y = L => top + (1 - (L - Lmin) / (Lmax - Lmin)) * ph;
         const upto = Math.floor(grow * (s1.length - 1));
         if (stage >= 1) for (let i = 0; i < upto; i++) if (s1[i].ans !== s1[i].lab) {
-          ctx.fillStyle = V.alpha(V.C.wrong, 0.35); ctx.fillRect(X(s1[i].v), top, X(s1[i + 1].v) - X(s1[i].v) + 0.5, ph);
+          ctx.fillStyle = V.alpha(V.C.wrong, 0.45); ctx.fillRect(X(s1[i].v), top, X(s1[i + 1].v) - X(s1[i].v) + 0.5, ph);
         }
         const o = M.order(x), hot = { [o[0]]: V.C.max, [b]: V.C.second, [a]: V.C.third };
         V.title(ctx, 'The ten scores', left, top - 26);
@@ -71,7 +71,10 @@ Story.chapter('ties', {
           const x0 = X(s1[i].v), x1 = X(s1[i + 1].v) + 0.5;
           ctx.fillStyle = s1[i].lab === b ? V.C.second : s1[i].lab === a ? V.C.third : V.C.max; ctx.fillRect(x0, sy, x1 - x0, 16);
           ctx.fillStyle = s1[i].ans === b ? V.C.second : s1[i].ans === a ? V.C.third : s1[i].ans === o[0] ? V.C.max : V.C.other; ctx.fillRect(x0, sy + 24, x1 - x0, 16);
+          // under the network's strip, a mark wherever it disagrees with the right answer: a sliver too thin to see above
+          if (stage >= 1 && s1[i].ans !== s1[i].lab) { ctx.fillStyle = V.C.wrong; ctx.fillRect(x0 - 2, sy + 44, x1 - x0 + 4, 4); }
         }
+        if (stage >= 1 && s1.slice(0, upto).some(o2 => o2.ans !== o2.lab)) V.text(ctx, 'red mark: the network is wrong ✗', left + pw, sy + 62, { size: 12, align: 'right', color: V.C.ink });
         V.text(ctx, `Sliding ${V.xi(a)}, the third-largest, from ${V.fmt(lo, 1)} to ${V.fmt(hi, 1)}`, left + pw / 2, h - 14, { size: 13, align: 'center', color: V.C.ink2, face: 'serif', style: 'italic' });
         V.legend(ctx, left + 150, top - 30, [['largest', V.C.max], ['runner-up', V.C.second], ['third-largest', V.C.third], ['wrong', V.C.wrong]]);
       } else {

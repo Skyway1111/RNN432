@@ -8,7 +8,7 @@ Story.chapter('dims', {
      <p>Let three of the inputs, x<sub>2</sub>, x<sub>5</sub> and x<sub>7</sub>, move around a ball while the other seven stay fixed and lower, so the moving three are always the top three. Each dot on the ball is one input, one way of ordering and spacing the three. Drag to spin it.</p>`,
     `<p>The white circles are <b>ties</b>: inputs where two of the three moving numbers are equal. They cut the ball into six pieces, one for each way of ordering the three. Inside a piece the right answer never changes; crossing a circle can change it.</p>`,
     `<p>Now the red dots: inputs the network gets wrong. Every one of them hugs a circle. This is the sliver from <a data-ch="ties"></a>, seen in 3-D.</p>
-     <p>The full input space has 45 tie planes, one for every pair of positions, and the errors hug all of them. Everywhere else, the network is right.</p>`,
+     <p>The full input space has 45 tie planes, one for every pair of positions, and the errors hug all of them. Away from them, the network is almost always right.</p>`,
     `<p>One more shadow. The network's memory is a point in 16-dimensional space, and each input moves it along a path, one step per number. Here are 80 paths, flattened onto the three directions the <b>output weights</b> read most.</p>
      <p>The answer is decided by which of ten wedge-shaped regions the memory ends in, one per answer. Labels mark each answer's average direction. In 16 dimensions the wedges are cleanly apart. Squeezed into any 3-D shadow they overlap, and the counter shows how badly. No picture of this network shows the whole decision, which is part of why it is hard to explain.</p>`,
   ],

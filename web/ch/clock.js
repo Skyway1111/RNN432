@@ -8,16 +8,16 @@ Story.chapter('clock', {
   hint: { text: 'Choose where the two numbers land', icon: 'controls', from: 2 },
   steps: [
     `<p>Give the network the simplest input there is: all zeros, except a <span class="max">2</span> (the largest) and a <span class="second">1</span> (the runner-up).</p>
-     <p>Its memory is 16 numbers, too many to draw. So we flatten it onto a dial: the two directions in memory that the <b>output weights</b> care about most. After each input, the memory is a point on this dial, and the hand points at it.</p>`,
+     <p>Its memory is 16 numbers, too many to draw. Think of them as one point in a 16-dimensional space: each score is a weighted sum of the 16, so it measures how far the point reaches in one direction. The dial is the flat slice of that space the scores depend on most. After each input the memory lands somewhere on it, and the hand points there.</p>`,
     `<p>Now the ticks. Each answer position reads the memory along its own direction, drawn as a tick on the rim, and positions 0 to 7 march around the dial in order, about <b data-fact="wheel_step"></b> apart.</p>
      <p>The bar on each tick is that position's full <b>score</b>, from all 16 neurons; the tallest bar is the answer. By the last step the hand points close to the <span class="second">runner-up's</span> tick, and that tick's bar is tallest. The network has built a <b>clock</b>: an angle that stores <i>when</i> something happened.</p>`,
     `<p>How does the hand know? If the runner-up arrives <b>after</b> the largest, its arrival starts the hand on a fixed path, so how far the hand has turned says how long ago it came.</p>
      <p>If it arrives <b>before</b>, it was the record at the time. When the largest shows up and beats it, the hand snaps to the angle for "the old record came this long ago." Pick other positions below and watch both cases.</p>`,
-    `<p>Where does the turning come from? Look only at the memory weights among the record keeper and the four comparators: a block of 25 of the 256. Apply it once and it acts like a <b>turn</b>: the memory rotates by <b data-live="clock-angle"></b> and shrinks a little, to <b data-live="clock-mod"></b> of its size.</p>
-     <p>The figure follows one point through repeated turns. Eight of them go almost all the way around, which is why positions 0 to 7 sit evenly around the dial.</p>
-     <details><summary>In linear-algebra terms</summary><p>The block's eigenvalues are drawn as dots. Two of them are a complex pair, r·e<sup>±iθ</sup>; a matrix with such a pair turns the plane they span by θ each time it is applied, and scales it by r.</p></details>`,
+    `<p>Where does the turning come from? Look only at the memory weights among the record keeper and the four comparators: a block of 25 of the 256. Apply it once, and in one flat slice of the memory it acts like a <b>turn</b>: it rotates by <b data-live="clock-angle"></b> and shrinks a little, to <b data-live="clock-mod"></b> of its size.</p>
+     <p>The figure follows one point in that slice through repeated turns. Eight of them go almost all the way around, which is why positions 0 to 7 sit evenly around the dial. With the network's clips in place each turn comes out a little larger, which is why the ticks sit about <b data-fact="wheel_step"></b> apart.</p>
+     <details><summary>In linear-algebra terms</summary><p>The dots are the block's five eigenvalues. Two are a complex pair, r·e<sup>±iθ</sup>, and a matrix with such a pair turns the plane they span by θ each time it is applied, scaling it by r. The other three are real, so their directions only shrink. One turn lands exactly on the eigenvalue: that is what the eigenvalue is.</p></details>`,
     `<p>It's close, not exact: the flattened hand often lands tens of degrees from its tick, and the other 14 directions of memory finish the job. On these clean inputs the network is right <b data-fact="wheel_acc"></b> of the time.</p>
-     <p>Positions 8 and 9 don't fit on the dial: one more turn would land position 8 on position 0. So the network gives them their own neurons: <span class="timer">n5</span> lights up for position 8, and <span class="core">n4</span> vetoes 9. Press <b>Random input</b> to see ten numbers all pushing the hand at once.</p>`,
+     <p>Positions 8 and 9 don't fit on the dial: one more turn would land position 8 on position 0. So the network gives them their own neurons. <span class="timer">n5</span> lights up for position 8. Position 9 has two vetoes: <span class="core">n4</span> fires when the last number sets a record, <span class="core">n7</span> when it lands far below one, and a runner-up arriving last escapes both. Press <b>Random input</b> to see ten numbers all pushing the hand at once.</p>`,
   ],
   mount(fig, bar) {
     const P = M.plane(M.base), BLK = [2, 7, 6, 1, 8];
@@ -36,7 +36,7 @@ Story.chapter('clock', {
     function eigenView(ctx, w, h) {
       const cx = w * 0.5, cy = h * 0.53, R = Math.min(w * 0.36, h * 0.36);
       V.title(ctx, 'One point, turned again and again by the block', 28, 40);
-      V.text(ctx, 'dots: the block\'s eigenvalues;  numbers: how many turns', 28, 62, { size: 13, face: 'serif', style: 'italic' });
+      V.text(ctx, 'numbers count the turns applied, not answer positions; the dots are the block\'s eigenvalues', 28, 62, { size: 13, face: 'serif', style: 'italic' });
       ctx.strokeStyle = V.C.axis; ctx.lineWidth = 1;
       V.hline(ctx, cx - R * 1.2, cx + R * 1.2, cy); V.vline(ctx, cx, cy - R * 1.2, cy + R * 1.2);
       ctx.setLineDash([3, 4]); ctx.beginPath(); ctx.arc(cx, cy, R, 0, 2 * Math.PI); ctx.stroke(); ctx.setLineDash([]);

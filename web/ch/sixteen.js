@@ -38,13 +38,13 @@
 
   // the map: core around the record keeper, timers around the dial at the runner-up position each points to (V.PLACE)
   function map(ctx, w, h, hot) {
-    const cx = w * 0.5, cy = h * 0.53, R = Math.min(w * 0.33, h * 0.33), pos = V.place(cx, cy, R);
+    const cx = w * 0.5, cy = h * 0.54, R = Math.min(w * 0.29, h * 0.29), pos = V.place(cx, cy, R);
     V.title(ctx, 'The sixteen neurons and their costliest links', 26, 38);
     V.text(ctx, 'thicker: more accuracy lost when the link alone is cut', 26, 60, { size: 13, face: 'serif', style: 'italic' });
     ctx.strokeStyle = V.alpha(V.C.ink, 0.18); ctx.lineWidth = 0.8; ctx.beginPath(); ctx.arc(cx, cy, 1.12 * R, 0, 2 * Math.PI); ctx.stroke();
     for (let q = 0; q < 10; q++) {
       const a = (-90 + q * 36) * Math.PI / 180;
-      V.text(ctx, String(q), cx + 1.3 * R * Math.cos(a), cy + 1.3 * R * Math.sin(a), { size: 13, align: 'center', base: 'middle', color: V.C.muted, face: 'serif', style: 'italic' });
+      V.text(ctx, String(q), cx + 1.45 * R * Math.cos(a), cy + 1.45 * R * Math.sin(a), { size: 14, align: 'center', base: 'middle', color: V.C.muted, face: 'serif', style: 'italic' });
     }
     V.text(ctx, 'around the dial: the runner-up position each timer points to', 26, h - 18, { size: 12.5, face: 'serif', style: 'italic' });
     const links = [];
@@ -76,7 +76,7 @@
   function grid(ctx, w, h, sums) {
     const L = lift(), order = [...TIMERS].sort((a, b) => (pointsTo(a)[0] ?? 99) - (pointsTo(b)[0] ?? 99) || b - a)
       .concat([7, 2, 4, 6, 1, 8]);
-    const left = 92, top = 104, extra = sums ? 3.6 : 0, s = Math.min((w - left - 40) / 10, (h - top - 70) / (16 + extra));
+    const left = 92, top = 116, extra = sums ? 3.6 : 0, s = Math.min((w - left - 40) / 10, (h - top - 70) / (16 + extra));
     V.title(ctx, 'Each neuron\'s vote for the runner-up\'s own position', 26, 38);
     V.text(ctx, 'per unit of the runner-up\'s value, by where the runner-up lands; 3,000 random inputs', 26, 60, { size: 13, face: 'serif', style: 'italic' });
     for (let q = 0; q < 10; q++) V.text(ctx, String(q), left + q * s + s / 2, top - 10, { size: 12.5, align: 'center', color: V.C.ink, weight: 600 });
@@ -185,11 +185,11 @@
     hint: { text: 'Hover a neuron; click to open its plate', icon: 'hover' },
     steps: [
       `<p>You have met six neurons up close. Here are all sixteen at once, joined by the links that matter most: the thicker the line, the more accuracy the network loses when that one link is cut.</p>
-       <p>The <span class="core">gold</span> six keep the books. The <span class="timer">slate</span> ten are timers, placed around the dial at the position each one watches. Hover a neuron for its name; click it to open its plate in the field guide below.</p>`,
-      `<p>So who points to the runner-up? Each timer is responsible for one or two positions. Most do it with a <b>veto</b>: they vote against their positions, and a runner-up arriving there switches them down, lifting the veto.</p>
-       <p>The grid shows each neuron's vote for the runner-up's own position, wherever the runner-up lands. Read it as a staircase: n14 covers position 0, n15 positions 1 and 2, and so on down to n5 at position 8. Position 9 belongs to a comparator, n7.</p>`,
-      `<p>Now add up each kind. The ten timers push the runner-up's position up; at most positions, the six core neurons pull it down.</p>
-       <p>So the division of labor is clean: the core measures, and the timers decide. That is why the timers were never just keeping time.</p>`,
+       <p>The <span class="core">gold</span> six keep the books. The <span class="timer">slate</span> ten are timers: each holds more or less of the record depending on when it arrived. They sit around a ring of answer positions, each at the position it watches. Hover a neuron for its name; click it to open its plate in the field guide below.</p>`,
+      `<p>So who points to the runner-up? Seven of the timers each watch one or two positions. Five of them use a <b>veto</b>: they vote against their positions, and a runner-up arriving there switches them down, lifting the veto. Lifting a veto raises that position's score, so the grid counts it as a vote for. Two more, n15 and n5, add a vote outright.</p>
+       <p>The grid shows each neuron's vote for the runner-up's own position, wherever the runner-up lands. Read it as a staircase: n14 covers position 0, n15 positions 1 and 2, and so on down to n5 at position 8. Position 9 falls to a comparator, n7.</p>`,
+      `<p>Now add up each kind. Wherever the runner-up lands, up to position 8, the ten timers push its position up, and at most of those positions the six core neurons pull it down.</p>
+       <p>The core's votes still matter: cutting the vote of any core neuron but n4 costs most of the accuracy. But the vote that points at the runner-up comes from the timers.</p>`,
       `<p>And every one of the sixteen matters. Silence a neuron, so it never fires, and accuracy collapses; the bars show what is left.</p>
        <p>Even the faintest, n9, whose own vote changes nothing, costs a large share through what it feeds the others. There are no spare parts in 432 numbers. The field guide below has a plate for each neuron.</p>`,
     ],

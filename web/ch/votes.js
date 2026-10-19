@@ -5,14 +5,14 @@ Story.chapter('votes', {
   title: 'Ten votes that add up',
   hint: { text: 'Push the third-largest up with the slider', icon: 'controls', from: 3 },
   steps: [
-    `<p>Here's a sharper lens. After the last step, the memory is <b>exactly</b> the sum of ten pieces, one left behind by each input. Read each piece out through the output weights and you get each input's <b>votes</b> for each answer position.</p>
+    `<p>Here's a sharper lens. Once you know which neurons were clipped at each step, the rest is only multiplying and adding, with no constant. So after the last step the memory splits <b>exactly</b> into ten pieces, one left behind by each input. Read each piece out through the output weights and you get each input's <b>votes</b> for each answer position.</p>
      <p>Rows are inputs, columns are answer positions; blue is a vote for, red a vote against. Add up a column and you get that position's score, exactly.</p>`,
     `<p>Now look at one race: the right answer against the <span class="third">third-largest's</span> position, where most of the network's mistakes point. The right answer's score minus its rival's is the <b>margin</b>: positive means the network is right, and the bigger it is, the more sure it is.</p>
      <p>Each bar is one input's pull on that margin. Nearly all the pull comes from the three largest numbers, and how they split it changes from input to input: deal a few and watch.</p>`,
-    `<p>Average the pulls over many random inputs, per unit of each number, and a rule appears:</p>
+    `<p>Average the pulls over many random inputs, each divided by its own number, and a rule appears:</p>
      <p class="rule"><span data-fact="coef_S"></span> × <span class="second">runner-up</span> <span data-fact="coef_T"></span> × <span class="third">third</span> <span data-fact="coef_M"></span> × <span class="max">largest</span></p>
-     <p>The runner-up and the third pull almost equally hard in opposite directions: a <b>tug-of-war</b>. The whiskers show how far single inputs stray from the average, and it's a long way. The average is the rule; each input's own route through the clips sets the details.</p>`,
-    `<p>Use the slider to push the third-largest up toward the runner-up. However the pulls split, the margin has to shrink to nothing as they meet, and somewhere just before they meet, the answer flips.</p>
+     <p>The runner-up and the third pull almost equally hard in opposite directions: a <b>tug-of-war</b>. The whiskers show how far single inputs stray from the average, and it's a long way. The average is the rule; which neurons each input's clips switched off sets the details.</p>`,
+    `<p>Use the slider to push the third-largest up toward the runner-up. Where they meet, the right answer jumps from one position to the other, so the network's answer has to flip somewhere near there. <a data-ch="ties"></a> shows why it can't flip at exactly the right place.</p>
      <details><summary>Why the split changes</summary><p>The votes add up to the scores exactly. But each input's piece depends on which neurons were clipped to zero along the way, and that depends on all the other inputs. Near a tie, those details decide the answer.</p></details>`,
   ],
   mount(fig, bar) {

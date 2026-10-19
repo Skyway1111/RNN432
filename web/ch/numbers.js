@@ -9,7 +9,7 @@ Story.chapter('numbers', {
      <p>Months later they reported no real progress. One of them pointed out that finishing by the end of the year works out to four hours per number. The networks people rely on are millions of times bigger, so a network this small that still resists explanation is worth taking seriously.</p>`,
     `<p>The numbers come in three grids, and each row of all three belongs to one of the network's 16 <b>neurons</b>. Together the neurons are its memory: sixteen numbers it carries from one step to the next.</p>
      <p><b>Input weights</b>: one per neuron, saying how a new number enters it. <b>Memory weights</b>: 256 numbers saying how the neurons push each other around. <b>Output weights</b>: 160 numbers turning the neurons into an answer. There is nothing else.</p>`,
-    `<p>By the end of this page you will know what every row does. Six neurons, marked <span class="core">gold</span>, do the core bookkeeping. The other ten, marked <span class="timer">slate</span>, are timers, and they cast the deciding votes.</p>
+    `<p>By the end of this page you will know what every row does. Six neurons, marked <span class="core">gold</span>, do the core bookkeeping. The other ten, marked <span class="timer">slate</span>, are timers: each holds more or less of the record depending on when it arrived, and their votes point to the answer.</p>
      <p>We'll call neuron 7 <b>n7</b> for short. Let's start with the job it was trained to do.</p>`,
   ],
   mount(fig) {

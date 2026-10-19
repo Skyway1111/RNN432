@@ -10,8 +10,8 @@
     2: { q: (x, t) => rec(x, t - 1), name: 'the record before this input' },
     4: { q: (x, t) => R(x[t] - rec(x, t - 1)), name: 'how far this input beats the record' },
     7: { q: (x, t) => R(rec(x, t - 1) - x[t]), name: 'how far this input falls below the record' },
-    6: { q: (x, t) => R(rec(x, t - 2) - x[t]), name: 'below the record as it stood one input ago' },
-    1: { q: (x, t) => R(rec(x, t - 3) - x[t]), name: 'below the record as it stood two inputs ago' },
+    6: { q: (x, t) => R(rec(x, t - 2) - x[t]), name: 'below the record, leaving out the previous input' },
+    1: { q: (x, t) => R(Math.max(rec(x, t - 3), t >= 1 ? x[t - 1] : 0) - x[t]), name: 'below the record, leaving out the input two back' },
     8: { q: (x, t) => R(second(x, t - 1) - x[t]), name: 'below the runner-up so far' },
   };
   const fits = {};
@@ -59,7 +59,7 @@
         V.text(ctx, `n${cell}`, left - 52, y0 + 13, { size: 15, color: V.C.ink, weight: 700, face: 'serif' });
         ctx.fillStyle = V.C.core; ctx.beginPath(); ctx.arc(left - 60, y0 + 8, 4.5, 0, 2 * Math.PI); ctx.fill();
         V.text(ctx, `dashed: ${f.k.toFixed(1)} × ${P.name}`, left, y0 + 13, { size: 13, color: V.C.ink2, face: 'serif', style: 'italic' });
-        V.text(ctx, `match on 2,000 random inputs: R² ${f.r2.toFixed(2)}`, w - right, y0 + 13, { size: 11.5, align: 'right' });
+        V.text(ctx, `R² ${f.r2.toFixed(2)}`, w - right, y0 + 13, { size: 12.5, align: 'right', color: V.C.ink, weight: 600 });
         ctx.strokeStyle = V.C.axis; ctx.lineWidth = 1; V.hline(ctx, left, w - right, base);
         for (let t = 0; t < 10; t++) { ctx.fillStyle = V.C.core; V.bar(ctx, cx(t) - 10, base, 20, vals[t] * sc, 3); }
         ctx.strokeStyle = V.C.ink; ctx.setLineDash([5, 4]); ctx.lineWidth = 1.5;
@@ -90,7 +90,7 @@
     hint: { text: 'Drag an input bar', icon: 'drag' },
     steps: [
       `<p>Start with <span class="core">n2</span>. The gray bars on top are the ten inputs, x<sub>0</sub> to x<sub>9</sub>, and the black line over them is the <b>record so far</b>: the largest input seen yet, or zero if all were negative.</p>
-       <p>Below, the gold bars are n2's value after each input. It climbs when a new record arrives and otherwise holds still. It <b>is</b> the record, scaled up and running one step behind; the dashed lines show the scale, measured on random inputs.</p>`,
+       <p>Below, the gold bars are n2's value after each input. It climbs when a new record arrives and otherwise holds still. It <b>is</b> the record, scaled up and running one step behind. The dashed lines show the scale, measured on random inputs, and the R² at right says how well they match: 1 is a perfect match, 0 no better than a flat line.</p>`,
       `<p>How do the weights make it hold? Look at its formula under the figure. It has almost no input weight, so new numbers don't reach it directly. It keeps almost all of its own value each step. And it adds <span class="core">n4</span> times a weight.</p>
        <p>So n2 only grows when n4 fires.</p>`,
       `<p><span class="core">n4</span> is the <b>jump</b>: how far the new number beats the record, and zero if it doesn't. Its formula adds the input with a big positive weight and subtracts n2, the record.</p>
@@ -115,11 +115,11 @@
     hint: { text: 'Drag an input bar', icon: 'drag' },
     steps: [
       `<p>Four more core neurons answer one question: <b>how far below a record did the new number land?</b></p>
-       <p><span class="core">n7</span> measures it against the record so far. It adds the input with a big <i>negative</i> weight and adds n2, the record, so it is positive exactly when the new number is lower, and larger the lower it is.</p>`,
-      `<p>The other three ask the same question against a different yardstick. <span class="core">n6</span> uses the record as it stood one input ago, ignoring the input just before, and <span class="core">n1</span> the record as it stood two inputs ago. <span class="core">n8</span> compares against the runner-up so far.</p>
-       <p>n1 matches its description least well. The descriptions are good, not perfect.</p>`,
+       <p><span class="core">n7</span> measures it against the record so far. It adds the input with a big <i>negative</i> weight and adds n2, the record, so it switches on once the new number lands somewhat below the record (<a data-ch="break"></a> works out where), and grows the lower it lands.</p>`,
+      `<p>The other three ask the same question against a different yardstick. <span class="core">n6</span> uses the record with the previous input left out, as if it had never arrived, and <span class="core">n1</span> the record with the input two back left out. <span class="core">n8</span> compares against the runner-up so far.</p>
+       <p>The descriptions are good, not perfect: the figure gives each one's R², and n8's is the loosest.</p>`,
       `<p>Why would a network care how far below the record a number lands? Because the runner-up is <b>the number that lands just below the record</b>. The smaller n7's reading, the more a number looks like the runner-up.</p>
-       <p>Together the six core neurons keep the books. The next question is how the network remembers <b>when</b> things happened.</p>`,
+       <p>Together the six core neurons keep the books. And measuring against records with one input left out is what lets four of them keep time: with n2 they make the clock of the next chapter, which remembers <b>when</b> things happened.</p>`,
     ],
     mount(fig, bar) {
       let stage = 0;

@@ -15,7 +15,7 @@
       <h1>The runner-up</h1>
       <p class="lede">A neural network of 432 numbers was trained to do one small thing: read ten numbers, one at a time, and point to the second-largest.</p>
       <p class="lede">This page takes it apart until you can see what each of its sixteen neurons does, how they decide together, and why they sometimes get it wrong.</p>
-      <p class="live">Every figure is computed from the network's 432 numbers, the painting included: the ink is its links, the circles its neurons.</p>
+      <p class="live">Nearly every figure is computed from the network's 432 numbers as you watch. The painting is too: its circles are the neurons, its ink the links that matter most.</p>
     </div>
     <nav id="toc" aria-label="Contents"></nav>
   </div>
@@ -23,10 +23,10 @@
 <main id="story"></main>
 <section id="coda"><div class="wrap">
   <h2>The whole machine, in four sentences</h2>
-  <p>A record keeper and four comparators measure how far each new number lands below the record. Their memory weights turn the memory like the hand of a clock, so how far it has turned says when the record and the runner-up arrived. Ten timers read that clock and vote, each one for its own positions, and the votes add up exactly to the scores. The mistakes sit where two numbers nearly tie, where no smooth machine can be sure, and in one corner where a shortcut the network learned points confidently the wrong way.</p>
+  <p>A record keeper and a jump detector track the largest number so far, and four comparators measure how far each new number lands below a record or the runner-up. Their memory weights turn part of the memory a fixed angle each step, like a clock hand, so its angle carries when things happened. Ten timers read that turning memory, most of them watching for the runner-up at one or two positions, and all sixteen neurons' votes add up exactly to the scores. The mistakes sit where numbers nearly tie, where no continuous machine can be sure, and the most confident ones where a shortcut the network learned points the wrong way.</p>
   <p>To poke at it yourself, <a href="explorer/index.html">the explorer</a> lets you click any neuron or weight, edit any input, and watch the chain reaction behind any answer.</p>
 </div></section>
-<footer><div class="wrap">Built from <code>research/findings/</code>. Every quoted number comes from a committed experiment you can rerun, and every figure is computed from the weights as you watch.</div></footer>
+<footer><div class="wrap">Every quoted number comes from an experiment in <code>experiments/</code>, with its raw output in <code>results/</code>, and every figure is computed from the weights as you watch.</div></footer>
 
 <script src="data.js"></script>
 <script src="model.js"></script>
@@ -42,7 +42,7 @@
 <script src="ch/rule.js"></script>
 
 <script>Story.part('works', { kicker: 'Part two', title: 'How it works', html: `
-  <p>Each of the sixteen neurons turns out to track something you can name. Once you know what, the network stops being 432 numbers and becomes a small machine: a record keeper, four comparators, a clock, and ten timers whose votes add up to the answer.</p>` });</script>
+  <p>Each of the sixteen neurons turns out to track something you can name. Once you know what, the network stops being 432 numbers and becomes a small machine: a record keeper, four comparators, a clock, and ten timers whose votes point to the answer.</p>` });</script>
 <script src="ch/record.js"></script>
 <script src="ch/clock.js"></script>
 <script src="ch/votes.js"></script>

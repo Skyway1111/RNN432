@@ -3,15 +3,15 @@
 Story.chapter('tail', {
   title: 'Confidently wrong',
   steps: [
-    `<p>Most mistakes happen near ties, where the margin is small and the network is unsure. A few are different: the network's favorite beats the right answer by a mile. It is <b>confidently wrong</b>.</p>
-     <p>The chart counts how confidently wrong the network is on many random inputs, by how far its favorite beats the right answer. Since only the pattern of an input matters (<a data-ch="rule"></a>), the gap is measured per unit of the input's size. Right of zero is wrong, and each grid line up is ten times more inputs.</p>
-     <p>The most confident mistakes we measure are rare. In copies of this network with slightly jiggled weights, typically about <b data-fact="rare_c8"></b> random inputs lands there.</p>`,
-    `<p>Here is one. The <span class="second">runner-up</span> is the last number, at position 9. It's negative, but every number except the largest is even lower.</p>
+    `<p>Most mistakes happen near ties, where the margin is small and the network is unsure. A few are different: the network's favorite beats the right answer by a mile. It is <b>confidently wrong</b>. These sit near ties too, but at ties where the weights themselves push hard the wrong way.</p>
+     <p>The chart counts many random inputs by how far the network's favorite beats the right answer. Since only the pattern of an input matters (<a data-ch="rule"></a>), that gap is divided by the input's overall size. Right of zero is wrong, and each grid line up is ten times more inputs.</p>
+     <p>The most confident mistakes are rare: of the 200,000 inputs in the chart, <b data-live="tail-count"></b> land past the dashed line on the right.</p>`,
+    `<p>Here is one. The <span class="second">runner-up</span> is the last number, at position 9, but only just: every number but the largest is negative, and several sit within a hair of each other.</p>
      <p>The network answers a different position, and it isn't close. Position 9, the right answer, gets the <b>worst</b> score of all.</p>`,
-    `<p>Why? Look at what the last number alone does. A negative last number lands far below the record, so the comparator <span class="core">n7</span> fires hard. Its output weights vote heavily <b>against position 9</b> and gently for everything else.</p>
+    `<p>Why? Look at what the last number alone does. A negative last number lands far below every record, so all four comparators fire hard. Their votes cancel almost everywhere except at position 9, which they put far behind, and <span class="core">n7</span> supplies most of that veto.</p>
      <p>That is all in the weights. Per unit of the last number, they put position 9 <b data-fact="tail_D"></b> points behind the rest. On the real mistakes of this kind we measure <b data-fact="tail_slope"></b>.</p>`,
-    `<p>It's a <b>shortcut</b>. On ordinary inputs, a last number far below the record is almost never the runner-up, so voting against it is a great bet. It only fails in a corner where everything else is lower still, a corner training almost never visited. At the rarest level, <b data-fact="tail_share_c8"></b> of the confident mistakes come from this one corner.</p>
-     <p>Knowing the corner pays. Testing inputs drawn from such corners finds these mistakes about <b data-fact="modes_c8"></b> times faster than random testing. A smart search that ignores the structure manages <b data-fact="ce_c8"></b> times.</p>`,
+    `<p>It's a <b>shortcut</b>. On ordinary inputs, a last number far below the record is almost never the runner-up, so voting against it is a great bet. It fails only when every number but the largest is negative. In a copy of this network with every weight jiggled slightly, <b data-fact="tail_share_c8"></b> of the most confident mistakes come from such inputs.</p>
+     <p>Knowing where they live pays off when you need to measure how rare they are. Drawing test inputs from the corners the weights name measures their rate, to the same precision, about <b data-fact="modes_c8"></b> times more cheaply than random testing, across jiggled copies of this network and five siblings. A general-purpose method that ignores the weights manages <b data-fact="ce_c8"></b> times.</p>`,
   ],
   mount(fig) {
     const x = [0.61, -0.86, -0.86, -0.96, -0.84, -1.13, -0.75, -1.56, -0.93, -0.74];
@@ -21,9 +21,16 @@ Story.chapter('tail', {
     let stage = 0, hist = null;
     function histogram() {
       const n = 200000, lo = -30, hi = 15, nb = 90, cnt = new Float64Array(nb);
-      for (const c of M.margins(W, n, 29)) { const b = Math.floor((c - lo) / (hi - lo) * nb); if (b >= 0 && b < nb) cnt[b]++; }
-      return { lo, hi, nb, cnt, n };
+      let past = 0;
+      for (const c of M.margins(W, n, 29)) { const b = Math.floor((c - lo) / (hi - lo) * nb); if (b >= 0 && b < nb) cnt[b]++; if (c >= 8) past++; }
+      return { lo, hi, nb, cnt, n, past };
     }
+    // the chart's 200,000 inputs are counted once, just after the chapter mounts; the prose quotes how many land past 8
+    setTimeout(() => {
+      hist = hist || histogram();
+      fig.closest('.chapter').querySelectorAll('[data-live="tail-count"]').forEach(e => (e.textContent = hist.past ? `only ${hist.past.toLocaleString()}` : 'none'));
+      cv.redraw();
+    }, 0);
     const scores = (ctx, L, x0, y0, w, h, title, color) => {
       const lmax = 45, zero = y0 + h * 0.55, bw = w / 10;
       V.title(ctx, title, x0, y0 - 8);

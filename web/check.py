@@ -15,7 +15,7 @@ from playwright.sync_api import sync_playwright
 
 HERE = Path(__file__).resolve().parent
 SHOTS = HERE / "_shots"
-LITERAL = {"432", "256", "160", "20000"}  # structural constants the prose may state outright: weights, the page's test sample
+LITERAL = {"432", "256", "160", "20000", "200000"}  # structural constants the prose may state outright: weights, the page's samples
 
 
 def numbers_outside_facts(page) -> list[str]:

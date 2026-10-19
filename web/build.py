@@ -67,9 +67,7 @@ facts["tail_D"], facts["tail_slope"] = f"{float(D):.0f}", f"{float(slope):.0f}"
 c8, = grab("tail_modes.txt", r"example/0:.*?c=8 \(\d+ events\): le1pos ([\d.]+)")
 facts["tail_share_c8"] = pct(float(c8))
 
-p8 = json.loads((ROOT / "results" / "bench" / "sampling_rare_bench.json").read_text())["truth_median"][4]
-facts["rare_c8"] = f"1 in {round(1 / p8, -4):,.0f}"
-modes = floats(grab("modes_score.txt", r"bench\s+geometric mean([^;]+);")[0])
+modes =floats(grab("modes_score.txt", r"bench\s+geometric mean([^;]+);")[0])
 ce = floats(grab("ce_score.txt", r"bench\s+salts 0-4([^;]+);")[0])
 facts["modes_c8"], facts["ce_c8"] = f"{modes[4]:.0f}", f"{ce[4]:.0f}"
 
@@ -94,16 +92,17 @@ facts["route_agree"], facts["route_near"] = pct(float(agree)), pct(float(near_r)
 # the record (lagged) and the jump at each checkpoint, after 0, 2^20, ..., 2^30 training sequences.
 seeds = []
 for block in re.split(r"^seed \d+:", (EXP / "core_emergence.txt").read_text(encoding="utf-8"), flags=re.M)[1:]:
-    rows = re.findall(r"^\s+(?:0|2\^\d+)\s+([\d.]+) \|[^|]+\|([^\n]+)$", block, re.M)
+    rows = re.findall(r"^\s+(?:0|2\^\d+)\s+([\d.]+) \|([^|]+)\|([^\n]+)$", block, re.M)
     if len(rows) != 12:
         raise SystemExit(f"web.build: core_emergence.txt has a seed with {len(rows)} checkpoints, not 12")
-    dec = [floats(r[1]) for r in rows]
-    seeds.append(dict(acc=[float(r[0]) for r in rows], record=[d[0] for d in dec], jump=[d[1] for d in dec]))
+    single, dec = [floats(r[1]) for r in rows], [floats(r[2]) for r in rows]
+    seeds.append(dict(acc=[float(r[0]) for r in rows], record=[d[0] for d in dec], jump=[d[1] for d in dec], jump_single=[s[1] for s in single]))
 at = lambda k, i: [s[k][i] for s in seeds]  # noqa: E731
 facts["train_acc22"], facts["train_acc24"], facts["train_acc30"] = (span(at("acc", i), lambda v: f"{100 * v:.0f}") + "%" for i in (3, 5, 11))
 facts["train_rec22"], facts["train_rec24"] = (span(at("record", i), lambda v: f"{v:.2f}") for i in (3, 5))
-clean = {m: int(c) for m, c in re.findall(r"^(\w+): single neurons with a role fit R2 > 0\.9: (\d+)", (EXP / "role_probe.txt").read_text(encoding="utf-8"), re.M)}
 words = "zero one two three four five six seven".split()
+facts["train_jump24"] = words[sum(v > 0.9 for v in at("jump_single", 5))]  # siblings with one neuron tracking the jump at 2^24
+clean = {m: int(c) for m, c in re.findall(r"^(\w+): single neurons with a role fit R2 > 0\.9: (\d+)", (EXP / "role_probe.txt").read_text(encoding="utf-8"), re.M)}
 facts["clean_example"] = words[clean["example"]]
 facts["clean_seeds"] = f"{words[min(v for m, v in clean.items() if m != 'example')]} to {words[max(v for m, v in clean.items() if m != 'example')]}"
 

@@ -10,7 +10,7 @@ Story.chapter('break', {
      <p>Nudge the weight by 0.02 and the switch point moves by <b data-live="switch-move"></b> of the record. That's the size of the near-ties where the hard decisions live, so thousands of them flip at once.</p>`,
     `<p>Here are all 432 weights, colored by how much accuracy a nudge of 0.1 costs. Hover to read one, and click to put it on the slider.</p>
      <p>The fragile ones are <b>memory weights</b> into the comparators and the record keeper. The input and output weights barely notice a nudge this size.</p>`,
-    `<p>Real weights are never exact, so shake them all at once by a tiny random amount, about 0.002 each. Press <b>Shake</b> a few times. On average, accuracy falls from <b data-fact="acc"></b> to <b data-fact="noise_acc"></b>.</p>
+    `<p>Real weights are never exact, so shake them all at once by a tiny random amount, about 0.002 each. Averaged over many shakes, accuracy falls from <b data-fact="acc"></b> to <b data-fact="noise_acc"></b>; the dozen in the figure land close to that. Press <b>Shake</b> for more.</p>
      <p>Almost all of the damage comes through the memory weights. A shake of 0.003 on the memory weights alone leaves <b data-fact="noise_wh"></b>; the same shake on the input weights alone leaves <b data-fact="noise_wi"></b>.</p>`,
   ],
   mount(fig, bar) {
@@ -70,9 +70,10 @@ Story.chapter('break', {
         }
         V.text(ctx, `Darker red: a nudge of 0.1 costs more accuracy, up to ${(100 * dmax).toFixed(0)} points. Outlined: the weight on the slider.`, left, top + 16 * s + 26, { size: 12 });
         if (stage >= 3) {
-          const y0 = top + 16 * s + 54;
-          V.text(ctx, `Shakes of 0.002 on every weight (unshaken: ${(100 * base).toFixed(1)}%):`, left, y0, { size: 12.5, color: V.C.ink2 });
-          shakes.forEach((a, k) => V.text(ctx, `${(100 * a).toFixed(1)}%`, left + 300 + k * 58, y0, { size: 13, color: V.C.ink, weight: 600 }));
+          const y0 = top + 16 * s + 58, mean = shakes.reduce((a, v) => a + v, 0) / (shakes.length || 1);
+          V.title(ctx, `Accuracy after a shake of 0.002 on every weight (unshaken: ${V.pct(base)})`, left, y0);
+          shakes.forEach((a, k) => V.text(ctx, V.pct(a), left + (k % 6) * 66, y0 + 26 + Math.floor(k / 6) * 22, { size: 13, color: V.C.ink }));
+          if (shakes.length) V.text(ctx, `mean of these ${shakes.length}: ${V.pct(mean)}`, left, y0 + 26 + Math.ceil(shakes.length / 6) * 22 + 6, { size: 13, color: V.C.ink, weight: 700 });
         }
       }
     });
@@ -89,12 +90,13 @@ Story.chapter('break', {
     const g = M.rng(41);
     const shake = () => {
       const W = M.clone(B); for (const k of ['Wi', 'Wh', 'Wo']) for (let i = 0; i < W[k].length; i++) W[k][i] += 0.002 * g();
-      shakes = [...shakes.slice(-7), M.accuracy(W)];
+      shakes = [...shakes.slice(-11), M.accuracy(W)];
     };
     V.button(bar, 'Shake', () => { shake(); cv.redraw(); });
     V.button(bar, 'Reset', () => { delta = 0; slider.value = 0; shakes = []; cv.redraw(); });
     resweep();
-    // the last step arrives with a few shakes already done, so its numbers are on the page before any press
-    return { step(k) { stage = k; if (k === 3 && !shakes.length) for (let i = 0; i < 4; i++) shake(); cv.redraw(); } };
+    // the last step shakes twelve times on its own, one a frame, so a mean is on the page before any press
+    const autoshake = () => { if (shakes.length < 12) { shake(); cv.redraw(); requestAnimationFrame(autoshake); } };
+    return { step(k) { stage = k; if (k === 3 && !shakes.length) requestAnimationFrame(autoshake); cv.redraw(); } };
   },
 });

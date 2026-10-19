@@ -3,6 +3,9 @@ __pycache__/
 data/cache/
 web/_shots/
 .claude/settings.local.json
-# docs stay on disk, outside version control
+# the account and its scores are published; the process docs stay on disk, outside version control
 *.md
 !/README.md
+!/benchmarks.md
+!/research/**/*.md
+!/parked/**/*.md

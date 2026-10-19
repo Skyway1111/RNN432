@@ -33,7 +33,7 @@ Story.chapter('tail', {
     }, 0);
     const scores = (ctx, L, x0, y0, w, h, title, color) => {
       const lmax = 45, zero = y0 + h * 0.55, bw = w / 10;
-      V.title(ctx, title, x0, y0 - 8);
+      V.title(ctx, title, x0, y0 - 8, 15, w);
       ctx.strokeStyle = V.C.axis; ctx.lineWidth = 1; V.hline(ctx, x0, x0 + w, zero);
       L.forEach((v, k) => {
         const y = zero - (v / lmax) * h * 0.5, cx = x0 + bw * (k + 0.5);

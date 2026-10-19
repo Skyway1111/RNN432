@@ -5,6 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The runner-up: how a 432-number neural network finds the second-largest of ten</title>
 <meta name="description" content="A tiny neural network taken apart: what each of its sixteen neurons does, how they decide together, and why they sometimes fail, computed live from its 432 numbers.">
+<!-- the card a shared link shows; web/card.py renders the image -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://skyway1111.github.io/RNN432/">
+<meta property="og:title" content="The runner-up">
+<meta property="og:description" content="A tiny neural network taken apart: what each of its sixteen neurons does, how they decide together, and why they sometimes fail, computed live from its 432 numbers.">
+<meta property="og:image" content="https://skyway1111.github.io/RNN432/card.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A watercolor map of the network's sixteen neurons and the links that matter most, beside the title The runner-up">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='11' fill='%23dda23c' opacity='0.85'/%3E%3Ccircle cx='15' cy='15' r='9' fill='none' stroke='%231e2431' stroke-width='1.6'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="style.css">
 </head>
@@ -50,7 +60,7 @@
   <p>A record keeper and a jump detector track the largest number so far, and four comparators measure how far each new number lands below a record or the runner-up. Their memory weights turn part of the memory a fixed angle each step, like a clock hand, so its angle carries when things happened. Ten timers read that turning memory, most of them watching for the runner-up at one or two positions, and all sixteen neurons' votes add up exactly to the scores. The mistakes sit where numbers nearly tie, where no continuous machine can be sure, and the most confident ones where a shortcut the network learned points the wrong way.</p>
   <p>To poke at it yourself, <a href="explorer/index.html">the explorer</a> lets you click any neuron or weight, edit any input, and watch the chain reaction behind any answer.</p>
 </div></section>
-<footer><div class="wrap">The network is the Alignment Research Center's M<sub>16,10</sub>. Every quoted number comes from a recorded experiment in the project behind this page (<code>experiments/</code>, raw output in <code>results/</code>), and every figure is computed from the weights as you watch.</div></footer>
+<footer><div class="wrap">The network is the Alignment Research Center's M<sub>16,10</sub>, from <a href="https://www.alignment.org/blog/algzoo-uninterpreted-models-with-fewer-than-1-500-parameters/">AlgZoo</a>. Every quoted number comes from a recorded experiment in <a href="https://github.com/Skyway1111/RNN432">the project behind this page</a> (<code>experiments/</code>, raw output in <code>results/</code>), and every figure is computed from the weights as you watch. Earlier analyses found the record keeper, the jump and three of the comparators (<a href="https://www.alignment.org/blog/algzoo-uninterpreted-models-with-fewer-than-1-500-parameters/">ARC</a>), the fourth comparator (<a href="https://drive.google.com/file/d/1USCD1LPa6hXMTj7PAO6Jmc4dVdxemZY3/view">Chen</a>), a linear fit for the comparators (<a href="https://gist.github.com/NixGD/2651be79bfd22bcb13d1f609f23439a4">Goldowsky-Dill</a>) and the clock-like readout (<a href="https://gist.github.com/mrsirrisrm/d6850ff8647d1ed2f67cc92d5bce3ed0">Keane</a>); this account builds on theirs.</div></footer>
 
 <script src="data.js"></script>
 <script src="model.js"></script>

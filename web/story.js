@@ -10,6 +10,7 @@
 (function () {
   const items = [], chapters = [];
   const final = new URLSearchParams(location.search).has('final');
+  const touch = matchMedia('(hover: none)').matches;
   const ICON = { hover: '<svg viewBox="0 0 24 24"><path d="M4 4l7 17 2.5-6.5L20 12z"/></svg>',
     drag: '<svg viewBox="0 0 24 24"><path d="M12 3v18M8 7l4-4 4 4M8 17l4 4 4-4"/></svg>',
     spin: '<svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 3-6.2M4 4v5h5"/></svg>',
@@ -35,7 +36,7 @@
   function buildChapter(ch) {
     const sec = document.createElement('section');
     sec.className = 'chapter'; sec.id = ch.id;
-    const hint = ch.hint ? `<div class="hint">${ICON[ch.hint.icon || 'drag']}<span>${ch.hint.text}</span></div>` : '';
+    const hint = ch.hint ? `<div class="hint">${ICON[ch.hint.icon || 'drag']}<span>${touch ? ch.hint.text.replace(/^Hover/, 'Tap') : ch.hint.text}</span></div>` : '';
     sec.innerHTML = `<div class="wrap"><div class="ch-head"><span class="num">${ch.n}</span><h2>${ch.title}</h2></div>
       <div class="ch-body"><div class="prose">${ch.steps.map((s, k) => `<div class="step" data-step="${k}">${s}</div>`).join('')}</div>
       <div class="figure"><div class="fig" role="img" aria-label="${ch.title}: the chapter's figure, drawn live from the weights"><div class="panel"></div></div><div class="fig-bar">${hint}</div></div></div>${ch.after ? '<div class="after"></div>' : ''}</div>`;

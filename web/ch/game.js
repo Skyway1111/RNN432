@@ -61,6 +61,7 @@ Story.chapter('game', {
     }
     function drop() { V.tween(tok, 1600, t => { landed = t * 10.5; cv.redraw(); }); }
     const at = e => { const p = cv.pt(e), { left, slot, mid, unit } = geo(cv.w, cv.h); return { t: Math.floor((p.x - left) / slot), v: Math.max(-3, Math.min(3, (mid - p.y) / unit)) }; };
+    cv.cv.style.touchAction = 'none';  // a drag on a phone moves the figure, not the page
     cv.cv.addEventListener('pointerdown', e => { const p = at(e); if (p.t >= 0 && p.t < 10 && stage >= 2) { drag = p.t; x[drag] = p.v; cv.cv.setPointerCapture(e.pointerId); cv.redraw(); } });
     cv.cv.addEventListener('pointermove', e => {
       if (drag >= 0) { x[drag] = at(e).v; cv.redraw(); return; }

@@ -77,3 +77,16 @@ body { font: 15px/1.45 var(--sans); }
   #strip .inputs { grid-template-columns: repeat(5, 1fr); }
   #strip .controls { min-width: 0; }
 }
+/* A phone scrolls: the machine on top, then the panel and the strip in the page's flow. */
+@media (max-width: 700px) {
+  html, body { height: auto; overflow: auto; }
+  #stage, #labels { position: absolute; top: 2.9rem; }
+  #top { gap: 1rem; padding: 0.7rem 0.9rem; background: var(--page); }
+  #top h1 { font-size: 1.3rem; }
+  #top h1 small { display: none; }
+  #panel, #strip { position: static; width: auto; max-height: none; margin: 0.5rem; }
+  #panel { margin-top: calc(2.9rem + 80vw); }
+  .label { font-size: 10.5px; }
+  .label.io { font-size: 10px; }
+  #strip .controls .row { flex-wrap: wrap; }
+}

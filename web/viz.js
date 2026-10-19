@@ -23,24 +23,31 @@
   const crisp = v => (Math.round(v * K) + 0.5) / K;  // the center of a device pixel, for 1-px lines
 
   // A canvas filling `parent`, redrawn by draw(ctx, w, h) in design pixels on every resize, and once more when the
-  // page's fonts finish loading, since a canvas drawn before that set its text in the fallback face.
+  // page's fonts finish loading, since a canvas drawn before that set its text in the fallback face. A chapter's
+  // figure is laid out at least FIG_W design pixels wide and shrinks as a whole below that, so a phone gets the
+  // desk's picture, smaller, instead of a reflow its labels collide in.
+  const FIG_W = 480;
   const canvases = new Set();
   function canvas(parent, draw) {
     const cv = document.createElement('canvas');
     parent.appendChild(cv);
     const ctx = cv.getContext('2d');
+    const minw = parent.classList.contains('fig') ? FIG_W : 0;
+    let s = S;  // css pixels per design pixel, for this canvas
     const api = { cv, ctx, w: 0, h: 0, draw,
       redraw() {
         if (api.w < 50 || api.h < 50) return;  // not laid out yet; the ResizeObserver redraws once it is
+        K = s * (devicePixelRatio || 1);
         ctx.setTransform(K, 0, 0, K, 0, 0); ctx.clearRect(0, 0, api.w, api.h); api.draw(ctx, api.w, api.h);
       },
       // a pointer event's position in design pixels
-      pt(e) { const r = cv.getBoundingClientRect(); return { x: (e.clientX - r.left) / S, y: (e.clientY - r.top) / S }; },
+      pt(e) { const r = cv.getBoundingClientRect(); return { x: (e.clientX - r.left) / s, y: (e.clientY - r.top) / s }; },
     };
     new ResizeObserver(() => {
       measure();
       const r = parent.getBoundingClientRect(), d = devicePixelRatio || 1;
-      api.w = r.width / S; api.h = r.height / S; cv.width = Math.round(r.width * d); cv.height = Math.round(r.height * d);
+      s = Math.min(S, r.width / minw);
+      api.w = r.width / s; api.h = r.height / s; cv.width = Math.round(r.width * d); cv.height = Math.round(r.height * d);
       api.redraw();
     }).observe(parent);
     canvases.add(api);
@@ -115,18 +122,19 @@
 
   // Text on a canvas: sans for numbers and ticks; serif italic (face: 'serif') for a figure's notes and titles.
   function font(size, weight, face, style) { return `${style || ''} ${weight} ${size}px ${face === 'serif' ? SERIF : FONT}`; }
-  // Text that would leave the canvas shrinks just enough to stay on it, so a phone's narrow figure keeps its titles.
-  // `halo` paints a thin ring of that color under the letters, for a label over a wash.
-  function text(ctx, s, x, y, { color = C.muted, size = 13, align = 'left', base = 'alphabetic', weight = 400, face, style, halo } = {}) {
+  // Text that would leave the canvas, or run past `max` design pixels, shrinks just enough to fit, so a phone's narrow
+  // figure keeps its titles. `halo` paints a thin ring of that color under the letters, for a label over a wash.
+  function text(ctx, s, x, y, { color = C.muted, size = 13, align = 'left', base = 'alphabetic', weight = 400, face, style, halo, max = Infinity } = {}) {
     ctx.fillStyle = color; ctx.font = font(size, weight, face, style); ctx.textAlign = align; ctx.textBaseline = base;
     const W = ctx.canvas.width / K - 6, wd = ctx.measureText(s).width;
-    const room = align === 'left' ? W - x : align === 'right' ? x - 6 : 2 * Math.min(x - 6, W - x);
-    if (wd > room && room > 0) ctx.font = font(Math.max(8, size * room / wd), weight, face, style);
-    if (halo) { ctx.strokeStyle = halo; ctx.lineWidth = 3; ctx.lineJoin = 'round'; ctx.strokeText(s, x, y); }
-    ctx.fillText(s, x, y);
+    const room = Math.min(max, align === 'left' ? W - x : align === 'right' ? x - 6 : 2 * Math.min(x - 6, W - x));
+    const fit = wd > room && room > 0, cap = fit ? [room] : [];  // small sizes render a little wide, so fit caps the width too
+    if (fit) ctx.font = font(Math.max(8, size * room / wd), weight, face, style);
+    if (halo) { ctx.strokeStyle = halo; ctx.lineWidth = 3; ctx.lineJoin = 'round'; ctx.strokeText(s, x, y, ...cap); }
+    ctx.fillText(s, x, y, ...cap);
   }
   // A figure's title: serif, in ink, at the top left of a panel.
-  function title(ctx, s, x, y, size = 15) { text(ctx, s, x, y, { color: C.ink, size, face: 'serif', weight: 600 }); }
+  function title(ctx, s, x, y, size = 15, max) { text(ctx, s, x, y, { color: C.ink, size, face: 'serif', weight: 600, max }); }
   function width(ctx, s, size = 13, weight = 400, face) { ctx.font = font(size, weight, face); return ctx.measureText(s).width; }
   function roundRect(ctx, x, y, w, h, r) { ctx.beginPath(); ctx.roundRect(x, y, w, h, r); }
   // A filled rectangle on device-pixel edges: heatmap cells and bars with no soft seams.
@@ -146,9 +154,11 @@
     ctx.fillStyle = color; roundRect(ctx, cx - 9, y - 4, 18, 8, 4); ctx.fill();
     ctx.strokeStyle = C.surface; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(cx - 4, y - 1.5); ctx.lineTo(cx + 4, y - 1.5); ctx.moveTo(cx - 4, y + 1.5); ctx.lineTo(cx + 4, y + 1.5); ctx.stroke();
   }
-  // A short verdict in a tinted chip: the text stays ink, the tint and a leading mark carry the color.
+  // A short verdict in a tinted chip: the text stays ink, the tint and a leading mark carry the color. It slides left
+  // rather than leave the canvas.
   function chip(ctx, s, x, y, { color = C.ink, size = 13, align = 'left', weight = 600 } = {}) {
-    const w = width(ctx, s, size, weight) + 22, h = size + 13, x0 = align === 'center' ? x - w / 2 : align === 'right' ? x - w : x;
+    const w = width(ctx, s, size, weight) + 22, h = size + 13;
+    const x0 = Math.max(6, Math.min(ctx.canvas.width / K - 6 - w, align === 'center' ? x - w / 2 : align === 'right' ? x - w : x));
     ctx.fillStyle = alpha(color, 0.13); roundRect(ctx, x0, y - h / 2, w, h, h / 2); ctx.fill();
     ctx.strokeStyle = alpha(color, 0.45); ctx.lineWidth = 1; roundRect(ctx, x0 + 0.5, y - h / 2 + 0.5, w - 1, h - 1, h / 2); ctx.stroke();
     text(ctx, s, x0 + w / 2, y + 0.5, { color: C.ink, size, align: 'center', base: 'middle', weight });

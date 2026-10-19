@@ -524,14 +524,18 @@ let lastTick = 0;
 playBtn.addEventListener('click', () => { state.playing = !state.playing; if (state.playing && state.step >= T) state.step = 0; playBtn.textContent = state.playing ? 'pause' : 'play'; lastTick = performance.now(); });
 
 // ---------- loop ----------
-function viewport() { return { w: innerWidth > 1100 ? innerWidth - 392 : innerWidth, h: innerHeight }; }
+// the view ends above the input strip, so no node sits behind it; a phone's view is the top of a scrolling page
+function viewport() {
+  if (innerWidth <= 700) return { w: innerWidth, h: Math.round(innerWidth * 0.8) };  // the machine is wide and short
+  return { w: innerWidth > 1100 ? innerWidth - 392 : innerWidth, h: innerHeight - document.getElementById('strip').offsetHeight - 16 };
+}
 function resize() {
   const { w, h } = viewport();
-  stage.style.width = labelRenderer.domElement.parentElement.style.width = w + 'px';
+  for (const el of [stage, labelRenderer.domElement.parentElement]) { el.style.width = w + 'px'; el.style.height = h + 'px'; }
   renderer.setSize(w, h); labelRenderer.setSize(w, h); camera.aspect = w / h; camera.updateProjectionMatrix(); res.set(w, h);
   // keep x = ±8.2 inside the view whatever the aspect
   const half = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
-  const dist = Math.max(8.2 / (half * camera.aspect), 6.5 / half) + 1.5;
+  const dist = Math.max(8.2 / (half * camera.aspect), (innerWidth <= 700 ? 5 : 6.5) / half) + 1.5;
   const dir = camera.position.clone().sub(controls.target).normalize();
   camera.position.copy(controls.target).addScaledVector(dir, dist);
 }

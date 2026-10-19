@@ -67,8 +67,10 @@
       p.r = r;
     }
     ctx.globalAlpha = 1;
-    V.legend(ctx, w - 300, 38, [['core', V.C.core], ['timer', V.C.timer]]);
-    V.legend(ctx, w - 300, 60, [['pushes up', V.C.pos], ['pushes down', V.C.neg]]);
+    // the legends stack right of the title, or share one row under the subtitle where they would meet it
+    const under = w - 300 < 50 + V.width(ctx, 'thicker: more accuracy lost when the link alone is cut', 13, 400, 'serif');
+    V.legend(ctx, under ? 26 : w - 300, under ? 84 : 38, [['core', V.C.core], ['timer', V.C.timer]]);
+    V.legend(ctx, under ? 176 : w - 300, under ? 84 : 60, [['pushes up', V.C.pos], ['pushes down', V.C.neg]]);
     return pos;
   }
 
@@ -116,7 +118,7 @@
     order.forEach((n, row) => {
       const y = top + row * bh, a = silenced[n];
       ctx.fillStyle = V.cellColor(n); ctx.beginPath(); ctx.arc(24, y + bh / 2, 4.5, 0, 2 * Math.PI); ctx.fill();
-      V.text(ctx, `n${n}  ${NEURONS[n].name}`, 36, y + bh / 2, { size: 12, base: 'middle', color: V.C.ink });
+      V.text(ctx, `n${n}  ${NEURONS[n].name}`, 36, y + bh / 2, { size: 12, base: 'middle', color: V.C.ink, max: left - 44 });
       if (a === null) return;
       ctx.fillStyle = V.cellColor(n); V.roundRect(ctx, X(0), y + bh * 0.18, Math.max(1, X(a) - X(0)), bh * 0.64, [0, 3, 3, 0]); ctx.fill();
       V.text(ctx, V.pct(a), X(a) + 6, y + bh / 2, { size: 12, base: 'middle', color: V.C.ink });
@@ -125,7 +127,8 @@
     ctx.setLineDash([5, 4]); ctx.strokeStyle = V.C.ink; ctx.lineWidth = 1.5; V.vline(ctx, X(full), top - 14, top + N * bh);
     ctx.setLineDash([2, 3]); ctx.strokeStyle = V.C.muted; V.vline(ctx, X(chance), top - 14, top + N * bh); ctx.setLineDash([]);
     V.text(ctx, `the full network, ${V.pct(full)}`, X(full), top - 20, { size: 12, align: 'right', color: V.C.ink, weight: 600 });
-    V.text(ctx, 'guessing, 10%', X(chance) + 4, top - 20, { size: 12, color: V.C.muted });
+    const meet = X(full) - V.width(ctx, `the full network, ${V.pct(full)}`, 12, 600) < X(chance) + 4 + V.width(ctx, 'guessing, 10%', 12) + 8;
+    V.text(ctx, 'guessing, 10%', X(chance) + 4, top - (meet ? 36 : 20), { size: 12, color: V.C.muted });
   }
 
   // one plate: the neuron's disc, words, costliest links in and out, impulse strip, and silenced accuracy

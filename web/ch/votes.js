@@ -34,10 +34,10 @@ Story.chapter('votes', {
     };
     const cv = V.canvas(fig, (ctx, w, h) => {
       const r = M.run(M.base, x), V10 = M.votes(M.base, x, r).votes, o = M.order(x), lab = o[1], rival = o[2];
-      const hx = 72, hy = 82, hw = (stage >= 1 ? w * 0.48 : w) - 112;
+      const hx = 72, hy = 82, hw = (stage >= 1 ? w * 0.48 : w) - 112, bx = w * 0.52 + 80;  // bx: the right panel's left edge
       if (stage < 2) {
         const s = Math.min(hw / 10, (h - 150) / 10), vmax = Math.max(...V10.flatMap(v => Array.from(v, Math.abs)));
-        V.title(ctx, 'Each input\'s vote for each answer position', hx, hy - 40);
+        V.title(ctx, 'Each input\'s vote for each answer position', hx, hy - 40, 15, stage >= 1 ? bx - hx - 16 : Infinity);
         V.legend(ctx, hx, h - 26, [['vote for', V.C.pos], ['vote against', V.C.neg]]);
         for (let k = 0; k < 10; k++) V.text(ctx, String(k), hx + k * s + s / 2, hy - 10, { size: 12, align: 'center', color: k === lab || (k === rival && stage >= 1) ? V.C.ink : V.C.muted, weight: k === lab || (k === rival && stage >= 1) ? 700 : 400 });
         V.text(ctx, 'position', hx + 10 * s + 8, hy - 10, { size: 11.5 });
@@ -51,7 +51,7 @@ Story.chapter('votes', {
         const bw = hw / 10, zero = hy + (h - hy - 90) / 2;
         const amax = Math.max(...avg.map(a => Math.abs(a.mean) + a.sd)), sc = (h - hy - 110) / 2 / amax;
         V.title(ctx, 'Average pull, by rank', hx, hy - 40);
-        V.text(ctx, 'per unit of each number; 2,000 inputs; whiskers: one sd', hx, hy - 20, { size: 12.5, face: 'serif', style: 'italic' });
+        V.text(ctx, 'per unit of each number; 2,000 inputs; whiskers: one sd', hx, hy - 20, { size: 12.5, face: 'serif', style: 'italic', max: bx - hx - 16 });
         ctx.strokeStyle = V.C.axis; ctx.lineWidth = 1; V.hline(ctx, hx, hx + hw, zero);
         avg.forEach((a, k) => {
           const cx = hx + bw * (k + 0.5);
@@ -64,7 +64,7 @@ Story.chapter('votes', {
         V.legend(ctx, hx, h - 12, [['largest', V.C.max], ['runner-up', V.C.second], ['third', V.C.third], ['the rest', V.C.other]]);
       }
       if (stage >= 1) {
-        const bx = w * 0.52 + 80, bw = w * 0.48 - 124, mid = bx + bw / 2, contrib = V10.map(v => v[lab] - v[rival]);
+        const bw = w * 0.48 - 124, mid = bx + bw / 2, contrib = V10.map(v => v[lab] - v[rival]);
         const cmax = Math.max(1, ...contrib.map(Math.abs)), bh = Math.min(26, (h - 170) / 10);
         V.title(ctx, 'Each input\'s pull on the margin', bx, hy - 40);
         V.text(ctx, `score of ${lab} minus score of ${rival}`, bx, hy - 20, { size: 12.5, face: 'serif', style: 'italic' });

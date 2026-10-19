@@ -5,7 +5,7 @@ Story.chapter('numbers', {
   steps: [
     `<p>This is a complete neural network. Every number it uses is in this picture: <b>432</b> of them. Blue squares are positive numbers, red squares are negative, and the deeper the color, the bigger the number.</p>
      <p>Hover over any square to read it.</p>`,
-    `<p>Researchers at the Alignment Research Center trained this network, published it, and asked a simple question: <b>can anyone explain what these numbers do?</b></p>
+    `<p>Researchers at the Alignment Research Center trained this network, <a href="https://www.alignment.org/blog/algzoo-uninterpreted-models-with-fewer-than-1-500-parameters/">published it</a>, and asked a simple question: <b>can anyone explain what these numbers do?</b></p>
      <p>Months later they reported no real progress. One of them pointed out that finishing by the end of the year works out to four hours per number. The networks people rely on are millions of times bigger, so a network this small that still resists explanation is worth taking seriously.</p>`,
     `<p>The numbers come in three grids, and each row of all three belongs to one of the network's 16 <b>neurons</b>. Together the neurons are its memory: sixteen numbers it carries from one step to the next.</p>
      <p><b>Input weights</b>: one per neuron, saying how a new number enters it. <b>Memory weights</b>: 256 numbers saying how the neurons push each other around. <b>Output weights</b>: 160 numbers turning the neurons into an answer. There is nothing else.</p>`,

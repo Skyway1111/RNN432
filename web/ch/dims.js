@@ -93,6 +93,7 @@ Story.chapter('dims', {
     new IntersectionObserver(es => { visible = es[0].isIntersecting; }).observe(fig);
     const loop = () => { if (spinning && visible && !drag) { yaw += 0.003; cv.redraw(); } requestAnimationFrame(loop); };
     requestAnimationFrame(loop);
+    cv.cv.style.touchAction = 'none';  // a drag on a phone moves the figure, not the page
     cv.cv.addEventListener('pointerdown', e => { drag = { x: e.clientX, y: e.clientY, yaw, pitch }; cv.cv.setPointerCapture(e.pointerId); cv.cv.style.cursor = 'grabbing'; });
     cv.cv.addEventListener('pointermove', e => { if (!drag) return; yaw = drag.yaw + (e.clientX - drag.x) * 0.008; pitch = Math.max(-1.4, Math.min(1.4, drag.pitch + (e.clientY - drag.y) * 0.008)); cv.redraw(); });
     cv.cv.addEventListener('pointerup', () => { drag = null; cv.cv.style.cursor = 'grab'; });

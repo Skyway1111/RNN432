@@ -58,7 +58,7 @@
         const vmax = Math.max(1, ...vals, ...qv), sc = (pH - 44) / vmax;
         V.text(ctx, `n${cell}`, left - 52, y0 + 13, { size: 15, color: V.C.ink, weight: 700, face: 'serif' });
         ctx.fillStyle = V.C.core; ctx.beginPath(); ctx.arc(left - 60, y0 + 8, 4.5, 0, 2 * Math.PI); ctx.fill();
-        V.text(ctx, `dashed: ${f.k.toFixed(1)} × ${P.name}`, left, y0 + 13, { size: 13, color: V.C.ink2, face: 'serif', style: 'italic' });
+        V.text(ctx, `dashed: ${f.k.toFixed(1)} × ${P.name}`, left, y0 + 13, { size: 13, color: V.C.ink2, face: 'serif', style: 'italic', max: w - right - left - 64 });
         V.text(ctx, `R² ${f.r2.toFixed(2)}`, w - right, y0 + 13, { size: 12.5, align: 'right', color: V.C.ink, weight: 600 });
         ctx.strokeStyle = V.C.axis; ctx.lineWidth = 1; V.hline(ctx, left, w - right, base);
         for (let t = 0; t < 10; t++) { ctx.fillStyle = V.C.core; V.bar(ctx, cx(t) - 10, base, 20, vals[t] * sc, 3); }
@@ -72,6 +72,7 @@
     const at = e => { const p = cv.pt(e); return { t: Math.floor((p.x - geo.left) / geo.slot), v: Math.max(-3, Math.min(3, (geo.mid - p.y) / geo.unit)), y: p.y }; };
     const inBand = p => p.t >= 0 && p.t < 10 && Math.abs(p.y - geo.mid) < geo.unit * 3.4;
     const set = () => { r = M.run(M.base, x); cv.redraw(); };
+    cv.cv.style.touchAction = 'none';  // a drag on a phone moves the figure, not the page
     cv.cv.addEventListener('pointerdown', e => { const p = at(e); if (inBand(p)) { drag = p.t; x[drag] = p.v; cv.cv.setPointerCapture(e.pointerId); set(); } });
     cv.cv.addEventListener('pointermove', e => {
       if (drag >= 0) { x[drag] = at(e).v; set(); return; }

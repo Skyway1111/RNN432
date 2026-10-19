@@ -1,0 +1,4 @@
+s0/0  indicator: mean 0.8038, variance 0.1577, within families 0.1257 | sweep: mean 0.8041, variance 0.1341, within families 0.1022 | radial sweep: mean 0.8041, variance 0.1338, within families 0.1019
+example/0  indicator: mean 0.9072, variance 0.0842, within families 0.0767 | sweep: mean 0.9074, variance 0.0702, within families 0.0628 | radial sweep: mean 0.9074, variance 0.0700, within families 0.0626
+s4/0  indicator: mean 0.8114, variance 0.1530, within families 0.1122 | sweep: mean 0.8113, variance 0.1339, within families 0.0930 | radial sweep: mean 0.8113, variance 0.1337, within families 0.0928
+s1/0  indicator: mean 0.8242, variance 0.1449, within families 0.1053 | sweep: mean 0.8243, variance 0.1238, within families 0.0843 | radial sweep: mean 0.8243, variance 0.1235, within families 0.0839

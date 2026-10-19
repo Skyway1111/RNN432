@@ -1,0 +1,87 @@
+s0/0: P(m_T < 0) 0.5429, E[relu(-m_T)] 1.528
+  1. exact set, the rest linear through the route at their conditional mean below it
+    0 largest                            sign agreement 0.845, P(m_T<0) bias +0.0515 (se 0.0035), per-config rms 0.166
+    1 largest                            sign agreement 0.923, P(m_T<0) bias +0.0226 (se 0.0015), per-config rms 0.072
+    2 largest                            sign agreement 0.959, P(m_T<0) bias +0.0079 (se 0.0008), per-config rms 0.036
+    3 largest                            sign agreement 0.976, P(m_T<0) bias +0.0026 (se 0.0005), per-config rms 0.021
+    4 largest                            sign agreement 0.986, P(m_T<0) bias +0.0009 (se 0.0003), per-config rms 0.014
+    5 largest                            sign agreement 0.992, P(m_T<0) bias +0.0004 (se 0.0002), per-config rms 0.009
+    those before the first of M, S, T    sign agreement 0.920, P(m_T<0) bias +0.0249 (se 0.0022), per-config rms 0.104
+  2. additive presumption: each lower input's exact 1-D effect at the anchor, summed
+    anchor conditional mean  first order:  sign agreement 0.934, P bias -0.0034 (se 0.0016), rms 0.075; E[relu(-m_T)] +0.046 relative
+    anchor order statistics  first order:  sign agreement 0.915, P bias -0.0071 (se 0.0022), rms 0.101; E[relu(-m_T)] +0.020 relative
+    anchor order statistics  second order: sign agreement 0.950, P bias -0.0010 (se 0.0025), rms 0.057; E[relu(-m_T)] +0.043 relative
+  3. share of the pairwise terms' variance by the time distance between the two slots, 1..9: 0.41 0.29 0.11 0.08 0.04 0.05 0.02 0.02 0.00
+  4. pairs whose effects both lower m_T by > 0.1: 0.114 of pairs; their pairwise term > 0 in 0.57, mean +0.126 against the effects' sum -1.435; R^2 of the pairwise term on the two effects 0.002
+
+example/0: P(m_T < 0) 0.5723, E[relu(-m_T)] 2.460
+  1. exact set, the rest linear through the route at their conditional mean below it
+    0 largest                            sign agreement 0.874, P(m_T<0) bias -0.0174 (se 0.0041), per-config rms 0.185
+    1 largest                            sign agreement 0.949, P(m_T<0) bias -0.0015 (se 0.0010), per-config rms 0.045
+    2 largest                            sign agreement 0.976, P(m_T<0) bias +0.0001 (se 0.0004), per-config rms 0.020
+    3 largest                            sign agreement 0.988, P(m_T<0) bias +0.0001 (se 0.0003), per-config rms 0.012
+    4 largest                            sign agreement 0.994, P(m_T<0) bias +0.0002 (se 0.0002), per-config rms 0.007
+    5 largest                            sign agreement 0.997, P(m_T<0) bias +0.0001 (se 0.0001), per-config rms 0.005
+    those before the first of M, S, T    sign agreement 0.919, P(m_T<0) bias -0.0084 (se 0.0025), per-config rms 0.116
+  2. additive presumption: each lower input's exact 1-D effect at the anchor, summed
+    anchor conditional mean  first order:  sign agreement 0.938, P bias -0.0045 (se 0.0019), rms 0.084; E[relu(-m_T)] +0.076 relative
+    anchor order statistics  first order:  sign agreement 0.911, P bias -0.0010 (se 0.0023), rms 0.103; E[relu(-m_T)] +0.038 relative
+    anchor order statistics  second order: sign agreement 0.943, P bias +0.0016 (se 0.0030), rms 0.068; E[relu(-m_T)] +0.013 relative
+  3. share of the pairwise terms' variance by the time distance between the two slots, 1..9: 0.50 0.17 0.11 0.07 0.05 0.04 0.02 0.03 0.01
+  4. pairs whose effects both lower m_T by > 0.1: 0.107 of pairs; their pairwise term > 0 in 0.57, mean +0.155 against the effects' sum -1.533; R^2 of the pairwise term on the two effects 0.019
+
+s4/0: P(m_T < 0) 0.5524, E[relu(-m_T)] 1.395
+  1. exact set, the rest linear through the route at their conditional mean below it
+    0 largest                            sign agreement 0.844, P(m_T<0) bias +0.0612 (se 0.0034), per-config rms 0.165
+    1 largest                            sign agreement 0.919, P(m_T<0) bias +0.0253 (se 0.0016), per-config rms 0.077
+    2 largest                            sign agreement 0.955, P(m_T<0) bias +0.0087 (se 0.0009), per-config rms 0.043
+    3 largest                            sign agreement 0.974, P(m_T<0) bias +0.0033 (se 0.0006), per-config rms 0.027
+    4 largest                            sign agreement 0.985, P(m_T<0) bias +0.0014 (se 0.0004), per-config rms 0.017
+    5 largest                            sign agreement 0.992, P(m_T<0) bias +0.0006 (se 0.0002), per-config rms 0.010
+    those before the first of M, S, T    sign agreement 0.934, P(m_T<0) bias +0.0231 (se 0.0019), per-config rms 0.089
+  2. additive presumption: each lower input's exact 1-D effect at the anchor, summed
+    anchor conditional mean  first order:  sign agreement 0.933, P bias -0.0030 (se 0.0019), rms 0.087; E[relu(-m_T)] +0.030 relative
+    anchor order statistics  first order:  sign agreement 0.923, P bias -0.0015 (se 0.0021), rms 0.095; E[relu(-m_T)] +0.021 relative
+    anchor order statistics  second order: sign agreement 0.959, P bias -0.0009 (se 0.0021), rms 0.048; E[relu(-m_T)] +0.034 relative
+  3. share of the pairwise terms' variance by the time distance between the two slots, 1..9: 0.43 0.20 0.15 0.10 0.05 0.03 0.02 0.01 0.01
+  4. pairs whose effects both lower m_T by > 0.1: 0.080 of pairs; their pairwise term > 0 in 0.57, mean +0.114 against the effects' sum -1.281; R^2 of the pairwise term on the two effects 0.016
+
+s1/0: P(m_T < 0) 0.5462, E[relu(-m_T)] 1.193
+  1. exact set, the rest linear through the route at their conditional mean below it
+    0 largest                            sign agreement 0.830, P(m_T<0) bias +0.0413 (se 0.0036), per-config rms 0.168
+    1 largest                            sign agreement 0.901, P(m_T<0) bias +0.0119 (se 0.0016), per-config rms 0.074
+    2 largest                            sign agreement 0.939, P(m_T<0) bias +0.0035 (se 0.0009), per-config rms 0.042
+    3 largest                            sign agreement 0.961, P(m_T<0) bias +0.0016 (se 0.0006), per-config rms 0.026
+    4 largest                            sign agreement 0.976, P(m_T<0) bias +0.0006 (se 0.0004), per-config rms 0.017
+    5 largest                            sign agreement 0.987, P(m_T<0) bias +0.0004 (se 0.0002), per-config rms 0.010
+    those before the first of M, S, T    sign agreement 0.911, P(m_T<0) bias +0.0228 (se 0.0025), per-config rms 0.114
+  2. additive presumption: each lower input's exact 1-D effect at the anchor, summed
+    anchor conditional mean  first order:  sign agreement 0.906, P bias -0.0047 (se 0.0021), rms 0.097; E[relu(-m_T)] +0.074 relative
+    anchor order statistics  first order:  sign agreement 0.887, P bias -0.0005 (se 0.0026), rms 0.117; E[relu(-m_T)] +0.043 relative
+
+s2/0: P(m_T < 0) 0.5559, E[relu(-m_T)] 1.190
+  1. exact set, the rest linear through the route at their conditional mean below it
+    0 largest                            sign agreement 0.807, P(m_T<0) bias -0.0047 (se 0.0048), per-config rms 0.218
+    1 largest                            sign agreement 0.913, P(m_T<0) bias +0.0053 (se 0.0015), per-config rms 0.069
+    2 largest                            sign agreement 0.958, P(m_T<0) bias +0.0024 (se 0.0007), per-config rms 0.030
+    3 largest                            sign agreement 0.978, P(m_T<0) bias +0.0011 (se 0.0004), per-config rms 0.017
+    4 largest                            sign agreement 0.988, P(m_T<0) bias +0.0003 (se 0.0002), per-config rms 0.010
+    5 largest                            sign agreement 0.994, P(m_T<0) bias +0.0001 (se 0.0001), per-config rms 0.006
+    those before the first of M, S, T    sign agreement 0.878, P(m_T<0) bias -0.0057 (se 0.0032), per-config rms 0.145
+  2. additive presumption: each lower input's exact 1-D effect at the anchor, summed
+    anchor conditional mean  first order:  sign agreement 0.911, P bias -0.0027 (se 0.0021), rms 0.094; E[relu(-m_T)] +0.163 relative
+    anchor order statistics  first order:  sign agreement 0.866, P bias -0.0020 (se 0.0030), rms 0.134; E[relu(-m_T)] +0.041 relative
+
+s3/0: P(m_T < 0) 0.5444, E[relu(-m_T)] 0.979
+  1. exact set, the rest linear through the route at their conditional mean below it
+    0 largest                            sign agreement 0.835, P(m_T<0) bias -0.0040 (se 0.0037), per-config rms 0.170
+    1 largest                            sign agreement 0.915, P(m_T<0) bias +0.0017 (se 0.0015), per-config rms 0.070
+    2 largest                            sign agreement 0.957, P(m_T<0) bias +0.0011 (se 0.0007), per-config rms 0.031
+    3 largest                            sign agreement 0.978, P(m_T<0) bias +0.0007 (se 0.0004), per-config rms 0.017
+    4 largest                            sign agreement 0.988, P(m_T<0) bias +0.0004 (se 0.0002), per-config rms 0.011
+    5 largest                            sign agreement 0.994, P(m_T<0) bias +0.0001 (se 0.0001), per-config rms 0.007
+    those before the first of M, S, T    sign agreement 0.876, P(m_T<0) bias +0.0024 (se 0.0028), per-config rms 0.125
+  2. additive presumption: each lower input's exact 1-D effect at the anchor, summed
+    anchor conditional mean  first order:  sign agreement 0.914, P bias -0.0024 (se 0.0020), rms 0.090; E[relu(-m_T)] +0.038 relative
+    anchor order statistics  first order:  sign agreement 0.891, P bias +0.0037 (se 0.0022), rms 0.101; E[relu(-m_T)] +0.024 relative
+

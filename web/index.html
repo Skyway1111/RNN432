@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The runner-up: how a 432-number neural network finds the second-largest of ten</title>
+<meta name="description" content="A tiny neural network taken apart: what each of its sixteen neurons does, how they decide together, and why they sometimes fail, computed live from its 432 numbers.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header id="hero">
+  <div id="painting" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="intro">
+      <h1>The runner-up</h1>
+      <p class="lede">A neural network of 432 numbers was trained to do one small thing: read ten numbers, one at a time, and point to the second-largest.</p>
+      <p class="lede">This page takes it apart until you can see what each of its sixteen neurons does, how they decide together, and why they sometimes get it wrong.</p>
+      <p class="live">Every figure is computed from the network's 432 numbers, the painting included: the ink is its links, the circles its neurons.</p>
+    </div>
+    <nav id="toc" aria-label="Contents"></nav>
+  </div>
+</header>
+<main id="story"></main>
+<section id="coda"><div class="wrap">
+  <h2>The whole machine, in four sentences</h2>
+  <p>A record keeper and four comparators measure how far each new number lands below the record. Their memory weights turn the memory like the hand of a clock, so how far it has turned says when the record and the runner-up arrived. Ten timers read that clock and vote, each one for its own positions, and the votes add up exactly to the scores. The mistakes sit where two numbers nearly tie, where no smooth machine can be sure, and in one corner where a shortcut the network learned points confidently the wrong way.</p>
+  <p>To poke at it yourself, <a href="explorer/index.html">the explorer</a> lets you click any neuron or weight, edit any input, and watch the chain reaction behind any answer.</p>
+</div></section>
+<footer><div class="wrap">Built from <code>research/findings/</code>. Every quoted number comes from a committed experiment you can rerun, and every figure is computed from the weights as you watch.</div></footer>
+
+<script src="data.js"></script>
+<script src="model.js"></script>
+<script src="viz.js"></script>
+<script src="neurons.js"></script>
+<script src="story.js"></script>
+<script src="hero.js"></script>
+
+<script>Story.part('puzzle', { kicker: 'Part one', title: 'The puzzle', html: `
+  <p>Before taking a machine apart, look at it whole: the numbers it is made of, the game it was trained to play, and the one rule it repeats. Nothing here is harder than multiplying and adding.</p>` });</script>
+<script src="ch/numbers.js"></script>
+<script src="ch/game.js"></script>
+<script src="ch/rule.js"></script>
+
+<script>Story.part('works', { kicker: 'Part two', title: 'How it works', html: `
+  <p>Each of the sixteen neurons turns out to track something you can name. Once you know what, the network stops being 432 numbers and becomes a small machine: a record keeper, four comparators, a clock, and ten timers whose votes add up to the answer.</p>` });</script>
+<script src="ch/record.js"></script>
+<script src="ch/clock.js"></script>
+<script src="ch/votes.js"></script>
+<script src="ch/sixteen.js"></script>
+<script src="ch/learned.js"></script>
+
+<script>Story.part('fails', { kicker: 'Part three', title: 'Where it fails', html: `
+  <p>The network is right on <b data-fact="acc"></b> of random inputs. This part is about the rest. Most of its mistakes come from one fact no smooth machine can escape, and the most confident ones from a shortcut it learned. Then we break it on purpose, and say plainly what is still not explained.</p>` });</script>
+<script src="ch/ties.js"></script>
+<script src="ch/dims.js"></script>
+<script src="ch/tail.js"></script>
+<script src="ch/break.js"></script>
+<script src="ch/limits.js"></script>
+<script>Story.start();</script>
+</body>
+</html>

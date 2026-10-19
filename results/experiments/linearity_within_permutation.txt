@@ -1,0 +1,2 @@
+R2 of one linear map per permutation: mean 0.9532 min 0.8818
+accuracy given permutation, linear minus true: mean +0.0183, mean abs 0.0201

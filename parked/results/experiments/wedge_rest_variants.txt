@@ -1,0 +1,8 @@
+oracle gap-wedge (720 families, 12x12 gaps, mean 0) with the lower seven values varied:
+  1 order, spread 1.0 (as before)            bias +0.0235  rmse 0.0264
+  4 orders, spread 1.0                       bias +0.0198  rmse 0.0202
+  1 order, spreads 0.6 / 1.0 / 1.5           bias +0.0210  rmse 0.0243
+  4 orders x 3 spreads                       bias +0.0176  rmse 0.0182
+  4 orders, spread 0.6                       bias +0.0314  rmse 0.0331
+  4 orders, spread 1.0                       bias +0.0198  rmse 0.0202
+  4 orders, spread 1.5                       bias +0.0017  rmse 0.0125

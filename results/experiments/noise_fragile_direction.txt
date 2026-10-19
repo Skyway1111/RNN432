@@ -1,0 +1,108 @@
+example: accuracy 0.9532; state variance share on PC1 0.755, PC1+2 0.864; |PC1 . Wi| 0.613; sqrt(tr C) 51.5; sigma * sqrt(tr C) 0.103
+  row  0: full +0.0004  along PC1 +0.0052  PC2 +0.0008  Wi +0.0033
+  row  1: full +0.0040  along PC1 +0.0436  PC2 +0.0092  Wi +0.0293
+  row  2: full +0.0057  along PC1 +0.0375  PC2 +0.0052  Wi +0.0206
+  row  3: full +0.0002  along PC1 +0.0008  PC2 +0.0009  Wi +0.0025
+  row  4: full +0.0013  along PC1 +0.0075  PC2 +0.0025  Wi +0.0054
+  row  5: full +0.0003  along PC1 +0.0018  PC2 +0.0008  Wi +0.0002
+  row  6: full +0.0062  along PC1 +0.0421  PC2 +0.0093  Wi +0.0168
+  row  7: full +0.0119  along PC1 +0.0655  PC2 +0.0121  Wi +0.0642
+  row  8: full +0.0024  along PC1 +0.0492  PC2 +0.0146  Wi +0.0151
+  row  9: full +0.0003  along PC1 +0.0006  PC2 +0.0006  Wi +0.0001
+  row 10: full +0.0009  along PC1 +0.0129  PC2 +0.0015  Wi +0.0061
+  row 11: full +0.0008  along PC1 +0.0044  PC2 +0.0012  Wi +0.0044
+  row 12: full +0.0007  along PC1 +0.0053  PC2 +0.0016  Wi +0.0037
+  row 13: full +0.0002  along PC1 +0.0030  PC2 +0.0005  Wi +0.0023
+  row 14: full +0.0004  along PC1 +0.0071  PC2 +0.0011  Wi +0.0038
+  row 15: full +0.0008  along PC1 +0.0075  PC2 +0.0005  Wi +0.0047
+  sums: full 0.0363  PC1 0.2941  PC2 0.0624  Wi 0.1824
+s0: accuracy 0.9100; state variance share on PC1 0.929, PC1+2 0.953; |PC1 . Wi| 0.123; sqrt(tr C) 145.5; sigma * sqrt(tr C) 0.291
+  row  0: full +0.0176  along PC1 +0.0572  PC2 +0.0040  Wi +0.0020
+  row  1: full +0.0194  along PC1 +0.1213  PC2 +0.0016  Wi +0.0103
+  row  2: full +0.0135  along PC1 +0.0649  PC2 +0.0098  Wi +0.0115
+  row  3: full +0.0078  along PC1 +0.0515  PC2 +0.0043  Wi +0.0059
+  row  4: full +0.0095  along PC1 +0.0541  PC2 +0.0218  Wi +0.0102
+  row  5: full +0.0131  along PC1 +0.0764  PC2 +0.0062  Wi +0.0073
+  row  6: full +0.0229  along PC1 +0.1170  PC2 +0.0377  Wi +0.0179
+  row  7: full +0.0089  along PC1 +0.0457  PC2 +0.0126  Wi +0.0094
+  row  8: full +0.0066  along PC1 +0.0798  PC2 +0.0085  Wi +0.0081
+  row  9: full +0.0132  along PC1 +0.0471  PC2 +0.0033  Wi +0.0105
+  row 10: full +0.0070  along PC1 +0.0607  PC2 +0.0054  Wi +0.0047
+  row 11: full +0.0043  along PC1 +0.0260  PC2 +0.0068  Wi +0.0045
+  row 12: full +0.0103  along PC1 +0.0755  PC2 +0.0242  Wi +0.0088
+  row 13: full +0.0044  along PC1 +0.0329  PC2 +0.0210  Wi +0.0086
+  row 14: full +0.0205  along PC1 +0.1067  PC2 +0.0020  Wi +0.0079
+  row 15: full +0.0069  along PC1 +0.0525  PC2 +0.0073  Wi +0.0035
+  sums: full 0.1858  PC1 1.0693  PC2 0.1767  Wi 0.1310
+s1: accuracy 0.8798; state variance share on PC1 0.906, PC1+2 0.938; |PC1 . Wi| 0.205; sqrt(tr C) 129.2; sigma * sqrt(tr C) 0.258
+  row  0: full +0.0163  along PC1 +0.0809  PC2 +0.0053  Wi +0.0055
+  row  1: full +0.0136  along PC1 +0.0697  PC2 +0.0153  Wi +0.0060
+  row  2: full +0.0090  along PC1 +0.0814  PC2 +0.0375  Wi +0.0074
+  row  3: full +0.0208  along PC1 +0.0824  PC2 +0.0069  Wi +0.0170
+  row  4: full +0.0070  along PC1 +0.0480  PC2 +0.0186  Wi +0.0027
+  row  5: full +0.0170  along PC1 +0.1166  PC2 +0.0036  Wi +0.0210
+  row  6: full +0.0093  along PC1 +0.0589  PC2 +0.0163  Wi +0.0128
+  row  7: full +0.0040  along PC1 +0.0370  PC2 +0.0082  Wi +0.0046
+  row  8: full +0.0097  along PC1 +0.0838  PC2 +0.0059  Wi +0.0060
+  row  9: full +0.0066  along PC1 +0.0720  PC2 +0.0035  Wi +0.0064
+  row 10: full +0.0014  along PC1 +0.0192  PC2 +0.0008  Wi +0.0020
+  row 11: full +0.0146  along PC1 +0.0783  PC2 +0.0232  Wi +0.0108
+  row 12: full +0.0023  along PC1 +0.0506  PC2 +0.0014  Wi +0.0020
+  row 13: full +0.0123  along PC1 +0.0719  PC2 +0.0063  Wi +0.0010
+  row 14: full +0.0006  along PC1 +0.0134  PC2 +0.0010  Wi +0.0006
+  row 15: full +0.0025  along PC1 +0.0320  PC2 +0.0063  Wi +0.0069
+  sums: full 0.1471  PC1 0.9960  PC2 0.1602  Wi 0.1128
+s2: accuracy 0.9488; state variance share on PC1 0.777, PC1+2 0.851; |PC1 . Wi| 0.067; sqrt(tr C) 63.4; sigma * sqrt(tr C) 0.127
+  row  0: full +0.0046  along PC1 +0.0115  PC2 +0.0118  Wi +0.0014
+  row  1: full +0.0008  along PC1 +0.0076  PC2 +0.0012  Wi +0.0009
+  row  2: full +0.0007  along PC1 +0.0093  PC2 +0.0008  Wi +0.0006
+  row  3: full +0.0039  along PC1 +0.0257  PC2 +0.0071  Wi +0.0013
+  row  4: full +0.0018  along PC1 +0.0113  PC2 +0.0024  Wi +0.0005
+  row  5: full +0.0019  along PC1 +0.0185  PC2 +0.0012  Wi +0.0016
+  row  6: full +0.0026  along PC1 +0.0197  PC2 +0.0057  Wi +0.0013
+  row  7: full +0.0032  along PC1 +0.0144  PC2 +0.0016  Wi +0.0018
+  row  8: full +0.0012  along PC1 +0.0094  PC2 +0.0017  Wi +0.0008
+  row  9: full +0.0014  along PC1 +0.0072  PC2 +0.0014  Wi +0.0009
+  row 10: full +0.0019  along PC1 +0.0108  PC2 +0.0034  Wi +0.0025
+  row 11: full +0.0010  along PC1 +0.0135  PC2 +0.0017  Wi +0.0013
+  row 12: full +0.0011  along PC1 +0.0240  PC2 +0.0035  Wi +0.0013
+  row 13: full +0.0008  along PC1 +0.0061  PC2 +0.0011  Wi +0.0012
+  row 14: full +0.0019  along PC1 +0.0146  PC2 +0.0013  Wi +0.0010
+  row 15: full +0.0013  along PC1 +0.0044  PC2 +0.0016  Wi +0.0011
+  sums: full 0.0301  PC1 0.2079  PC2 0.0474  Wi 0.0195
+s3: accuracy 0.9319; state variance share on PC1 0.754, PC1+2 0.849; |PC1 . Wi| 0.440; sqrt(tr C) 52.2; sigma * sqrt(tr C) 0.104
+  row  0: full +0.0006  along PC1 +0.0071  PC2 +0.0032  Wi +0.0058
+  row  1: full +0.0043  along PC1 +0.0163  PC2 +0.0207  Wi +0.0119
+  row  2: full +0.0007  along PC1 +0.0053  PC2 +0.0009  Wi +0.0043
+  row  3: full +0.0023  along PC1 +0.0082  PC2 +0.0095  Wi +0.0092
+  row  4: full +0.0012  along PC1 +0.0040  PC2 +0.0017  Wi +0.0029
+  row  5: full +0.0025  along PC1 +0.0128  PC2 +0.0016  Wi +0.0034
+  row  6: full +0.0004  along PC1 +0.0078  PC2 +0.0022  Wi +0.0051
+  row  7: full +0.0014  along PC1 +0.0160  PC2 +0.0036  Wi +0.0041
+  row  8: full +0.0025  along PC1 +0.0248  PC2 +0.0084  Wi +0.0131
+  row  9: full +0.0010  along PC1 +0.0145  PC2 +0.0050  Wi +0.0058
+  row 10: full +0.0004  along PC1 +0.0034  PC2 +0.0017  Wi +0.0028
+  row 11: full +0.0008  along PC1 +0.0074  PC2 +0.0004  Wi +0.0053
+  row 12: full +0.0001  along PC1 +0.0039  PC2 +0.0014  Wi +0.0013
+  row 13: full +0.0014  along PC1 +0.0262  PC2 +0.0019  Wi +0.0067
+  row 14: full +0.0035  along PC1 +0.0100  PC2 +0.0132  Wi +0.0142
+  row 15: full +0.0013  along PC1 +0.0124  PC2 +0.0031  Wi +0.0064
+  sums: full 0.0244  PC1 0.1801  PC2 0.0784  Wi 0.1022
+s4: accuracy 0.8903; state variance share on PC1 0.929, PC1+2 0.961; |PC1 . Wi| 0.096; sqrt(tr C) 139.2; sigma * sqrt(tr C) 0.278
+  row  0: full +0.0072  along PC1 +0.0326  PC2 +0.0282  Wi +0.0137
+  row  1: full +0.0068  along PC1 +0.0230  PC2 +0.0073  Wi +0.0036
+  row  2: full +0.0057  along PC1 +0.0287  PC2 +0.0041  Wi +0.0048
+  row  3: full +0.0118  along PC1 +0.0598  PC2 +0.0178  Wi +0.0078
+  row  4: full +0.0092  along PC1 +0.0483  PC2 +0.0162  Wi +0.0046
+  row  5: full +0.0082  along PC1 +0.0580  PC2 +0.0037  Wi +0.0035
+  row  6: full +0.0102  along PC1 +0.0523  PC2 +0.0071  Wi +0.0036
+  row  7: full +0.0111  along PC1 +0.0588  PC2 +0.0131  Wi +0.0079
+  row  8: full +0.0102  along PC1 +0.0568  PC2 +0.0031  Wi +0.0019
+  row  9: full +0.0056  along PC1 +0.0336  PC2 +0.0102  Wi +0.0058
+  row 10: full +0.0052  along PC1 +0.0482  PC2 +0.0093  Wi +0.0023
+  row 11: full +0.0078  along PC1 +0.0476  PC2 +0.0131  Wi +0.0060
+  row 12: full +0.0113  along PC1 +0.0604  PC2 +0.0077  Wi +0.0059
+  row 13: full +0.0039  along PC1 +0.0495  PC2 +0.0087  Wi +0.0029
+  row 14: full +0.0043  along PC1 +0.0607  PC2 +0.0051  Wi +0.0030
+  row 15: full +0.0104  along PC1 +0.1081  PC2 +0.0104  Wi +0.0053
+  sums: full 0.1288  PC1 0.8268  PC2 0.1651  Wi 0.0827

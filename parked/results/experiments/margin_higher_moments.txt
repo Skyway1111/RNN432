@@ -1,0 +1,17 @@
+example/0  oracle Gaussian +0.0002  oracle Edgeworth 3 -0.0002  oracle Edgeworth 4 +0.0000  16-run Gaussian +0.0017  16-run Edgeworth 3 +0.0011  16-run Edgeworth 4 +0.0009  64-run Gaussian +0.0008  64-run Edgeworth 3 +0.0003  64-run Edgeworth 4 +0.0003
+s0/0       oracle Gaussian -0.0007  oracle Edgeworth 3 +0.0001  oracle Edgeworth 4 +0.0001  16-run Gaussian -0.0006  16-run Edgeworth 3 -0.0012  16-run Edgeworth 4 -0.0012  64-run Gaussian -0.0023  64-run Edgeworth 3 -0.0020  64-run Edgeworth 4 -0.0016
+s1/0       oracle Gaussian +0.0001  oracle Edgeworth 3 +0.0001  oracle Edgeworth 4 +0.0000  16-run Gaussian -0.0002  16-run Edgeworth 3 -0.0006  16-run Edgeworth 4 -0.0013  64-run Gaussian +0.0006  64-run Edgeworth 3 +0.0000  64-run Edgeworth 4 -0.0005
+s2/0       oracle Gaussian -0.0004  oracle Edgeworth 3 -0.0005  oracle Edgeworth 4 -0.0003  16-run Gaussian +0.0005  16-run Edgeworth 3 +0.0004  16-run Edgeworth 4 +0.0002  64-run Gaussian +0.0002  64-run Edgeworth 3 +0.0001  64-run Edgeworth 4 +0.0002
+s3/0       oracle Gaussian +0.0007  oracle Edgeworth 3 +0.0001  oracle Edgeworth 4 +0.0001  16-run Gaussian +0.0020  16-run Edgeworth 3 +0.0013  16-run Edgeworth 4 +0.0010  64-run Gaussian +0.0017  64-run Edgeworth 3 +0.0011  64-run Edgeworth 4 +0.0009
+s4/0       oracle Gaussian +0.0012  oracle Edgeworth 3 +0.0005  oracle Edgeworth 4 +0.0000  16-run Gaussian +0.0006  16-run Edgeworth 3 -0.0005  16-run Edgeworth 4 -0.0008  64-run Gaussian +0.0008  64-run Edgeworth 3 -0.0003  64-run Edgeworth 4 -0.0005
+
+estimate - empirical accuracy over 6 models: mean, rms
+  oracle Gaussian        +0.00019 0.00067
+  oracle Edgeworth 3     +0.00003 0.00030
+  oracle Edgeworth 4     -0.00001 0.00015
+  16-run Gaussian        +0.00068 0.00115
+  16-run Edgeworth 3     +0.00007 0.00089
+  16-run Edgeworth 4     -0.00020 0.00096
+  64-run Gaussian        +0.00031 0.00129
+  64-run Edgeworth 3     -0.00013 0.00095
+  64-run Edgeworth 4     -0.00021 0.00083

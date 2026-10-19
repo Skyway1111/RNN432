@@ -1,0 +1,12 @@
+example: true change mean -0.0270 sd 0.0140
+  rerun on the copy: change follows the true change with rms 0.0006 (centred 0.0005), corr 0.999
+  second-order Taylor: against the rerun rms 0.0081, mean -0.0042; against the true change rms 0.0078
+  noise shift 0.002 ||d mu/dW|| median 1.53 against design sd median 0.83; pairs to rerun at k = 3, 5: 0.76, 0.88
+s0: true change mean -0.1097 sd 0.0345
+  rerun on the copy: change follows the true change with rms 0.0022 (centred 0.0014), corr 0.999
+  second-order Taylor: against the rerun rms 0.0992, mean -0.0840; against the true change rms 0.0975
+  noise shift 0.002 ||d mu/dW|| median 1.77 against design sd median 0.67; pairs to rerun at k = 3, 5: 0.90, 0.97
+s4: true change mean -0.0793 sd 0.0213
+  rerun on the copy: change follows the true change with rms 0.0020 (centred 0.0016), corr 0.997
+  second-order Taylor: against the rerun rms 0.0295, mean -0.0224; against the true change rms 0.0286
+  noise shift 0.002 ||d mu/dW|| median 1.33 against design sd median 0.65; pairs to rerun at k = 3, 5: 0.87, 0.95

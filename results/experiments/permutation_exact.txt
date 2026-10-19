@@ -1,0 +1,23 @@
+E[sorted N(0,1)^10]: [ 1.5388  1.0014  0.6561  0.3758  0.1227 -0.1227 -0.3758 -0.6561 -1.0014
+ -1.5388]
+profile mean: example 0.9996 | s0 0.9922 | s1 0.9592 | s2 0.9987 | s3 0.9990 | s4 0.9793   (smallest top-2 gap 6.43e-07)
+profile mean + 1: example 0.9961 | s0 0.9895 | s1 0.9371 | s2 0.9944 | s3 0.9901 | s4 0.9611   (smallest top-2 gap 1.84e-06)
+profile mean - 1: example 0.9000 | s0 0.8041 | s1 0.8710 | s2 0.6703 | s3 0.6575 | s4 0.8153   (smallest top-2 gap 1.18e-07)
+profile S-T gap 0.05: example 0.9440 | s0 0.8548 | s1 0.8294 | s2 0.9130 | s3 0.8963 | s4 0.8030   (smallest top-2 gap 1.06e-07)
+
+example, mean profile: exactly 3627397/3628800 = 0.999613; wrong on 1403 of 3628800 orderings
+  error rate when max comes before 2nd: 0.0000, after: 0.0008
+  error rate by 2nd-max position 0..9: 0.0039 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
+  error rate by max position 0..9:     0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0039
+  wrong predictions: 3rd-largest 1.00, largest 0.00
+
+acc(y) over 400 random magnitude sets (its mean estimates Gaussian accuracy):
+  example: mean 0.9482 (SE 0.0072) median 0.9972 share below 0.9 0.113 | mean when S-T < 0.1 (0.22 of sets) 0.867, otherwise 0.971; when <= 1 positive (0.028) 0.265
+  s0: mean 0.9144 (SE 0.0071) median 0.9792 share below 0.9 0.225 | mean when S-T < 0.1 (0.22 of sets) 0.797, otherwise 0.948; when <= 1 positive (0.028) 0.533
+
+exact accuracy at the mean profile across training (columns: 0, 2^20 ... 2^30 sequences)
+  seed 0: 0.086 0.221 0.373 0.536 0.854 0.885 0.881 0.906 0.932 0.981 0.991 0.992
+  seed 1: 0.124 0.273 0.523 0.695 0.764 0.921 0.898 0.922 0.919 0.950 0.960 0.959
+  seed 2: 0.134 0.272 0.453 0.564 0.772 0.875 0.907 0.927 0.989 0.998 0.999 0.999
+  seed 3: 0.127 0.266 0.493 0.606 0.869 0.923 0.956 0.993 0.998 0.998 0.999 0.999
+  seed 4: 0.101 0.271 0.474 0.615 0.846 0.872 0.933 0.936 0.961 0.973 0.977 0.979

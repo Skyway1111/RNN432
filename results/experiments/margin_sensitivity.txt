@@ -1,0 +1,27 @@
+reference inputs 270: margin mean 8.4, min -4.8, wrong 10
+
+Spearman rank correlation with the ground-truth |accuracy change| at steps of 0.1 / 0.02, and overlap of the top 30 weights at 0.1
+  relative margin sensitivity : 0.963 / 0.854;  top-30 overlap 26
+  linearized flips at 0.1     : 0.944 / 0.872;  top-30 overlap 27
+  exact flips at 0.1          : 0.942 / 0.875;  top-30 overlap 27
+  sampled smoothed gradient   : 0.881 / 0.791;  top-30 overlap 16
+  within Wi: relative margin sensitivity 0.75; linearized flips at 0.1 0.30; exact flips at 0.1 0.23; sampled smoothed gradient 0.54
+  within Wh: relative margin sensitivity 0.96; linearized flips at 0.1 0.97; exact flips at 0.1 0.98; sampled smoothed gradient 0.73
+  within Wo: relative margin sensitivity 0.79; linearized flips at 0.1 0.64; exact flips at 0.1 0.64; sampled smoothed gradient 0.69
+
+top 15 weights by relative margin sensitivity, with the ground-truth drop at +-0.1
+  Wh[7,2]    =  +0.674  rel 107.187  truth drop 0.5816
+  Wh[7,7]    =  +0.078  rel 86.549  truth drop 0.5326
+  Wh[7,6]    =  -0.182  rel 72.983  truth drop 0.4675
+  Wh[7,14]   =  -0.000  rel 69.442  truth drop 0.4586
+  Wh[7,8]    =  +0.167  rel 67.558  truth drop 0.4327
+  Wh[7,1]    =  -0.100  rel 64.295  truth drop 0.4484
+  Wh[7,10]   =  -0.004  rel 60.686  truth drop 0.4880
+  Wh[8,7]    =  -1.094  rel 59.533  truth drop 0.3990
+  Wh[8,2]    =  +0.625  rel 56.950  truth drop 0.4803
+  Wh[8,8]    =  +0.615  rel 54.502  truth drop 0.3482
+  Wh[8,6]    =  -0.000  rel 53.540  truth drop 0.3364
+  Wh[2,2]    =  +0.969  rel 52.998  truth drop 0.3614
+  Wh[8,1]    =  +0.634  rel 51.537  truth drop 0.3344
+  Wh[8,14]   =  +0.032  rel 51.055  truth drop 0.3669
+  Wh[6,2]    =  +0.535  rel 50.802  truth drop 0.5068

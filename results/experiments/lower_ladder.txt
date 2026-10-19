@@ -1,0 +1,120 @@
+s0/0
+  S and the lower inputs drawn: P(wrong) 0.1921; within-config variance 0.1112, share of p(1-p) 0.717
+    S bin (16)                                       cells per config     16.0 (1024.0 draws each)   explained 0.502
+    + count of positive lower inputs                 cells per config    112.5 ( 145.7 draws each)   explained 0.522
+    + sign pattern of the lower inputs               cells per config   1775.0 (   9.2 draws each)   explained 0.555
+    + record history of the free slots               cells per config   5437.9 (   3.0 draws each)   explained 0.484
+    + largest lower: slot, 8 value bins              cells per config  18664.7 (   0.9 draws each)   explained 0.233
+    + 2nd largest lower: slot, 4 value bins          cells per config  27544.7 (   0.6 draws each)   explained 0.072
+    largest lower only (with the S bin)              cells per config    896.0 (  18.3 draws each)   explained 0.580
+    two largest lower only (with the S bin)          cells per config  16818.6 (   1.0 draws each)   explained 0.207
+    gate pattern at the lower-input steps            cells per config   4333.1 (   3.8 draws each)   explained 0.518
+    gate pattern at all steps                        cells per config   7800.4 (   2.1 draws each)   explained 0.485
+  at the tie S = T: P(wrong) 0.5880; m_T within-config sd 1.51, mean -0.73
+   indicator at the tie:
+    + count of positive lower inputs                 cells per config      7.5 (2198.3 draws each)   explained 0.059
+    + sign pattern of the lower inputs               cells per config    119.2 ( 137.4 draws each)   explained 0.218
+    + record history of the free slots               cells per config    559.8 (  29.3 draws each)   explained 0.247
+    + largest lower: slot, 8 value bins              cells per config   4593.7 (   3.6 draws each)   explained 0.322
+    + 2nd largest lower: slot, 4 value bins          cells per config  12597.4 (   1.3 draws each)   explained 0.211
+    largest lower only (with the S bin)              cells per config     56.0 ( 292.6 draws each)   explained 0.324
+    two largest lower only (with the S bin)          cells per config   1344.0 (  12.2 draws each)   explained 0.413
+    gate pattern at the lower-input steps            cells per config   1440.7 (  11.4 draws each)   explained 0.235
+    gate pattern at all steps                        cells per config   3021.2 (   5.4 draws each)   explained 0.300
+   tie margin m_T:
+    + count of positive lower inputs                 cells per config      7.5 (2198.3 draws each)   explained 0.097
+    + sign pattern of the lower inputs               cells per config    119.2 ( 137.4 draws each)   explained 0.309
+    + record history of the free slots               cells per config    559.8 (  29.3 draws each)   explained 0.364
+    + largest lower: slot, 8 value bins              cells per config   4593.7 (   3.6 draws each)   explained 0.482
+    + 2nd largest lower: slot, 4 value bins          cells per config  12597.4 (   1.3 draws each)   explained 0.320
+    largest lower only (with the S bin)              cells per config     56.0 ( 292.6 draws each)   explained 0.425
+    two largest lower only (with the S bin)          cells per config   1344.0 (  12.2 draws each)   explained 0.546
+    gate pattern at the lower-input steps            cells per config   1440.7 (  11.4 draws each)   explained 0.369
+    gate pattern at all steps                        cells per config   3021.2 (   5.4 draws each)   explained 0.498
+   P(m_T < 0) per configuration from a Gaussian residual with oracle moments inside each feature cell:
+    no feature                               bias +0.0063, per-config rms 0.0409
+    largest lower: slot, 8 value bins        bias +0.0002, per-config rms 0.0180
+    two largest lower: slots, bins           bias -0.0005, per-config rms 0.0112
+   variable gates (flip rate in (0.02, 0.98)) per config: mean 38.6; by step [1536, 1215, 718, 466, 315, 240, 177, 116, 91, 63]; at steps reading M, S, T, a lower input: [355, 346, 287, 3949]
+   a variable gate's pre-activation (436 gates in 16 configurations), R^2 on the step's own input: median 0.961, share above 0.9 0.541; on all seven lower inputs linearly: median 0.994, share above 0.9 0.722
+   the same at lower-input steps after the first of M, S, T (117 gates): own input median 0.976, share above 0.9 0.667; all seven median 0.990
+example/0
+  S and the lower inputs drawn: P(wrong) 0.0945; within-config variance 0.0721, share of p(1-p) 0.843
+    S bin (16)                                       cells per config     16.0 (1024.0 draws each)   explained 0.565
+    + count of positive lower inputs                 cells per config    108.2 ( 151.5 draws each)   explained 0.584
+    + sign pattern of the lower inputs               cells per config   1678.7 (   9.8 draws each)   explained 0.594
+    + record history of the free slots               cells per config   4864.7 (   3.4 draws each)   explained 0.519
+    + largest lower: slot, 8 value bins              cells per config  17295.6 (   0.9 draws each)   explained 0.293
+    + 2nd largest lower: slot, 4 value bins          cells per config  26986.1 (   0.6 draws each)   explained 0.092
+    largest lower only (with the S bin)              cells per config    896.0 (  18.3 draws each)   explained 0.658
+    two largest lower only (with the S bin)          cells per config  16818.7 (   1.0 draws each)   explained 0.269
+    gate pattern at the lower-input steps            cells per config   7029.5 (   2.3 draws each)   explained 0.532
+    gate pattern at all steps                        cells per config  11305.3 (   1.4 draws each)   explained 0.452
+  at the tie S = T: P(wrong) 0.6040; m_T within-config sd 1.71, mean -1.26
+   indicator at the tie:
+    + count of positive lower inputs                 cells per config      7.1 (2294.5 draws each)   explained 0.059
+    + sign pattern of the lower inputs               cells per config    113.4 ( 144.5 draws each)   explained 0.226
+    + record history of the free slots               cells per config    483.7 (  33.9 draws each)   explained 0.260
+    + largest lower: slot, 8 value bins              cells per config   4190.9 (   3.9 draws each)   explained 0.341
+    + 2nd largest lower: slot, 4 value bins          cells per config  11744.0 (   1.4 draws each)   explained 0.227
+    largest lower only (with the S bin)              cells per config     56.0 ( 292.6 draws each)   explained 0.324
+    two largest lower only (with the S bin)          cells per config   1344.0 (  12.2 draws each)   explained 0.431
+    gate pattern at the lower-input steps            cells per config   2744.2 (   6.0 draws each)   explained 0.327
+    gate pattern at all steps                        cells per config   5363.3 (   3.1 draws each)   explained 0.327
+   tie margin m_T:
+    + count of positive lower inputs                 cells per config      7.1 (2294.5 draws each)   explained 0.098
+    + sign pattern of the lower inputs               cells per config    113.4 ( 144.5 draws each)   explained 0.326
+    + record history of the free slots               cells per config    483.7 (  33.9 draws each)   explained 0.379
+    + largest lower: slot, 8 value bins              cells per config   4190.9 (   3.9 draws each)   explained 0.620
+    + 2nd largest lower: slot, 4 value bins          cells per config  11744.0 (   1.4 draws each)   explained 0.442
+    largest lower only (with the S bin)              cells per config     56.0 ( 292.6 draws each)   explained 0.565
+    two largest lower only (with the S bin)          cells per config   1344.0 (  12.2 draws each)   explained 0.710
+    gate pattern at the lower-input steps            cells per config   2744.2 (   6.0 draws each)   explained 0.566
+    gate pattern at all steps                        cells per config   5363.3 (   3.1 draws each)   explained 0.591
+   P(m_T < 0) per configuration from a Gaussian residual with oracle moments inside each feature cell:
+    no feature                               bias +0.0021, per-config rms 0.0451
+    largest lower: slot, 8 value bins        bias +0.0008, per-config rms 0.0109
+    two largest lower: slots, bins           bias +0.0001, per-config rms 0.0057
+   variable gates (flip rate in (0.02, 0.98)) per config: mean 48.9; by step [1232, 1171, 857, 674, 612, 527, 422, 317, 247, 206]; at steps reading M, S, T, a lower input: [484, 420, 468, 4893]
+   a variable gate's pre-activation (824 gates in 16 configurations), R^2 on the step's own input: median 0.010, share above 0.9 0.345; on all seven lower inputs linearly: median 0.933, share above 0.9 0.542
+   the same at lower-input steps after the first of M, S, T (210 gates): own input median 0.006, share above 0.9 0.190; all seven median 0.890
+s4/0
+  S and the lower inputs drawn: P(wrong) 0.1685; within-config variance 0.1001, share of p(1-p) 0.714
+    S bin (16)                                       cells per config     16.0 (1024.0 draws each)   explained 0.457
+    + count of positive lower inputs                 cells per config    111.5 ( 146.9 draws each)   explained 0.478
+    + sign pattern of the lower inputs               cells per config   1737.8 (   9.4 draws each)   explained 0.522
+    + record history of the free slots               cells per config   4909.8 (   3.3 draws each)   explained 0.468
+    + largest lower: slot, 8 value bins              cells per config  17820.2 (   0.9 draws each)   explained 0.257
+    + 2nd largest lower: slot, 4 value bins          cells per config  27213.5 (   0.6 draws each)   explained 0.078
+    largest lower only (with the S bin)              cells per config    896.0 (  18.3 draws each)   explained 0.586
+    two largest lower only (with the S bin)          cells per config  16823.1 (   1.0 draws each)   explained 0.219
+    gate pattern at the lower-input steps            cells per config   3476.8 (   4.7 draws each)   explained 0.538
+    gate pattern at all steps                        cells per config   5878.1 (   2.8 draws each)   explained 0.525
+  at the tie S = T: P(wrong) 0.5323; m_T within-config sd 1.21, mean -0.39
+   indicator at the tie:
+    + count of positive lower inputs                 cells per config      7.3 (2231.0 draws each)   explained 0.039
+    + sign pattern of the lower inputs               cells per config    117.0 ( 140.0 draws each)   explained 0.195
+    + record history of the free slots               cells per config    504.3 (  32.5 draws each)   explained 0.219
+    + largest lower: slot, 8 value bins              cells per config   4312.7 (   3.8 draws each)   explained 0.325
+    + 2nd largest lower: slot, 4 value bins          cells per config  12116.9 (   1.4 draws each)   explained 0.193
+    largest lower only (with the S bin)              cells per config     56.0 ( 292.6 draws each)   explained 0.323
+    two largest lower only (with the S bin)          cells per config   1344.0 (  12.2 draws each)   explained 0.406
+    gate pattern at the lower-input steps            cells per config   1266.3 (  12.9 draws each)   explained 0.246
+    gate pattern at all steps                        cells per config   2510.5 (   6.5 draws each)   explained 0.334
+   tie margin m_T:
+    + count of positive lower inputs                 cells per config      7.3 (2231.0 draws each)   explained 0.074
+    + sign pattern of the lower inputs               cells per config    117.0 ( 140.0 draws each)   explained 0.257
+    + record history of the free slots               cells per config    504.3 (  32.5 draws each)   explained 0.329
+    + largest lower: slot, 8 value bins              cells per config   4312.7 (   3.8 draws each)   explained 0.532
+    + 2nd largest lower: slot, 4 value bins          cells per config  12116.9 (   1.4 draws each)   explained 0.371
+    largest lower only (with the S bin)              cells per config     56.0 ( 292.6 draws each)   explained 0.474
+    two largest lower only (with the S bin)          cells per config   1344.0 (  12.2 draws each)   explained 0.592
+    gate pattern at the lower-input steps            cells per config   1266.3 (  12.9 draws each)   explained 0.460
+    gate pattern at all steps                        cells per config   2510.5 (   6.5 draws each)   explained 0.559
+   P(m_T < 0) per configuration from a Gaussian residual with oracle moments inside each feature cell:
+    no feature                               bias +0.0025, per-config rms 0.0525
+    largest lower: slot, 8 value bins        bias +0.0001, per-config rms 0.0274
+    two largest lower: slots, bins           bias +0.0001, per-config rms 0.0165
+   variable gates (flip rate in (0.02, 0.98)) per config: mean 33.2; by step [1312, 1119, 633, 389, 283, 197, 124, 88, 63, 36]; at steps reading M, S, T, a lower input: [318, 334, 354, 3238]
+   a variable gate's pre-activation (517 gates in 16 configurations), R^2 on the step's own input: median 0.775, share above 0.9 0.476; on all seven lower inputs linearly: median 0.977, share above 0.9 0.640
+   the same at lower-input steps after the first of M, S, T (102 gates): own input median 0.964, share above 0.9 0.657; all seven median 0.989

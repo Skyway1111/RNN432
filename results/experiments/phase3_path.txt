@@ -1,0 +1,15 @@
+seed 0: relative change 2^24->2^30, unit-RMS coords: Wi 0.33 Wh 1.26 Wo 4.87
+   worst rise of loss above a segment's endpoints: 0.541; loss change exact -0.3469, attributed -0.3366
+   path not fair; attribution withheld
+seed 1: relative change 2^24->2^30, unit-RMS coords: Wi 0.21 Wh 7.30 Wo 6.85
+   worst rise of loss above a segment's endpoints: 0.386; loss change exact -0.3315, attributed -0.3307
+   path not fair; attribution withheld
+seed 2: relative change 2^24->2^30, unit-RMS coords: Wi 0.70 Wh 10.65 Wo 8.41
+   worst rise of loss above a segment's endpoints: 1.170; loss change exact -0.5648, attributed -0.5687
+   path not fair; attribution withheld
+seed 3: relative change 2^24->2^30, unit-RMS coords: Wi 0.34 Wh 1.40 Wo 3.24
+   worst rise of loss above a segment's endpoints: 0.349; loss change exact -0.3913, attributed -0.3844
+   path not fair; attribution withheld
+seed 4: relative change 2^24->2^30, unit-RMS coords: Wi 0.15 Wh 1.15 Wo 5.84
+   worst rise of loss above a segment's endpoints: 0.290; loss change exact -0.3115, attributed -0.2961
+   path not fair; attribution withheld

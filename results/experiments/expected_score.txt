@@ -1,0 +1,32 @@
+Part 1: realized relative MSE of modes without its first stage (64 salts, 1e8) / predicted from the mismatch, c = 2, 4, 6, 8
+  s0/1   0.0024/0.0036  0.0091/0.0127  0.0146/0.0237  0.0384/0.0435
+  s3/2   0.0085/0.0089  0.0061/0.0075  0.0018/0.0028  0.0031/0.0023
+  s2/0   0.0053/0.0094  0.0135/0.0117  0.0283/0.0241  0.0644/0.0830
+  s4/1   0.0029/0.0035  0.0052/0.0072  0.0179/0.0183  0.0611/0.0534
+
+Part 2, heldout: expected ops to 10% relative RMSE, first stages included, c = 2, 4, 6, 8
+  modes  4.29e+07  1.38e+08  4.11e+08  8.21e+08   largest copy's share 0.02 0.04 0.08 0.15
+  ce     1.81e+08  7.14e+08  2.04e+09  6.11e+09   largest copy's share 0.02 0.03 0.09 0.25
+  edge, ce over modes   4.22   5.18   4.97   7.45
+  example share of the expected error: modes 0.08 0.10 0.05 0.03   ce 0.09 0.10 0.06 0.02
+  s0      share of the expected error: modes 0.15 0.17 0.16 0.13   ce 0.12 0.11 0.05 0.02
+  s1      share of the expected error: modes 0.12 0.38 0.48 0.29   ce 0.10 0.20 0.25 0.10
+  s2      share of the expected error: modes 0.23 0.13 0.15 0.34   ce 0.24 0.34 0.52 0.78
+  s3      share of the expected error: modes 0.28 0.06 0.02 0.03   ce 0.32 0.09 0.03 0.04
+  s4      share of the expected error: modes 0.15 0.16 0.14 0.18   ce 0.13 0.16 0.10 0.04
+
+Part 2, bench: expected ops to 10% relative RMSE, first stages included, c = 2, 4, 6, 8
+  modes  3.86e+07  1.31e+08  3.39e+08  5.43e+08   largest copy's share 0.02 0.04 0.07 0.07
+  ce     1.64e+08  6.15e+08  1.51e+09  3.78e+09   largest copy's share 0.02 0.03 0.06 0.12
+  edge, ce over modes   4.25   4.70   4.45   6.97
+  example share of the expected error: modes 0.09 0.10 0.06 0.05   ce 0.10 0.12 0.08 0.03
+  s0      share of the expected error: modes 0.13 0.18 0.15 0.15   ce 0.11 0.13 0.07 0.03
+  s1      share of the expected error: modes 0.15 0.44 0.52 0.25   ce 0.13 0.24 0.33 0.12
+  s2      share of the expected error: modes 0.17 0.06 0.07 0.19   ce 0.20 0.21 0.33 0.70
+  s3      share of the expected error: modes 0.28 0.07 0.03 0.05   ce 0.32 0.15 0.07 0.04
+  s4      share of the expected error: modes 0.17 0.15 0.17 0.30   ce 0.14 0.15 0.12 0.08
+
+Part 3, heldout: realized relative MSE averaged over 32 salts at 3e+08, c = 0, 2, 4, 6, 8; largest single squared error
+  modes 0.0002 0.0014 0.0045 0.0134 0.0398   largest 0.0 0.0 0.5 3.8 98.7
+  ce    0.0003 0.0061 0.0233 0.0606 0.2288   largest 0.0 0.2 1.4 16.2 290.9
+  ratio ce / modes 2.11 4.48 5.14 4.52 5.75

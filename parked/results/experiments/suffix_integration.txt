@@ -1,0 +1,21 @@
+1. share of the indicator's variance left after integrating the last k inputs exactly
+  example/0  last input 0.545, last two 0.341
+  s0/0       last input 0.580, last two 0.341
+  s1/0       last input 0.578, last two 0.318
+  s2/0       last input 0.461, last two 0.293
+
+2. great circles: sectors per circle, sd of the correct fraction, MSE per op against sampling at 2 passes per sector
+  example/0  sectors 330, sd 0.051, MSE ratio 20.7
+  s0/0       sectors 210, sd 0.067, MSE ratio 11.8
+  s1/0       sectors 259, sd 0.103, MSE ratio 37.7
+  s2/0       sectors 327, sd 0.055, MSE ratio 27.8
+
+3. lattice prefixes x exact last input, whole suite
+    127 prefixes: ops 7.3e+05, rmse 0.0253, bias +0.0051, sampling 0.0214, mse/samp 1.40
+    509 prefixes: ops 2.9e+06, rmse 0.0141, bias +0.0078, sampling 0.0107, mse/samp 1.74
+   2039 prefixes: ops 1.2e+07, rmse 0.0112, bias -0.0043, sampling 0.0054, mse/samp 4.34
+
+4. gauss_margin cells, families with x_9 a lower input: error mass at (12, 12) and coarse minus fine
+  example/0  16-run design: 0.1108, (7, 8) -0.0023, (5, 6) -0.0048; suffix exact, 8 runs: 0.1111, (7, 8) -0.0018, (5, 6) -0.0049; suffix exact, 16 runs: 0.1104, (7, 8) -0.0021, (5, 6) -0.0053; 512 draws: 0.1115, (7, 8) -0.0024, (5, 6) -0.0051
+  s0/0       16-run design: 0.1947, (7, 8) -0.0030, (5, 6) -0.0070; suffix exact, 8 runs: 0.1974, (7, 8) -0.0031, (5, 6) -0.0073; suffix exact, 16 runs: 0.1963, (7, 8) -0.0027, (5, 6) -0.0077; 512 draws: 0.1947, (7, 8) -0.0027, (5, 6) -0.0075
+  s3/0       16-run design: 0.0940, (7, 8) -0.0015, (5, 6) -0.0038; suffix exact, 8 runs: 0.0944, (7, 8) -0.0010, (5, 6) -0.0036; suffix exact, 16 runs: 0.0967, (7, 8) -0.0014, (5, 6) -0.0036; 512 draws: 0.0949, (7, 8) -0.0014, (5, 6) -0.0030

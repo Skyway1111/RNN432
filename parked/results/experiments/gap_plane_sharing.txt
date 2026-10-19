@@ -1,0 +1,31 @@
+example/0  T 3%   ref error given T 0.2042; 5x5 errors logit diffs +0.00240 mu, sd -0.00402 probit -0.00827 P(wrong) -0.02349
+example/0  T 10%  ref error given T 0.0733; 5x5 errors logit diffs +0.00063 mu, sd +0.00241 probit -0.00820 P(wrong) -0.00337
+example/0  T 50%  ref error given T 0.0777; 5x5 errors logit diffs +0.00091 mu, sd +0.00006 probit -0.00616 P(wrong) -0.00967
+example/0  T 90%  ref error given T 0.1114; 5x5 errors logit diffs +0.00071 mu, sd -0.00229 probit -0.00361 P(wrong) -0.01500
+s0/0       T 3%   ref error given T 0.1562; 5x5 errors logit diffs -0.00497 mu, sd -0.00384 probit -0.00330 P(wrong) -0.02045
+s0/0       T 10%  ref error given T 0.1461; 5x5 errors logit diffs -0.00039 mu, sd -0.00045 probit -0.00835 P(wrong) -0.01486
+s0/0       T 50%  ref error given T 0.1869; 5x5 errors logit diffs -0.00085 mu, sd -0.00562 probit -0.00603 P(wrong) -0.01989
+s0/0       T 90%  ref error given T 0.2560; 5x5 errors logit diffs -0.00098 mu, sd -0.01127 probit -0.00768 P(wrong) -0.02494
+s1/0       T 3%   ref error given T 0.1589; 5x5 errors logit diffs -0.00686 mu, sd -0.01078 probit -0.00989 P(wrong) -0.02074
+s1/0       T 10%  ref error given T 0.1305; 5x5 errors logit diffs -0.00087 mu, sd -0.00281 probit -0.00607 P(wrong) -0.01007
+s1/0       T 50%  ref error given T 0.1709; 5x5 errors logit diffs -0.00129 mu, sd -0.00539 probit -0.00597 P(wrong) -0.01367
+s1/0       T 90%  ref error given T 0.2264; 5x5 errors logit diffs -0.00148 mu, sd -0.00822 probit -0.00724 P(wrong) -0.01790
+s2/0       T 3%   ref error given T 0.1963; 5x5 errors logit diffs +0.00286 mu, sd -0.00872 probit -0.01213 P(wrong) -0.04670
+s2/0       T 10%  ref error given T 0.0456; 5x5 errors logit diffs +0.00133 mu, sd +0.00159 probit -0.00321 P(wrong) -0.00370
+s2/0       T 50%  ref error given T 0.0628; 5x5 errors logit diffs +0.00089 mu, sd -0.00040 probit -0.00158 P(wrong) -0.00845
+s2/0       T 90%  ref error given T 0.1031; 5x5 errors logit diffs -0.00022 mu, sd -0.00316 probit -0.00280 P(wrong) -0.01490
+s3/0       T 3%   ref error given T 0.1911; 5x5 errors logit diffs +0.00145 mu, sd -0.00554 probit -0.00499 P(wrong) -0.03768
+s3/0       T 10%  ref error given T 0.0534; 5x5 errors logit diffs +0.00065 mu, sd +0.00063 probit -0.00245 P(wrong) -0.00693
+s3/0       T 50%  ref error given T 0.0811; 5x5 errors logit diffs +0.00011 mu, sd -0.00155 probit -0.00265 P(wrong) -0.01314
+s3/0       T 90%  ref error given T 0.1344; 5x5 errors logit diffs -0.00014 mu, sd -0.00394 probit -0.00345 P(wrong) -0.01880
+s4/0       T 3%   ref error given T 0.1511; 5x5 errors logit diffs -0.00351 mu, sd -0.00279 probit -0.00574 P(wrong) -0.01748
+s4/0       T 10%  ref error given T 0.1229; 5x5 errors logit diffs -0.00247 mu, sd +0.00021 probit -0.00639 P(wrong) -0.01004
+s4/0       T 50%  ref error given T 0.1879; 5x5 errors logit diffs -0.00143 mu, sd -0.00448 probit -0.00520 P(wrong) -0.01653
+s4/0       T 90%  ref error given T 0.2530; 5x5 errors logit diffs -0.00112 mu, sd -0.00832 probit -0.00697 P(wrong) -0.02164
+
+cheap minus reference accuracy given T: mean, rms over 6 models x 4 values of T
+nodes           logit diffs               mu, sd               probit             P(wrong)
+3x3        -0.00933 0.01315     -0.00683 0.01213     -0.01244 0.01510     -0.04537 0.05704
+4x4        -0.00031 0.00837     -0.00215 0.01034     -0.00532 0.01167     -0.02024 0.02278
+5x5        -0.00061 0.00224     -0.00370 0.00523     -0.00576 0.00630     -0.01709 0.01959
+6x6        +0.00066 0.00269     -0.00259 0.00383     -0.00324 0.00393     -0.01275 0.01365

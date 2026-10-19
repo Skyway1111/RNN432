@@ -1,0 +1,4 @@
+example error 0.047 | variance explained: gaps 0.154 | gaps+signs 0.281 | (p,q) 0.010 | gaps+(p,q) 0.236 | gaps+(p,q,r) 0.382 | gaps+(p,q,r)+signs 0.531
+example noisy error 0.151 | variance explained: gaps 0.128 | gaps+signs 0.171 | (p,q) 0.195 | gaps+(p,q) 0.471 | gaps+(p,q,r) 0.625 | gaps+(p,q,r)+signs 0.683
+s0 error 0.090 | variance explained: gaps 0.180 | gaps+signs 0.211 | (p,q) 0.019 | gaps+(p,q) 0.267 | gaps+(p,q,r) 0.427 | gaps+(p,q,r)+signs 0.474
+s0 noisy error 0.246 | variance explained: gaps 0.151 | gaps+signs 0.156 | (p,q) 0.130 | gaps+(p,q) 0.459 | gaps+(p,q,r) 0.619 | gaps+(p,q,r)+signs 0.632

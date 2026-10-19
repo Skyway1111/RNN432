@@ -1,0 +1,21 @@
+1. the tent against the exact line integral
+  s0/0       full sline 4.92 passes
+    ends(1): 2.85 passes, unresolved 0.4083, bias +7.63e-02, rms 1.81e-01, max 9.9e-01
+    ends(2): 3.28 passes, unresolved 0.1880, bias +3.03e-02, rms 1.05e-01, max 9.6e-01
+    ends(8): 3.59 passes, unresolved 0.0045, bias +2.88e-03, rms 3.30e-02, max 8.5e-01
+  example/0  full sline 7.52 passes
+    ends(1): 2.86 passes, unresolved 0.4222, bias +4.07e-02, rms 1.06e-01, max 1.0e+00
+    ends(2): 3.25 passes, unresolved 0.2552, bias +2.33e-02, rms 7.58e-02, max 8.9e-01
+    ends(8): 3.94 passes, unresolved 0.0225, bias +2.84e-03, rms 2.19e-02, max 8.5e-01
+  s4/0       full sline 4.38 passes
+    ends(1): 2.86 passes, unresolved 0.3288, bias +8.13e-02, rms 2.16e-01, max 1.0e+00
+    ends(2): 3.26 passes, unresolved 0.1359, bias +2.93e-02, rms 1.19e-01, max 9.8e-01
+    ends(8): 3.52 passes, unresolved 0.0055, bias +3.13e-03, rms 3.67e-02, max 8.9e-01
+
+2. the law of the T-wedge over the lower inputs
+  s0/0       T-end error 0.1470; draws with a falling margin at the tie 0.035, falling and wrong 0.018; on rising draws, first-order wedge minus exact +0.02319
+      P(wrong at the tie) 0.5530; Gaussian m_T with the draws' moments +0.0043 (per-config rms 0.0529); with the 16-run design's +0.0034 (rms 0.0709); largest lower input exact, Gaussian rest +0.0005 (rms 0.0156); m_T skewness -0.79; R2 of m_T on the largest lower input's slot and value 0.49
+  example/0  T-end error 0.0741; draws with a falling margin at the tie 0.044, falling and wrong 0.020; on rising draws, first-order wedge minus exact +0.04489
+      P(wrong at the tie) 0.5393; Gaussian m_T with the draws' moments +0.0073 (per-config rms 0.0473); with the 16-run design's +0.0017 (rms 0.0550); largest lower input exact, Gaussian rest +0.0010 (rms 0.0101); m_T skewness -0.71; R2 of m_T on the largest lower input's slot and value 0.58
+  s4/0       T-end error 0.1501; draws with a falling margin at the tie 0.061, falling and wrong 0.029; on rising draws, first-order wedge minus exact -0.00113
+      P(wrong at the tie) 0.5382; Gaussian m_T with the draws' moments +0.0069 (per-config rms 0.0447); with the 16-run design's +0.0068 (rms 0.0672); largest lower input exact, Gaussian rest +0.0007 (rms 0.0124); m_T skewness -0.65; R2 of m_T on the largest lower input's slot and value 0.53

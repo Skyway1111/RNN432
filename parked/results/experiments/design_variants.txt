@@ -1,0 +1,19 @@
+example/0  empirical acc 0.9106  H8 +0.0042 H8 pop +0.0050 fold16 +0.0048 full 2^7 +0.0048 H8 jitter +0.0043 OA27 tertile +0.0036 Gauss 3^7 +0.0042 Korobov 13 +0.0018 Korobov 31 +0.0006 Korobov 61 +0.0000 oracle +0.0002
+s0/0       empirical acc 0.8090  H8 +0.0012 H8 pop +0.0028 fold16 +0.0039 full 2^7 +0.0044 H8 jitter -0.0004 OA27 tertile +0.0043 Gauss 3^7 +0.0049 Korobov 13 +0.0042 Korobov 31 +0.0003 Korobov 61 -0.0005 oracle -0.0007
+s1/0       empirical acc 0.8275  H8 -0.0019 H8 pop +0.0004 fold16 +0.0016 full 2^7 +0.0016 H8 jitter +0.0009 OA27 tertile +0.0022 Gauss 3^7 +0.0036 Korobov 13 +0.0037 Korobov 31 +0.0013 Korobov 61 +0.0009 oracle +0.0001
+s2/0       empirical acc 0.9264  H8 +0.0032 H8 pop +0.0043 fold16 +0.0046 full 2^7 +0.0046 H8 jitter +0.0056 OA27 tertile +0.0031 Gauss 3^7 +0.0045 Korobov 13 +0.0014 Korobov 31 +0.0002 Korobov 61 -0.0001 oracle -0.0005
+s3/0       empirical acc 0.9077  H8 +0.0023 H8 pop +0.0036 fold16 +0.0036 full 2^7 +0.0037 H8 jitter +0.0021 OA27 tertile +0.0026 Gauss 3^7 +0.0037 Korobov 13 +0.0038 Korobov 31 +0.0026 Korobov 61 +0.0020 oracle +0.0007
+s4/0       empirical acc 0.8144  H8 -0.0002 H8 pop +0.0014 fold16 +0.0017 full 2^7 +0.0018 H8 jitter +0.0007 OA27 tertile +0.0030 Gauss 3^7 +0.0039 Korobov 13 +0.0039 Korobov 31 +0.0019 Korobov 61 +0.0019 oracle +0.0012
+
+estimate - empirical accuracy at the (7, 8) nodes over 6 models: mean, rms; median sd ratio design/empirical
+  H8             +0.00147 0.00253   0.933
+  H8 pop         +0.00290 0.00331   0.873
+  fold16         +0.00335 0.00358   0.898
+  full 2^7       +0.00350 0.00374   0.904
+  H8 jitter      +0.00221 0.00304   0.858
+  OA27 tertile   +0.00313 0.00321   0.939
+  Gauss 3^7      +0.00412 0.00414   0.967
+  Korobov 13     +0.00313 0.00332   0.876
+  Korobov 31     +0.00115 0.00144   0.937
+  Korobov 61     +0.00070 0.00120   0.968
+  oracle         +0.00018 0.00068   1.000

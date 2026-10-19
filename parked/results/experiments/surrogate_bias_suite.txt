@@ -1,0 +1,9 @@
+models 192; model accuracy on these inputs vs truth cache: rms diff 0.0007
+surrogate                          mean bias rms bias max |bias|   by base model (mean bias over 32 copies)
+per (p,q), 1 order, mean set         -0.2063   0.2277     0.3631   [-0.0647 -0.2337 -0.2796 -0.1079 -0.2151 -0.3369]
+per (p,q), 8 orders, mean set        -0.1790   0.2156     0.3361   [ 0.0243 -0.2839 -0.2614 -0.0865 -0.1623 -0.304 ]
+per (p,q,r), 1 order, mean set       -0.1423   0.1451     0.2052   [-0.1096 -0.1675 -0.1295 -0.1267 -0.1387 -0.1815]
+per (p,q), 1 order, gaps 0.1         -0.2506   0.2768     0.4343   [-0.0728 -0.3583 -0.2807 -0.1332 -0.2613 -0.3974]
+per (p,q), 8 orders, gaps 0.1        -0.2565   0.2786     0.4452   [-0.1135 -0.3828 -0.2574 -0.1365 -0.2677 -0.3812]
+
+for reference: sampling RMSE at 1e6 / 1e7 / 1e8 ops = 0.019 / 0.006 / 0.002

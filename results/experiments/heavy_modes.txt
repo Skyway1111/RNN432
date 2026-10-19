@@ -1,0 +1,47 @@
+Part 1: the library mixture's mismatch m, the share of E[p/q] carried by the heaviest 10% of events, their commonest orders (p, q, r), and their median gaps M - S, S - T (all events in brackets)
+  s2/15     c=6:  63287 events, m     847; heaviest 10% carry 0.70, orders (8,5,3), (8,5,0), (3,2,0); M - S 0.0049 (0.0008), S - T 0.0119 (0.0763)
+  s2/15     c=8:   6620 events, m    3730; heaviest 10% carry 0.59, orders (8,5,0), (8,5,3), (8,5,6); M - S 0.0053 (0.0006), S - T 0.0102 (0.1190)
+  s2/28     c=6:  34411 events, m    2448; heaviest 10% carry 0.61, orders (8,5,0), (8,5,3), (8,1,3); M - S 0.0071 (0.0011), S - T 0.0117 (0.2911)
+  s2/28     c=8:   2651 events, m   14968; heaviest 10% carry 0.69, orders (8,5,0), (8,5,3), (5,9,8); M - S 0.0077 (0.0007), S - T 0.0082 (0.3323)
+  s1/12     c=6:  56403 events, m   34339; heaviest 10% carry 0.27, orders (5,0,9), (5,0,7), (5,0,6); M - S 0.0057 (0.0080), S - T 0.1984 (0.2499)
+  s1/12     c=8:   6632 events, m    6953; heaviest 10% carry 0.96, orders (5,0,9), (9,7,4), (9,8,5); M - S 0.0380 (0.7972), S - T 0.0153 (0.0140)
+  s1/16     c=6:  22610 events, m    1305; heaviest 10% carry 0.85, orders (7,6,1), (4,0,2), (7,3,4); M - S 0.0439 (0.7644), S - T 0.0136 (0.0137)
+  s1/16     c=8:   7509 events, m     975; heaviest 10% carry 0.75, orders (8,7,5), (8,7,2), (8,7,3); M - S 0.0518 (0.7980), S - T 0.0128 (0.0134)
+  s4/3      c=6:  60513 events, m     339; heaviest 10% carry 0.86, orders (5,0,1), (6,0,1), (1,0,3); M - S 0.0241 (0.6074), S - T 0.0140 (0.0155)
+  s4/3      c=8:  12961 events, m    1592; heaviest 10% carry 0.84, orders (1,0,3), (1,0,4), (6,1,5); M - S 0.0240 (0.6985), S - T 0.0147 (0.0137)
+  example/0 c=6: 238901 events, m     363; heaviest 10% carry 0.79, orders (1,8,7), (6,0,9), (2,9,8); M - S 0.0059 (0.2532), S - T 0.1097 (0.0229)
+  example/0 c=8:  60347 events, m     224; heaviest 10% carry 0.89, orders (2,5,4), (1,8,7), (4,5,2); M - S 0.7388 (0.2422), S - T 0.0280 (0.0187)
+
+Part 2: m with the copy's own order law on every component (from its events at c >= 6); with K = 4 components per level refitted on half the copy's events, scored on the other half
+  s2/15     c=6: library     847, own orders     822, refit     844; c=8: library    3730, own orders    1959, refit     548
+  s2/28     c=6: library    2448, own orders    1893, refit    1409; c=8: library   14968, own orders    6032, refit    1628
+  s1/12     c=6: library   34339, own orders     987, refit     621; c=8: library    6953, own orders    2587, refit     353
+  s1/16     c=6: library    1305, own orders    1995, refit    2292; c=8: library     975, own orders    1330, refit     241
+  s4/3      c=6: library     339, own orders     550, refit     199; c=8: library    1592, own orders    3118, refit     613
+  example/0 c=6: library     363, own orders     470, refit     483; c=8: library     224, own orders     242, refit     160
+
+Part 3: m with defensive changes and with a tie atlas (share 0.15)
+  s2/15     c = 6/8: library 847/3730; orders floored at 0.3 uniform, nominal 0.05 887/3949; uniform-order copies, scales x2 757/3532; tie atlas 774/4449
+  s2/28     c = 6/8: library 2448/14968; orders floored at 0.3 uniform, nominal 0.05 2516/15271; uniform-order copies, scales x2 2240/13901; tie atlas 2733/16949
+  s1/12     c = 6/8: library 34339/6953; orders floored at 0.3 uniform, nominal 0.05 30538/6364; uniform-order copies, scales x2 43533/9120; tie atlas 2013/1123
+            the copy's commonest c = 6 orders (5,0,9), (5,0,7): rank of their top-two tie margin among 720: 1, 0
+  s1/16     c = 6/8: library 1305/975; orders floored at 0.3 uniform, nominal 0.05 1412/923; uniform-order copies, scales x2 1225/811; tie atlas 1447/1172
+  s4/3      c = 6/8: library 339/1592; orders floored at 0.3 uniform, nominal 0.05 303/1465; uniform-order copies, scales x2 271/1299; tie atlas 401/1902
+  example/0 c = 6/8: library 363/224; orders floored at 0.3 uniform, nominal 0.05 414/249; uniform-order copies, scales x2 383/226; tie atlas 353/199
+
+Part 4: the exact S-line, S integrated over (T, M) at each draw (x-space): m, passes per point, and m x passes against the library's m x passes, on every point and only where the line is short ((M - T) < 0.03 |rest|)
+  s2/15     passes 1.47 -> 7.14 every, 1.77 short; c=6: m 837 -> 287 every, 681 short; m x passes 1227 -> 2047, 1208; c=8: m 3730 -> 849 every, 2003 short; m x passes 5466 -> 6064, 3555
+  s2/28     passes 1.47 -> 7.03 every, 1.77 short; c=6: m 2335 -> 623 every, 1610 short; m x passes 3422 -> 4384, 2843; c=8: m 14968 -> 2399 every, 6293 short; m x passes 21933 -> 16871, 11114
+  s1/12     passes 1.47 -> 6.62 every, 1.53 short; c=6: m 34671 -> 1502 every, 34672 short; m x passes 50802 -> 9946, 53081; c=8: m 6953 -> 830 every, 7031 short; m x passes 10189 -> 5496, 10765
+  s1/16     passes 1.47 -> 6.65 every, 1.53 short; c=6: m 1321 -> 732 every, 1358 short; m x passes 1935 -> 4868, 2081; c=8: m 975 -> 768 every, 1009 short; m x passes 1428 -> 5108, 1545
+  s4/3      passes 1.47 -> 7.80 every, 1.54 short; c=6: m 321 -> 264 every, 342 short; m x passes 470 -> 2056, 529; c=8: m 1594 -> 1466 every, 1790 short; m x passes 2335 -> 11438, 2763
+  example/0 passes 1.47 -> 8.64 every, 1.56 short; c=6: m 354 -> 148 every, 352 short; m x passes 519 -> 1278, 550; c=8: m 224 -> 103 every, 221 short; m x passes 329 -> 892, 345
+
+Part 5: across the events of a copy's commonest c = 8 orders, the route gradient g = d(l_k - l_q)/dx: cosine to its mean direction (median, 10th percentile), |g| (median), and the mean route's margin over the true one (median)
+  s2/15     (2,9,5), 1464 events: cos 1.000, 0.999; |g| 1443.7; mean route / true 1.18
+  s2/15     (8,7,6), 511 events: cos 1.000, 0.999; |g| 886.3; mean route / true 0.89
+  s2/15     (8,5,0), 489 events: cos 0.931, -0.915; |g| 1497.2; mean route / true 0.64
+  example/0 (1,9,2), 1049 events: cos 1.000, 0.998; |g| 61.7; mean route / true 1.02
+  example/0 (1,9,0), 1008 events: cos 1.000, 0.997; |g| 61.7; mean route / true 1.00
+  example/0 (1,9,4), 992 events: cos 1.000, 0.998; |g| 61.7; mean route / true 1.01
+  example/0: D = max_j L_j - L_9 with L = Wo relu(-Wi), the all-negative mode's slope from the weights: 62.2

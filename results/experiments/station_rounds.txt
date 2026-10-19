@@ -1,0 +1,51 @@
+s0/0
+  at the tie S = T: P(wrong) 0.5688; inputs agreeing with the reference route on every gate 0.099
+    round 0: gate bits right 0.9477; margin R^2 mean -42.795, median -3.772; correctness agrees 0.8279; P(wrong) bias +0.0768, per-config rms 0.2114
+    round 1: gate bits right 0.9774; margin R^2 mean -8.487, median -1.586; correctness agrees 0.8872; P(wrong) bias +0.0436, per-config rms 0.1429
+    round 2: gate bits right 0.9929; margin R^2 mean -1.082, median 0.525; correctness agrees 0.9637; P(wrong) bias +0.0100, per-config rms 0.0416
+    round 3: gate bits right 0.9987; margin R^2 mean 0.523, median 0.952; correctness agrees 0.9921; P(wrong) bias +0.0012, per-config rms 0.0106
+    round 4: gate bits right 0.9998; margin R^2 mean 0.915, median 0.999; correctness agrees 0.9988; P(wrong) bias +0.0001, per-config rms 0.0022
+    round 5: gate bits right 1.0000; margin R^2 mean 0.991, median 1.000; correctness agrees 0.9999; P(wrong) bias +0.0000, per-config rms 0.0004
+    round 6: gate bits right 1.0000; margin R^2 mean 0.996, median 1.000; correctness agrees 1.0000; P(wrong) bias -0.0000, per-config rms 0.0001
+  S drawn: P(wrong) 0.2105; inputs agreeing with the reference route on every gate 0.136
+    round 0: gate bits right 0.9499; margin R^2 mean -13.415, median -0.163; correctness agrees 0.8225; P(wrong) bias +0.1303, per-config rms 0.2192
+    round 1: gate bits right 0.9786; margin R^2 mean -2.850, median 0.526; correctness agrees 0.9041; P(wrong) bias +0.0607, per-config rms 0.1184
+    round 2: gate bits right 0.9938; margin R^2 mean 0.077, median 0.921; correctness agrees 0.9715; P(wrong) bias +0.0179, per-config rms 0.0363
+    round 3: gate bits right 0.9990; margin R^2 mean 0.789, median 0.992; correctness agrees 0.9952; P(wrong) bias +0.0020, per-config rms 0.0065
+    round 4: gate bits right 0.9999; margin R^2 mean 0.953, median 1.000; correctness agrees 0.9992; P(wrong) bias +0.0003, per-config rms 0.0016
+    round 5: gate bits right 1.0000; margin R^2 mean 0.992, median 1.000; correctness agrees 0.9999; P(wrong) bias +0.0001, per-config rms 0.0005
+    round 6: gate bits right 1.0000; margin R^2 mean 0.999, median 1.000; correctness agrees 1.0000; P(wrong) bias +0.0000, per-config rms 0.0001
+example/0
+  at the tie S = T: P(wrong) 0.5921; inputs agreeing with the reference route on every gate 0.054
+    round 0: gate bits right 0.9108; margin R^2 mean -32.078, median -0.115; correctness agrees 0.8401; P(wrong) bias -0.0109, per-config rms 0.1981
+    round 1: gate bits right 0.9458; margin R^2 mean -4315.326, median -3.338; correctness agrees 0.7975; P(wrong) bias +0.0018, per-config rms 0.2556
+    round 2: gate bits right 0.9702; margin R^2 mean -596.529, median -10.833; correctness agrees 0.8844; P(wrong) bias +0.0166, per-config rms 0.1338
+    round 3: gate bits right 0.9856; margin R^2 mean -352.582, median -6.173; correctness agrees 0.9380; P(wrong) bias +0.0168, per-config rms 0.0846
+    round 4: gate bits right 0.9930; margin R^2 mean -163.008, median -0.908; correctness agrees 0.9659; P(wrong) bias +0.0125, per-config rms 0.0585
+    round 5: gate bits right 0.9972; margin R^2 mean -81.130, median 0.644; correctness agrees 0.9818; P(wrong) bias +0.0055, per-config rms 0.0315
+    round 6: gate bits right 0.9991; margin R^2 mean -29.382, median 0.989; correctness agrees 0.9919; P(wrong) bias +0.0014, per-config rms 0.0132
+  S drawn: P(wrong) 0.0961; inputs agreeing with the reference route on every gate 0.079
+    round 0: gate bits right 0.9154; margin R^2 mean -2.235, median 0.642; correctness agrees 0.9108; P(wrong) bias +0.0487, per-config rms 0.1432
+    round 1: gate bits right 0.9497; margin R^2 mean -641.812, median -0.034; correctness agrees 0.8879; P(wrong) bias +0.0734, per-config rms 0.1640
+    round 2: gate bits right 0.9739; margin R^2 mean -131.915, median -0.307; correctness agrees 0.9076; P(wrong) bias +0.0725, per-config rms 0.1430
+    round 3: gate bits right 0.9874; margin R^2 mean -94.454, median 0.280; correctness agrees 0.9339; P(wrong) bias +0.0572, per-config rms 0.1104
+    round 4: gate bits right 0.9937; margin R^2 mean -48.111, median 0.846; correctness agrees 0.9567; P(wrong) bias +0.0389, per-config rms 0.0757
+    round 5: gate bits right 0.9974; margin R^2 mean -18.482, median 0.957; correctness agrees 0.9749; P(wrong) bias +0.0223, per-config rms 0.0439
+    round 6: gate bits right 0.9992; margin R^2 mean -5.403, median 0.999; correctness agrees 0.9899; P(wrong) bias +0.0087, per-config rms 0.0195
+s4/0
+  at the tie S = T: P(wrong) 0.5325; inputs agreeing with the reference route on every gate 0.135
+    round 0: gate bits right 0.9491; margin R^2 mean -85.068, median -5.335; correctness agrees 0.8034; P(wrong) bias +0.1012, per-config rms 0.2444
+    round 1: gate bits right 0.9768; margin R^2 mean -80.063, median -1.980; correctness agrees 0.8594; P(wrong) bias +0.0791, per-config rms 0.1924
+    round 2: gate bits right 0.9896; margin R^2 mean -18.449, median -0.737; correctness agrees 0.9150; P(wrong) bias +0.0384, per-config rms 0.1198
+    round 3: gate bits right 0.9965; margin R^2 mean -8.865, median 0.758; correctness agrees 0.9684; P(wrong) bias +0.0166, per-config rms 0.0560
+    round 4: gate bits right 0.9994; margin R^2 mean -1.504, median 0.996; correctness agrees 0.9936; P(wrong) bias +0.0030, per-config rms 0.0142
+    round 5: gate bits right 0.9999; margin R^2 mean 0.340, median 1.000; correctness agrees 0.9988; P(wrong) bias +0.0005, per-config rms 0.0033
+    round 6: gate bits right 1.0000; margin R^2 mean 0.889, median 1.000; correctness agrees 0.9998; P(wrong) bias +0.0001, per-config rms 0.0008
+  S drawn: P(wrong) 0.1935; inputs agreeing with the reference route on every gate 0.171
+    round 0: gate bits right 0.9510; margin R^2 mean -14.837, median -0.441; correctness agrees 0.8378; P(wrong) bias +0.1290, per-config rms 0.2112
+    round 1: gate bits right 0.9780; margin R^2 mean -15.668, median 0.335; correctness agrees 0.8788; P(wrong) bias +0.0950, per-config rms 0.1754
+    round 2: gate bits right 0.9907; margin R^2 mean -3.290, median 0.683; correctness agrees 0.9397; P(wrong) bias +0.0425, per-config rms 0.0870
+    round 3: gate bits right 0.9971; margin R^2 mean -0.954, median 0.958; correctness agrees 0.9767; P(wrong) bias +0.0165, per-config rms 0.0435
+    round 4: gate bits right 0.9996; margin R^2 mean 0.491, median 0.999; correctness agrees 0.9953; P(wrong) bias +0.0031, per-config rms 0.0104
+    round 5: gate bits right 0.9999; margin R^2 mean 0.897, median 1.000; correctness agrees 0.9992; P(wrong) bias +0.0004, per-config rms 0.0020
+    round 6: gate bits right 1.0000; margin R^2 mean 0.979, median 1.000; correctness agrees 0.9999; P(wrong) bias +0.0001, per-config rms 0.0003

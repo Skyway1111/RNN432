@@ -1,0 +1,12 @@
+reference inputs correct: 0.999
+R2 across the 90 (p, q) pairs of the reference coefficient vs the Gaussian mean, per neuron
+  on M: [0.97 0.96 0.95 0.55 0.98 0.98 0.96 0.92 0.96 0.62 0.95 0.95 0.98 0.77 0.99 0.97]
+  on S: [ 0.95  0.9   0.85  0.82  0.94  0.95  0.9   0.88  0.92 -0.38  0.89  0.92  0.97  0.84  0.97  0.94]
+self-vote of the max over the 90 pairs: R2 0.07; reference mean -13.9, measured mean -22.4
+self-vote of the 2nd max:              R2 -0.30; reference mean +40.5, measured mean +35.0
+  the max's self-vote by p, reference: [ -8.9   -5.47  -7.46  -8.77 -10.19  -8.17  -6.65  -4.37 -27.49 -51.73]
+                           measured: [-24.06 -22.44 -21.94 -21.46 -19.36 -13.82 -11.88  -9.1  -28.47 -51.03]
+coefficient spread across the K reference orders 0.99 vs across Gaussian inputs within a pair 3.62
+surrogate 'each (p, q)'s reference linear map': agreement with the model 0.9242, accuracy 0.9573, model 0.9532
+surrogate 'each (p, q)'s mean Gaussian map':    agreement 0.9012, accuracy 0.9384
+reference surrogate agreement near a tie 0.849, elsewhere 0.964

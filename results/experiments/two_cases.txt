@@ -1,0 +1,52 @@
+accuracy 0.9530; demoted max (q < p) 0.9551 on 0.50 of inputs; runner-up (q > p) 0.9510
+accuracy by delay 1..9: demoted (p - q): [0.937 0.961 0.961 0.97  0.969 0.961 0.945 0.946 0.901]
+                        runner-up (q - p): [0.961 0.958 0.953 0.955 0.952 0.95  0.91  0.94  0.914]
+accuracy by (q row, p column):
+[[  nan 0.964 0.956 0.969 0.975 0.968 0.95  0.93  0.947 0.901]
+ [0.973   nan 0.956 0.962 0.967 0.977 0.968 0.966 0.966 0.946]
+ [0.95  0.971   nan 0.95  0.97  0.961 0.976 0.965 0.967 0.938]
+ [0.944 0.943 0.961   nan 0.96  0.969 0.952 0.973 0.972 0.962]
+ [0.93  0.956 0.961 0.956   nan 0.936 0.964 0.983 0.968 0.971]
+ [0.942 0.952 0.941 0.963 0.958   nan 0.912 0.968 0.968 0.949]
+ [0.938 0.946 0.964 0.951 0.971 0.963   nan 0.902 0.976 0.924]
+ [0.849 0.939 0.964 0.973 0.947 0.965 0.959   nan 0.957 0.919]
+ [0.933 0.933 0.951 0.949 0.942 0.967 0.965 0.949   nan 0.896]
+ [0.914 0.947 0.946 0.971 0.959 0.971 0.966 0.949 0.955   nan]]
+error rate near a tie / elsewhere: demoted 0.111 / 0.010;  runner-up 0.126 / 0.008
+
+per neuron: accuracy per case with its readout zeroed, and with the neuron silenced (its outgoing weights zeroed)
+  n 0: readout off: demoted 0.501 runner-up 0.341 | silenced: demoted 0.205 runner-up 0.175
+  n 1: readout off: demoted 0.385 runner-up 0.312 | silenced: demoted 0.197 runner-up 0.094
+  n 2: readout off: demoted 0.323 runner-up 0.180 | silenced: demoted 0.151 runner-up 0.208
+  n 3: readout off: demoted 0.692 runner-up 0.819 | silenced: demoted 0.434 runner-up 0.660
+  n 4: readout off: demoted 0.873 runner-up 0.953 | silenced: demoted 0.092 runner-up 0.265
+  n 5: readout off: demoted 0.931 runner-up 0.785 | silenced: demoted 0.203 runner-up 0.210
+  n 6: readout off: demoted 0.375 runner-up 0.369 | silenced: demoted 0.169 runner-up 0.106
+  n 7: readout off: demoted 0.229 runner-up 0.472 | silenced: demoted 0.047 runner-up 0.168
+  n 8: readout off: demoted 0.491 runner-up 0.174 | silenced: demoted 0.283 runner-up 0.067
+  n 9: readout off: demoted 0.944 runner-up 0.952 | silenced: demoted 0.490 runner-up 0.843
+  n10: readout off: demoted 0.465 runner-up 0.462 | silenced: demoted 0.226 runner-up 0.031
+  n11: readout off: demoted 0.382 runner-up 0.348 | silenced: demoted 0.186 runner-up 0.036
+  n12: readout off: demoted 0.274 runner-up 0.360 | silenced: demoted 0.135 runner-up 0.129
+  n13: readout off: demoted 0.489 runner-up 0.544 | silenced: demoted 0.351 runner-up 0.246
+  n14: readout off: demoted 0.390 runner-up 0.097 | silenced: demoted 0.274 runner-up 0.119
+  n15: readout off: demoted 0.489 runner-up 0.891 | silenced: demoted 0.444 runner-up 0.825
+
+per neuron: mean (sd) contribution to the margin l_q - l_r and l_q - l_p, per case; mean activation h_10
+  n 0: l_q-l_r demoted   -0.7 ( 33.9) runner-up   +3.0 ( 36.5) | l_q-l_p demoted   -4.6 runner-up   +4.7 | h  10.8
+  n 1: l_q-l_r demoted   +5.7 (109.1) runner-up   -5.8 ( 98.7) | l_q-l_p demoted  +19.4 runner-up   +3.8 | h  14.5
+  n 2: l_q-l_r demoted   -9.7 ( 39.0) runner-up   +9.8 ( 29.1) | l_q-l_p demoted  -20.4 runner-up  +17.8 | h  25.0
+  n 3: l_q-l_r demoted   +3.4 ( 12.7) runner-up   -0.6 ( 14.1) | l_q-l_p demoted   +4.6 runner-up   -3.3 | h   6.3
+  n 4: l_q-l_r demoted   +0.0 (  1.3) runner-up   -0.1 (  1.1) | l_q-l_p demoted   +6.7 runner-up   -0.1 | h   0.6
+  n 5: l_q-l_r demoted   -0.2 (  8.7) runner-up   +4.9 ( 16.5) | l_q-l_p demoted   -9.3 runner-up   +4.4 | h   2.8
+  n 6: l_q-l_r demoted  +10.0 (104.9) runner-up  -10.1 (101.8) | l_q-l_p demoted  +28.7 runner-up  -11.2 | h  14.8
+  n 7: l_q-l_r demoted  +30.1 (150.6) runner-up  -24.9 (157.0) | l_q-l_p demoted  +55.4 runner-up  -47.1 | h  18.9
+  n 8: l_q-l_r demoted  -34.8 (125.6) runner-up  +37.5 (135.5) | l_q-l_p demoted  -58.7 runner-up  +98.1 | h  16.7
+  n 9: l_q-l_r demoted   +0.0 (  1.7) runner-up   -0.1 (  0.5) | l_q-l_p demoted   +0.7 runner-up   +0.0 | h   0.2
+  n10: l_q-l_r demoted   -3.8 ( 45.7) runner-up   +9.3 ( 33.4) | l_q-l_p demoted  -19.3 runner-up   +4.2 | h  11.0
+  n11: l_q-l_r demoted   +2.6 ( 28.9) runner-up   +2.0 ( 29.1) | l_q-l_p demoted   -1.8 runner-up   -6.7 | h  11.1
+  n12: l_q-l_r demoted  +10.9 ( 34.3) runner-up   -5.5 ( 47.0) | l_q-l_p demoted  +11.1 runner-up  -27.3 | h  16.7
+  n13: l_q-l_r demoted   +0.1 ( 17.0) runner-up   +1.5 ( 16.4) | l_q-l_p demoted   -1.4 runner-up   +1.5 | h   9.6
+  n14: l_q-l_r demoted   -3.6 ( 46.3) runner-up   +6.8 ( 40.1) | l_q-l_p demoted   -8.4 runner-up   +2.8 | h  14.3
+  n15: l_q-l_r demoted  +11.8 ( 28.2) runner-up   -7.0 ( 31.8) | l_q-l_p demoted  +15.4 runner-up  -24.1 | h  11.3
+  total margin l_q-l_r: demoted +21.8 runner-up +20.7; l_q-l_p: demoted +18.2 runner-up +17.3

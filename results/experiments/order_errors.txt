@@ -1,0 +1,32 @@
+1. order-level errors at the mean magnitude set
+   model        error of total   (p,q) cells 50/90/99%  p = 9 p >= 7  picks 3rd / max
+   example     0.0004    0.008                   1/1/1   1.00   1.00      1.00 / 0.00
+   s0          0.0078    0.087                  2/6/10   0.95   1.00      0.80 / 0.00
+   s1          0.0408    0.341                 7/16/26   0.56   0.92      0.72 / 0.06
+   s2          0.0013    0.026                   2/4/8   0.82   0.92      0.98 / 0.00
+   s3          0.0010    0.015                   1/4/6   0.80   1.00      1.00 / 0.00
+   s4          0.0207    0.189                 4/13/18   0.63   0.96      0.73 / 0.01
+   example/0   0.0012    0.013                  2/7/12   0.11   0.37      0.98 / 0.02
+   example/1   0.0002    0.003                   2/3/4   0.75   0.75      1.00 / 0.00
+   s0/0        0.0368    0.188                 4/12/18   0.40   0.87      0.53 / 0.28
+   s0/1        0.0644    0.251                 7/16/26   0.24   0.68      0.28 / 0.60
+   s1/0        0.0739    0.420                 7/20/30   0.30   0.53      0.43 / 0.43
+   s3/0        0.0066    0.069                  4/8/14   0.71   0.97      0.96 / 0.02
+   s4/0        0.0710    0.375                 5/16/24   0.28   0.55      0.43 / 0.41
+   s4/1        0.0497    0.263                 6/19/29   0.18   0.43      0.39 / 0.50
+
+2. all errors over 2^22 Gaussian inputs: share with the max at 7-9 (30% of mass), at 9 (10%), near a tie (34%)
+   example    error 0.0468; share of errors with p >= 7 0.32, p = 9 0.14, near a tie 0.87; error rate at p = 9 0.0648 vs p <= 6 0.0457
+   s0         error 0.0899; share of errors with p >= 7 0.39, p = 9 0.19, near a tie 0.85; error rate at p = 9 0.1722 vs p <= 6 0.0785
+   s1         error 0.1199; share of errors with p >= 7 0.54, p = 9 0.25, near a tie 0.69; error rate at p = 9 0.3039 vs p <= 6 0.0786
+   s2         error 0.0513; share of errors with p >= 7 0.35, p = 9 0.17, near a tie 0.85; error rate at p = 9 0.0857 vs p <= 6 0.0478
+   s3         error 0.0680; share of errors with p >= 7 0.38, p = 9 0.18, near a tie 0.86; error rate at p = 9 0.1235 vs p <= 6 0.0604
+   s4         error 0.1106; share of errors with p >= 7 0.44, p = 9 0.20, near a tie 0.77; error rate at p = 9 0.2242 vs p <= 6 0.0879
+   example/0  error 0.0933; share of errors with p >= 7 0.20, p = 9 0.08, near a tie 0.76; error rate at p = 9 0.0708 vs p <= 6 0.1065
+   example/1  error 0.0825; share of errors with p >= 7 0.20, p = 9 0.08, near a tie 0.87; error rate at p = 9 0.0661 vs p <= 6 0.0942
+   s0/0       error 0.1955; share of errors with p >= 7 0.35, p = 9 0.13, near a tie 0.70; error rate at p = 9 0.2635 vs p <= 6 0.1806
+   s0/1       error 0.2565; share of errors with p >= 7 0.44, p = 9 0.15, near a tie 0.60; error rate at p = 9 0.3799 vs p <= 6 0.2056
+   s1/0       error 0.1762; share of errors with p >= 7 0.37, p = 9 0.17, near a tie 0.61; error rate at p = 9 0.3010 vs p <= 6 0.1574
+   s3/0       error 0.0957; share of errors with p >= 7 0.39, p = 9 0.18, near a tie 0.82; error rate at p = 9 0.1726 vs p <= 6 0.0833
+   s4/0       error 0.1893; share of errors with p >= 7 0.36, p = 9 0.14, near a tie 0.66; error rate at p = 9 0.2562 vs p <= 6 0.1737
+   s4/1       error 0.1895; share of errors with p >= 7 0.27, p = 9 0.10, near a tie 0.65; error rate at p = 9 0.1867 vs p <= 6 0.1984

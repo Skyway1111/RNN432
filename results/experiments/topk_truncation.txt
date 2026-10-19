@@ -1,0 +1,39 @@
+example: accuracy 0.9531
+  top 2, rest zero: accuracy 0.9775  per-input agreement 0.9555
+  top 2, rest minus 10: accuracy 0.9577  per-input agreement 0.9291
+  top 3, rest zero: accuracy 0.9490  per-input agreement 0.9654
+  top 3, rest minus 10: accuracy 0.8233  per-input agreement 0.8353
+  top 4, rest zero: accuracy 0.9511  per-input agreement 0.9767
+  top 4, rest minus 10: accuracy 0.8159  per-input agreement 0.8329
+  top 5, rest zero: accuracy 0.9517  per-input agreement 0.9810
+  top 5, rest minus 10: accuracy 0.8211  per-input agreement 0.8402
+  top 6, rest zero: accuracy 0.9519  per-input agreement 0.9829
+  top 6, rest minus 10: accuracy 0.8310  per-input agreement 0.8517
+  top 8, rest zero: accuracy 0.9522  per-input agreement 0.9855
+  top 8, rest minus 10: accuracy 0.8622  per-input agreement 0.8868
+s0: accuracy 0.9099
+  top 2, rest zero: accuracy 0.8488  per-input agreement 0.8128
+  top 2, rest minus 10: accuracy 0.7137  per-input agreement 0.6922
+  top 3, rest zero: accuracy 0.8581  per-input agreement 0.8651
+  top 3, rest minus 10: accuracy 0.5863  per-input agreement 0.6102
+  top 4, rest zero: accuracy 0.8806  per-input agreement 0.8982
+  top 4, rest minus 10: accuracy 0.5684  per-input agreement 0.5980
+  top 5, rest zero: accuracy 0.8923  per-input agreement 0.9159
+  top 5, rest minus 10: accuracy 0.5590  per-input agreement 0.5908
+  top 6, rest zero: accuracy 0.9001  per-input agreement 0.9282
+  top 6, rest minus 10: accuracy 0.5497  per-input agreement 0.5829
+  top 8, rest zero: accuracy 0.9087  per-input agreement 0.9498
+  top 8, rest minus 10: accuracy 0.5315  per-input agreement 0.5691
+s2: accuracy 0.9483
+  top 2, rest zero: accuracy 0.9812  per-input agreement 0.9515
+  top 2, rest minus 10: accuracy 0.8958  per-input agreement 0.8727
+  top 3, rest zero: accuracy 0.9474  per-input agreement 0.9559
+  top 3, rest minus 10: accuracy 0.7912  per-input agreement 0.8052
+  top 4, rest zero: accuracy 0.9501  per-input agreement 0.9697
+  top 4, rest minus 10: accuracy 0.7811  per-input agreement 0.8007
+  top 5, rest zero: accuracy 0.9511  per-input agreement 0.9752
+  top 5, rest minus 10: accuracy 0.7821  per-input agreement 0.8050
+  top 6, rest zero: accuracy 0.9511  per-input agreement 0.9776
+  top 6, rest minus 10: accuracy 0.7898  per-input agreement 0.8147
+  top 8, rest zero: accuracy 0.9505  per-input agreement 0.9809
+  top 8, rest minus 10: accuracy 0.8277  per-input agreement 0.8559

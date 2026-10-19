@@ -1,0 +1,31 @@
+0. checks
+  sweep against 4,000 nodes per line: max |diff| 0.0002, mean +0.00000; kinks inside the interval, mean 5.6
+  unbiasedness at 3e9 ops on example/0 (truth 0.92523):
+    lattice        0.92517 (-0.00006) at 2.96e+09 ops
+    sweep          0.92552 (+0.00029) at 2.98e+09 ops
+    tree(9, 4)     0.92543 (+0.00020) at 3.01e+09 ops
+    tree(8, 9, 2)  0.92536 (+0.00013) at 2.90e+09 ops
+
+budget 1e+07
+  lattice            roots    2880, ops 8.64e+06 (1.04 passes per root), rmse 0.00412, bias +0.00025, mse/samp 0.434
+  sweep              roots    1440, ops 5.28e+06 (1.27 passes per root), rmse 0.00506, bias -0.00016, mse/samp 0.399
+  tree(9, 2)         roots    1440, ops 5.00e+06 (1.21 passes per root), rmse 0.00516, bias -0.00015, mse/samp 0.392
+  tree(9, 4)         roots    1440, ops 6.27e+06 (1.51 passes per root), rmse 0.00519, bias -0.00030, mse/samp 0.498
+  tree(8, 9, 2)      roots    1440, ops 6.89e+06 (1.66 passes per root), rmse 0.00576, bias +0.00299, mse/samp 0.674
+  tree(8, 2) + sweep roots    1440, ops 7.51e+06 (1.81 passes per root), rmse 0.00453, bias -0.00023, mse/samp 0.454
+
+budget 1e+08
+  lattice            roots   30240, ops 9.07e+07 (1.04 passes per root), rmse 0.00121, bias +0.00007, mse/samp 0.389
+  sweep              roots   25920, ops 9.51e+07 (1.27 passes per root), rmse 0.00120, bias +0.00000, mse/samp 0.403
+  tree(9, 2)         roots   25920, ops 9.00e+07 (1.21 passes per root), rmse 0.00121, bias +0.00008, mse/samp 0.389
+  tree(9, 4)         roots   21600, ops 9.41e+07 (1.51 passes per root), rmse 0.00115, bias -0.00008, mse/samp 0.369
+  tree(8, 9, 2)      roots   18000, ops 8.62e+07 (1.66 passes per root), rmse 0.00135, bias +0.00023, mse/samp 0.466
+  tree(8, 2) + sweep roots   14400, ops 7.51e+07 (1.81 passes per root), rmse 0.00143, bias -0.00059, mse/samp 0.452
+
+budget 1e+09
+  lattice            roots  332640, ops 9.98e+08 (1.04 passes per root), rmse 0.00035, bias +0.00014, mse/samp 0.355
+  sweep              roots  259920, ops 9.53e+08 (1.27 passes per root), rmse 0.00031, bias +0.00000, mse/samp 0.264
+  tree(9, 2)         roots  273600, ops 9.50e+08 (1.21 passes per root), rmse 0.00035, bias -0.00007, mse/samp 0.339
+  tree(9, 4)         roots  220320, ops 9.60e+08 (1.51 passes per root), rmse 0.00036, bias -0.00009, mse/samp 0.369
+  tree(8, 9, 2)      roots  208080, ops 9.96e+08 (1.66 passes per root), rmse 0.00036, bias -0.00003, mse/samp 0.382
+  tree(8, 2) + sweep roots  172800, ops 9.01e+08 (1.81 passes per root), rmse 0.00039, bias -0.00011, mse/samp 0.412

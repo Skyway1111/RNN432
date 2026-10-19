@@ -1,0 +1,54 @@
+(A) decision with the readout truncated to its top k singular directions: agreement with the full model, accuracy
+  example: full accuracy 0.9522;  k=1: 0.195 / 0.193  k=2: 0.370 / 0.370  k=3: 0.449 / 0.444  k=4: 0.456 / 0.451
+  s0: full accuracy 0.9106;  k=1: 0.153 / 0.155  k=2: 0.233 / 0.232  k=3: 0.257 / 0.256  k=4: 0.286 / 0.284
+  s1: full accuracy 0.8790;  k=1: 0.145 / 0.148  k=2: 0.208 / 0.212  k=3: 0.233 / 0.233  k=4: 0.269 / 0.268
+  s2: full accuracy 0.9484;  k=1: 0.184 / 0.181  k=2: 0.239 / 0.239  k=3: 0.408 / 0.406  k=4: 0.418 / 0.415
+  s3: full accuracy 0.9315;  k=1: 0.177 / 0.178  k=2: 0.353 / 0.351  k=3: 0.433 / 0.431  k=4: 0.493 / 0.490
+  s4: full accuracy 0.8896;  k=1: 0.157 / 0.156  k=2: 0.230 / 0.231  k=3: 0.244 / 0.245  k=4: 0.279 / 0.278
+
+(B) example, two-impulse inputs: the hand's angle and radius in the plane after each step (neurons on, canonical core order 2 4 7 6 1 8 then satellites)
+  p=1, q=5; readout angle of q +147
+    after step 0: angle    +0  radius    0.0  on ...... ..........
+    after step 1: angle  -119  radius    1.6  on 11.... 1...111...
+    after step 2: angle   -95  radius    0.7  on 1.1.1. 1111111111
+    after step 3: angle  -115  radius    0.3  on 1.1111 .11.1111.1
+    after step 4: angle    -7  radius    0.3  on 1.1111 11..11111.
+    after step 5: angle  +117  radius    6.4  on 1.111. 11..11111.
+    after step 6: angle  +140  radius    4.5  on 1.1111 1.1.1.1111
+    after step 7: angle  +143  radius    2.4  on 1.1111 1....11111
+    after step 8: angle  +134  radius    1.2  on 1.1111 11..111111
+    after step 9: angle  +124  radius    1.0  on 1.1111 11..111111
+  p=6, q=2; readout angle of q -79
+    after step 0: angle    +0  radius    0.0  on ...... ..........
+    after step 1: angle    +0  radius    0.0  on ...... ..........
+    after step 2: angle  -119  radius    0.8  on 11.... 1...111...
+    after step 3: angle   -95  radius    0.3  on 1.1.1. 1111111111
+    after step 4: angle  -115  radius    0.2  on 1.1111 .11.1111.1
+    after step 5: angle    -7  radius    0.2  on 1.1111 11..11111.
+    after step 6: angle  +130  radius    7.7  on 11.... 11..11111.
+    after step 7: angle  +164  radius    6.1  on 1.1111 1.1111111.
+    after step 8: angle  -157  radius    3.6  on 1.1111 ....111111
+    after step 9: angle   -89  radius    2.0  on 1.1111 11..111111
+
+(C) example, Gaussian inputs: plane vectors by rank
+  mean |v| by rank 1..10: [2.39 5.52 2.44 0.85 0.28 0.1  0.07 0.08 0.12 0.18]
+  |hand| mean 5.5; |rest| mean 4.3; |total| mean 2.5
+  hand angle minus q's readout angle: mean -0.8, sd 65.2, |.| > 22.5 deg share 0.632
+  total angle minus q's readout angle: mean -1.9, sd 55.4, |.| > 22.5 deg share 0.589
+  rest along the hand: mean -3.8 sd 5.6;  across it: mean +0.0 sd 1.6
+  rank 1: push across the hand mean -0.0 sd 1.6
+  rank 3: push across the hand mean +0.0 sd 2.1
+  rank 4: push across the hand mean -0.0 sd 1.4
+  rank 5: push across the hand mean -0.0 sd 0.7
+
+(D) example: push per unit input at step t, u_t = plane P_t W_hi, explained by what?
+  R2 of u_t by offset t-q: 0.014;  by (offset, after p): 0.024;  by (offset, after p, sign): 0.043;  by (offset, after p, rank): 0.140
+  steps after q only: by offset 0.006;  by (offset, after p): 0.027;  by (offset, after p, sign): 0.040
+  mean |u_t| by offset t-q = 1..9:  [0.53 0.64 0.61 0.62 0.62 0.64 0.7  0.79 0.9 ]
+  mean |u_t| by offset t-q = -9..-1: [1.53 1.59 1.64 1.57 1.58 1.36 1.13 0.94 0.67]
+
+(E) example: errors in the plane
+  error rate 0.0478; of errors, predicted r 0.63
+  on q-vs-r errors: |total angle - q's| mean 56, |total angle - r's| mean 56, closer to r 0.48
+  on correct inputs: |total angle - q's| mean 39
+  |total| on errors 2.0 vs correct 2.5

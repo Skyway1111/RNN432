@@ -1,0 +1,78 @@
+example: accuracy 0.9532
+  sigma 0.0005: mean 0.951 sd 0.002 min 0.945 max 0.954
+  sigma 0.001 : mean 0.946 sd 0.004 min 0.927 max 0.952
+  sigma 0.002 : mean 0.925 sd 0.016 min 0.849 max 0.944
+  sigma 0.003 : mean 0.892 sd 0.034 min 0.756 max 0.934
+  sigma 0.005 : mean 0.811 sd 0.063 min 0.643 max 0.909
+  sigma 0.01  : mean 0.641 sd 0.089 min 0.465 max 0.815
+  sigma 0.02  : mean 0.440 sd 0.096 min 0.206 max 0.613
+  sigma 0.05  : mean 0.221 sd 0.065 min 0.104 max 0.338
+  sigma 0.1   : mean 0.138 sd 0.037 min 0.081 max 0.225
+  noise on Wi only, sigma 0.003: mean 0.953 sd 0.001
+  noise on Wh only, sigma 0.003: mean 0.882 sd 0.041
+  noise on Wo only, sigma 0.003: mean 0.953 sd 0.001
+s0: accuracy 0.9100
+  sigma 0.0005: mean 0.899 sd 0.007 min 0.876 max 0.911
+  sigma 0.001 : mean 0.871 sd 0.020 min 0.812 max 0.902
+  sigma 0.002 : mean 0.804 sd 0.038 min 0.701 max 0.872
+  sigma 0.003 : mean 0.740 sd 0.049 min 0.618 max 0.837
+  sigma 0.005 : mean 0.634 sd 0.062 min 0.508 max 0.769
+  sigma 0.01  : mean 0.469 sd 0.068 min 0.324 max 0.625
+  sigma 0.02  : mean 0.318 sd 0.060 min 0.156 max 0.448
+  sigma 0.05  : mean 0.187 sd 0.048 min 0.075 max 0.308
+  sigma 0.1   : mean 0.130 sd 0.031 min 0.075 max 0.221
+  noise on Wi only, sigma 0.003: mean 0.910 sd 0.001
+  noise on Wh only, sigma 0.003: mean 0.743 sd 0.041
+  noise on Wo only, sigma 0.003: mean 0.892 sd 0.008
+s1: accuracy 0.8800
+  sigma 0.0005: mean 0.871 sd 0.008 min 0.849 max 0.884
+  sigma 0.001 : mean 0.845 sd 0.024 min 0.778 max 0.874
+  sigma 0.002 : mean 0.776 sd 0.053 min 0.638 max 0.849
+  sigma 0.003 : mean 0.708 sd 0.070 min 0.532 max 0.815
+  sigma 0.005 : mean 0.599 sd 0.084 min 0.398 max 0.741
+  sigma 0.01  : mean 0.440 sd 0.083 min 0.245 max 0.599
+  sigma 0.02  : mean 0.298 sd 0.070 min 0.153 max 0.445
+  sigma 0.05  : mean 0.165 sd 0.045 min 0.090 max 0.279
+  sigma 0.1   : mean 0.117 sd 0.025 min 0.064 max 0.182
+  noise on Wi only, sigma 0.003: mean 0.880 sd 0.001
+  noise on Wh only, sigma 0.003: mean 0.712 sd 0.075
+  noise on Wo only, sigma 0.003: mean 0.868 sd 0.008
+s2: accuracy 0.9488
+  sigma 0.0005: mean 0.947 sd 0.001 min 0.944 max 0.950
+  sigma 0.001 : mean 0.943 sd 0.003 min 0.935 max 0.947
+  sigma 0.002 : mean 0.926 sd 0.009 min 0.892 max 0.940
+  sigma 0.003 : mean 0.901 sd 0.017 min 0.835 max 0.930
+  sigma 0.005 : mean 0.835 sd 0.035 min 0.731 max 0.895
+  sigma 0.01  : mean 0.666 sd 0.057 min 0.539 max 0.762
+  sigma 0.02  : mean 0.456 sd 0.063 min 0.285 max 0.572
+  sigma 0.05  : mean 0.237 sd 0.052 min 0.124 max 0.355
+  sigma 0.1   : mean 0.145 sd 0.034 min 0.089 max 0.233
+  noise on Wi only, sigma 0.003: mean 0.948 sd 0.001
+  noise on Wh only, sigma 0.003: mean 0.902 sd 0.015
+  noise on Wo only, sigma 0.003: mean 0.948 sd 0.001
+s3: accuracy 0.9321
+  sigma 0.0005: mean 0.930 sd 0.002 min 0.925 max 0.934
+  sigma 0.001 : mean 0.925 sd 0.004 min 0.913 max 0.931
+  sigma 0.002 : mean 0.906 sd 0.009 min 0.882 max 0.923
+  sigma 0.003 : mean 0.881 sd 0.015 min 0.843 max 0.910
+  sigma 0.005 : mean 0.819 sd 0.029 min 0.730 max 0.875
+  sigma 0.01  : mean 0.660 sd 0.054 min 0.513 max 0.765
+  sigma 0.02  : mean 0.439 sd 0.066 min 0.266 max 0.573
+  sigma 0.05  : mean 0.211 sd 0.043 min 0.096 max 0.285
+  sigma 0.1   : mean 0.133 sd 0.027 min 0.053 max 0.184
+  noise on Wi only, sigma 0.003: mean 0.932 sd 0.001
+  noise on Wh only, sigma 0.003: mean 0.886 sd 0.015
+  noise on Wo only, sigma 0.003: mean 0.931 sd 0.001
+s4: accuracy 0.8895
+  sigma 0.0005: mean 0.882 sd 0.004 min 0.867 max 0.888
+  sigma 0.001 : mean 0.860 sd 0.012 min 0.815 max 0.878
+  sigma 0.002 : mean 0.804 sd 0.031 min 0.686 max 0.848
+  sigma 0.003 : mean 0.747 sd 0.045 min 0.592 max 0.812
+  sigma 0.005 : mean 0.650 sd 0.062 min 0.449 max 0.740
+  sigma 0.01  : mean 0.489 sd 0.068 min 0.283 max 0.594
+  sigma 0.02  : mean 0.334 sd 0.053 min 0.200 max 0.431
+  sigma 0.05  : mean 0.191 sd 0.041 min 0.107 max 0.286
+  sigma 0.1   : mean 0.126 sd 0.026 min 0.084 max 0.190
+  noise on Wi only, sigma 0.003: mean 0.890 sd 0.001
+  noise on Wh only, sigma 0.003: mean 0.744 sd 0.044
+  noise on Wo only, sigma 0.003: mean 0.874 sd 0.008

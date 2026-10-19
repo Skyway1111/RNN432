@@ -1,0 +1,4 @@
+2 x 2: ops 4.96e+07, shipped mse/samp 0.91; 8 random shifts: mean 0.94, range 0.59-1.79, above 1: 2
+3 x 3: ops 1.11e+08, shipped mse/samp 0.42; 8 random shifts: mean 0.66, range 0.44-0.92, above 1: 0
+6 x 6: ops 4.46e+08, shipped mse/samp 0.66; 6 random shifts: mean 0.65, range 0.45-0.91, above 1: 0
+12 x 12: ops 1.78e+09, shipped mse/samp 0.37; 4 random shifts: mean 0.56, range 0.45-0.79, above 1: 0

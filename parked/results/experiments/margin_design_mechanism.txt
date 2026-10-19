@@ -1,0 +1,21 @@
+1. shares of the margin's variance over the lower inputs (mass-weighted over pairs with 0.02 < P(wrong) < 0.98)
+  s0/0       linear 0.558  additive 0.796  H8 design 0.995
+  example/0  linear 0.436  additive 0.752  H8 design 0.553
+
+2. lower inputs truncated at T - delta for design and draws: estimate - empirical accuracy; median sd ratio H8/empirical
+  s0/0       delta 0.00: H8 1/n +0.0028, H8 1/(n-1) +0.0013, oracle -0.0007; sd ratio 0.857
+  s0/0       delta 0.15: H8 1/n -0.0020, H8 1/(n-1) -0.0032, oracle -0.0004; sd ratio 0.932
+  s0/0       delta 0.40: H8 1/n -0.0016, H8 1/(n-1) -0.0025, oracle -0.0002; sd ratio 0.962
+  example/0  delta 0.00: H8 1/n +0.0050, H8 1/(n-1) +0.0042, oracle +0.0002; sd ratio 0.873
+  example/0  delta 0.15: H8 1/n +0.0011, H8 1/(n-1) +0.0004, oracle +0.0001; sd ratio 0.909
+  example/0  delta 0.40: H8 1/n +0.0004, H8 1/(n-1) -0.0001, oracle -0.0001; sd ratio 0.933
+
+3. estimate - empirical accuracy at the (7, 8) nodes: H8 1/(n-1) | order-statistic 16 runs | oracle
+  example/0  +0.0042 | +0.0017 | +0.0002
+  s0/0       +0.0013 | -0.0006 | -0.0007
+  s1/0       -0.0019 | -0.0002 | +0.0001
+  s2/0       +0.0032 | +0.0005 | -0.0004
+  s3/0       +0.0023 | +0.0020 | +0.0007
+  s4/0       -0.0003 | +0.0006 | +0.0012
+  mean       +0.0015 | +0.0007 | +0.0002
+  rms        0.0026 | 0.0012 | 0.0007

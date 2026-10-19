@@ -1,0 +1,8 @@
+3 x 3 (1.1e+08 ops): plain lattice mse/samp 1.28 (rmse 0.0020); families enumerated 0.44 (rmse 0.0012, 7 x 7 strata); exact S-lines 0.42 (rmse 0.0011)
+8 x 8 (7.9e+08 ops): plain lattice mse/samp 1.11 (rmse 0.0007); families enumerated 0.32 (rmse 0.0004, 19 x 19 strata); exact S-lines 0.49 (rmse 0.0005)
+
+families enumerated with one correct/incorrect input per node, low budgets
+1 x 1: ops 2.1e+06, rmse 0.0096, mse/samp 0.57
+2 x 2: ops 8.3e+06, rmse 0.0051, mse/samp 0.65
+3 x 3: ops 1.9e+07, rmse 0.0033, mse/samp 0.59
+5 x 5: ops 5.2e+07, rmse 0.0016, mse/samp 0.40

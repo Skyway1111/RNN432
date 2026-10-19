@@ -1,0 +1,9 @@
+near-tie mass (S-T or M-S < 0.1): 0.344
+example: error 0.0468  predicts 3rd 0.64 max 0.20  error rate near 0.119 far 0.009  share of errors near 0.87
+example noisy1: error 0.1332  predicts 3rd 0.53 max 0.30  error rate near 0.270 far 0.062  share of errors near 0.70
+example noisy2: error 0.0662  predicts 3rd 0.48 max 0.42  error rate near 0.155 far 0.020  share of errors near 0.80
+example noisy3: error 0.0765  predicts 3rd 0.56 max 0.28  error rate near 0.188 far 0.018  share of errors near 0.84
+s0: error 0.0899  predicts 3rd 0.59 max 0.35  error rate near 0.221 far 0.021  share of errors near 0.85
+s0 noisy1: error 0.2285  predicts 3rd 0.45 max 0.48  error rate near 0.430 far 0.123  share of errors near 0.65
+s0 noisy2: error 0.2030  predicts 3rd 0.58 max 0.28  error rate near 0.388 far 0.106  share of errors near 0.66
+s0 noisy3: error 0.1905  predicts 3rd 0.52 max 0.40  error rate near 0.387 far 0.088  share of errors near 0.70

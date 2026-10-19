@@ -1,0 +1,40 @@
+Part 1: the clock
+  example  26 patterns over 240 steps; leading turning eigenvalue: step-weighted median angle  46.1, 0.82 of steps within 10 deg; commonest pattern 0.95 at 42.7 (53 steps); readout step per position 0->7, folded: median  44.5, range 40-53
+  s0        4 patterns over 240 steps; leading turning eigenvalue: step-weighted median angle 167.8, 1.00 of steps within 10 deg; commonest pattern 0.90 at 167.8 (194 steps); readout step per position 0->7, folded: median 159.0, range 147-175
+  s1        7 patterns over 240 steps; leading turning eigenvalue: step-weighted median angle 180.0, 0.72 of steps within 10 deg; commonest pattern 0.95 at 180.0 (117 steps); readout step per position 0->7, folded: median 135.5, range 108-168
+  s2       12 patterns over 240 steps; leading turning eigenvalue: step-weighted median angle 109.5, 0.82 of steps within 10 deg; commonest pattern 0.96 at 109.5 (91 steps); readout step per position 0->7, folded: median 153.8, range 6-174
+  s3       15 patterns over 240 steps; leading turning eigenvalue: step-weighted median angle 153.0, 0.50 of steps within 10 deg; commonest pattern 0.99 at 99.9 (76 steps); readout step per position 0->7, folded: median 162.9, range 149-170
+  s4        3 patterns over 240 steps; leading turning eigenvalue: step-weighted median angle 165.9, 1.00 of steps within 10 deg; commonest pattern 0.81 at 165.9 (204 steps); readout step per position 0->7, folded: median 167.6, range 151-171
+example readout angles by position [   7.  -39.  -79. -130. -172.  147.  102.   49.   66.   74.]; steps 0->7 [-46. -40. -52. -42. -41. -45. -53.], mean 45.4; the closing step 7->0 42; 8 steps sum to 360
+  share of two-impulse inputs whose core gates are settled (n2 n7 n6 n1 n8 on, n4 off) k steps after the later impulse, k = 0..3: 0.16 1.00 1.00 1.00
+  core block (n2 n7 n6 n1 n8) of W_hh alone, eigenvalues: 0.96 at +0.0, 0.93 at +42.1, 0.93 at -42.1, 0.08 at +0.0, 0.00 at +0.0
+  commonest pattern with one neuron's gate shut: leading pair nearest 45 deg, modulus at angle
+    n0  sat : 1.02 at 42.1
+    n1  core: 0.85 at 35.3
+    n2  core: 0.74 at 43.2
+    n3  sat : 0.95 at 43.3
+    n6  core: 0.82 at 36.4
+    n7  core: 0.83 at 40.6
+    n8  core: 0.52 at 46.0
+    n10 sat : 0.90 at 46.6
+    n11 sat : 0.98 at 47.6
+    n12 sat : 0.91 at 47.6
+    n13 sat : 0.96 at 43.0
+    n14 sat : 0.92 at 48.7
+    n15 sat : 0.93 at 46.4
+
+Part 2: the decoder, the cross-entropy-optimal readout of h_10 (2^20 Gaussian inputs to fit, 2^20 others to score)
+  example  per-row cosine min 0.994 median 0.999; R2 0.985; norm derived / actual 0.89; accuracy actual 0.9532 derived 0.9566; cross-entropy actual 0.1473 derived 0.1352
+  s0       per-row cosine min 0.984 median 0.994; R2 0.863; norm derived / actual 1.34; accuracy actual 0.9098 derived 0.9141; cross-entropy actual 0.2662 derived 0.2568
+  s1       per-row cosine min 0.999 median 1.000; R2 0.984; norm derived / actual 1.12; accuracy actual 0.8803 derived 0.8829; cross-entropy actual 0.3288 derived 0.3242
+  s2       per-row cosine min 0.997 median 0.998; R2 0.988; norm derived / actual 1.07; accuracy actual 0.9490 derived 0.9497; cross-entropy actual 0.1650 derived 0.1612
+  s3       per-row cosine min 0.999 median 1.000; R2 0.962; norm derived / actual 1.19; accuracy actual 0.9323 derived 0.9339; cross-entropy actual 0.1943 derived 0.1894
+  s4       per-row cosine min 1.000 median 1.000; R2 0.982; norm derived / actual 1.14; accuracy actual 0.8895 derived 0.8915; cross-entropy actual 0.3040 derived 0.2996
+
+Part 3: a readout step's cost, eps^2/2 E[p_j (1 - p_j) h_n^2] at the derived optimum, against the measured accuracy drops
+  step -0.5: Spearman over the 160 readout weights 0.960
+  step +0.5: Spearman over the 160 readout weights 0.954
+  step -0.1: Spearman over the 160 readout weights 0.927
+  step +0.1: Spearman over the 160 readout weights 0.950
+  drops at +0.5 against -0.5, correlation 0.90; median drop at 0.5 over drop at 0.1 21.4 (quadratic: 25)
+  neurons of the 20 costliest readout weights: n2 x9, n7 x7, n8 x2, n12 x2

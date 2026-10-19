@@ -1,0 +1,7 @@
+identical 16 runs, T 4 x s 6 Gauss                   ops 4.31e+09 rmse 0.0079 bias +0.0074 mse/samp 794.8
+identical 16 runs, T 6 x s 8 Gauss                   ops 9.53e+09 rmse 0.0024 bias +0.0019 mse/samp 164.5
+rotated 1 run, T 6 x s 8 Gauss                       ops 5.96e+08 rmse 0.0025 bias +0.0019 mse/samp 11.1
+rotated 1 run, T 3-panel x s 4-panel (graded), 3 nodes each ops 1.33e+09 rmse 0.0025 bias +0.0019 mse/samp 23.9
+rotated 1 run, T 5-panel x s 6-panel (graded), 3 nodes each ops 3.32e+09 rmse 0.0020 bias +0.0015 mse/samp 39.9
+rotated 1 run of 64, T 12 x s 8 Gauss                ops 1.18e+09 rmse 0.0011 bias +0.0006 mse/samp 4.4
+rotated 1 run of 64, T 24 x s 8 Gauss                ops 2.31e+09 rmse 0.0011 bias +0.0003 mse/samp 7.6

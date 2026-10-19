@@ -1,0 +1,4 @@
+(p,q) share of coefficient variance explained, ranks 1-6: [0.031 0.031 0.045 0.007 0.005 0.003]
+(p,q,r) share of coefficient variance explained, ranks 1-6: [0.061 0.213 0.259 0.023 0.014 0.008]
+(p,q,r,4th) share of coefficient variance explained, ranks 1-6: [0.063 0.215 0.262 0.055 0.034 0.013]
+margin R2 with group-mean coefficients: 0.6771025750798965  sign agreement: 0.9635021686553955

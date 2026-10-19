@@ -1,0 +1,548 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The runner-up, up close: an explorer for the 432-number network</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="style.css">
+<script src="data.js"></script>
+<script src="../neurons.js"></script>
+<script type="importmap">
+{"imports": {"three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+             "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"}}
+</script>
+</head>
+<body>
+<div id="stage"></div>
+<div id="labels"></div>
+<header id="top">
+  <h1>The runner-up, up close <small>click any neuron, link, input or output</small></h1>
+  <a href="../index.html">Back to the story</a>
+  <div class="legend">
+    <span style="--c: var(--core)">core</span>
+    <span style="--c: var(--timer)">timer</span>
+    <span style="--c: var(--pos)">positive weight</span>
+    <span style="--c: var(--neg)">negative weight</span>
+  </div>
+</header>
+<aside id="panel"></aside>
+<section id="strip">
+  <div class="inputs" id="inputs"></div>
+  <div class="controls">
+    <div class="row">
+      <select id="preset"></select>
+      <button id="random">random</button>
+      <button id="resetw" title="undo every weight change">reset weights</button>
+      <button id="why" title="the cascade of gate flips behind this answer">why this answer</button>
+    </div>
+    <div class="row">
+      <button id="play">play</button>
+      <input id="step" type="range" min="0" max="10" value="10" step="1">
+      <span id="stepLabel">after input 9</span>
+    </div>
+    <div class="verdict" id="verdict"></div>
+  </div>
+</section>
+
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
+import { LineSegments2 } from 'three/addons/lines/LineSegments2.js';
+import { LineSegmentsGeometry } from 'three/addons/lines/LineSegmentsGeometry.js';
+import { LineMaterial } from 'three/addons/lines/LineMaterial.js';
+
+const D = window.DATA;
+const N = 16, T = 10;
+const base = D.weights;
+const W = { Wi: base.Wi.slice(), Wh: base.Wh.map(r => r.slice()), Wo: base.Wo.map(r => r.slice()) };
+const state = { x: D.examples.typical.slice(), step: 10, sel: null, playing: false, trace: null, wver: 0 };
+const fmt = (v, d = 1) => (v >= 0 ? '+' : '−') + Math.abs(v).toFixed(d);
+const fmt0 = (v, d = 2) => (v < 0 ? '−' : '') + Math.abs(v).toFixed(d);
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const css = k => getComputedStyle(document.documentElement).getPropertyValue('--' + k).trim();
+const PAL = Object.fromEntries(['page', 'ink', 'ink-2', 'muted', 'axis', 'surface-2', 'pos', 'neg', 'core', 'timer', 'max', 'second', 'third', 'right', 'wrong', 'wash-gold', 'wash-slate'].map(k => [k, css(k)]));
+
+// ---------- the model, exactly as in az/model.py ----------
+function run(W, x) {
+  const pre = [], h = [];
+  let hp = new Array(N).fill(0);
+  for (let t = 0; t < T; t++) {
+    const z = new Array(N), hn = new Array(N);
+    for (let n = 0; n < N; n++) {
+      let s = x[t] * W.Wi[n];
+      const row = W.Wh[n];
+      for (let j = 0; j < N; j++) s += row[j] * hp[j];
+      z[n] = s; hn[n] = s > 0 ? s : 0;
+    }
+    pre.push(z); h.push(hn); hp = hn;
+  }
+  const logits = W.Wo.map(row => row.reduce((s, w, n) => s + w * hp[n], 0));
+  return { pre, h, logits, pred: argmax(logits) };
+}
+// contributions: C[s][n] is the part of h_10[n] that input s contributes; exact by piecewise linearity
+function contributions(W, x) {
+  let C = Array.from({ length: T }, () => new Array(N).fill(0));
+  let hp = new Array(N).fill(0);
+  for (let t = 0; t < T; t++) {
+    const z = new Array(N), on = new Array(N);
+    for (let n = 0; n < N; n++) {
+      let s = x[t] * W.Wi[n];
+      for (let j = 0; j < N; j++) s += W.Wh[n][j] * hp[j];
+      z[n] = s; on[n] = s > 0;
+    }
+    const next = [];
+    for (let s = 0; s < T; s++) {
+      const c = new Array(N).fill(0);
+      if (s < t) for (let n = 0; n < N; n++) { if (on[n]) { let v = 0; for (let j = 0; j < N; j++) v += W.Wh[n][j] * C[s][j]; c[n] = v; } }
+      else if (s === t) for (let n = 0; n < N; n++) c[n] = on[n] ? x[t] * W.Wi[n] : 0;
+      next.push(c);
+    }
+    C = next;
+    hp = z.map((v, n) => on[n] ? v : 0);
+  }
+  return C;
+}
+function argmax(a) { let b = 0; for (let i = 1; i < a.length; i++) if (a[i] > a[b]) b = i; return b; }
+function ranks(x) { return x.map((v, i) => i).sort((a, b) => x[b] - x[a]); } // positions, largest first
+function votes(W, C) { return C.map(c => W.Wo.map(row => row.reduce((s, w, n) => s + w * c[n], 0))); } // [input][position]
+
+// ---------- the cascade behind an answer (research/findings/circuit.md, "The cascade near a tie") ----------
+// Round 0 forces every gate to a reference route's; round 1 computes each gate from the reference state and the actual
+// input, a fixed threshold on that step's input (a station); round k reads round k - 1's states; the rounds converge to
+// the model's own route, and the round at which each gate settles says whether an input flipped it or other gates did.
+const ROUND_COLORS = [PAL['surface-2'], PAL.ink, '#9db7d9', PAL.pos, PAL.third, PAL.neg]; // settled at round 0, 1, 2, 3, 4, later
+const roundColor = k => ROUND_COLORS[Math.min(k, 5)];
+function ndtr(x) { const z = Math.abs(x) / Math.SQRT2, t = 1 / (1 + 0.3275911 * z); const e = 1 - ((((1.061405429 * t - 1.453152027) * t + 1.421413741) * t - 0.284496736) * t + 0.254829592) * t * Math.exp(-z * z); return 0.5 * (1 + (x < 0 ? -e : e)); }
+function ndtri(p) { let lo = -8, hi = 8; for (let i = 0; i < 60; i++) { const m = (lo + hi) / 2; if (ndtr(m) < p) lo = m; else hi = m; } return (lo + hi) / 2; }
+// the reference route's input: the same top three, the seven lower inputs at evenly spaced quantiles of their law below T, in slot order
+function referenceInput(x) { const o = ranks(x), T = x[o[2]], xr = x.slice(); o.slice(3).sort((a, b) => a - b).forEach((t, j) => { xr[t] = ndtri(ndtr(T) * (j + 0.5) / 7); }); return xr; }
+// a forward pass with the gates forced (gates[t][n]) or read from given states (states[t] = h before step t)
+function runGated(W, x, gates, states) {
+  let hp = new Array(N).fill(0); const G = [], H = [], Z = [];
+  for (let t = 0; t < T; t++) {
+    H.push(hp);
+    const z = new Array(N), on = new Array(N), hn = new Array(N);
+    for (let n = 0; n < N; n++) {
+      const row = W.Wh[n]; let s = x[t] * W.Wi[n];
+      for (let j = 0; j < N; j++) s += row[j] * hp[j];
+      let g;
+      if (gates) g = gates[t][n];
+      else if (states) { let u = x[t] * W.Wi[n]; for (let j = 0; j < N; j++) u += row[j] * states[t][j]; g = u > 0; }
+      else g = s > 0;
+      z[n] = s; on[n] = g; hn[n] = g ? s : 0;
+    }
+    G.push(on); Z.push(z); hp = hn;
+  }
+  return { gates: G, states: H, pre: Z, logits: W.Wo.map(row => row.reduce((s, w, n) => s + w * hp[n], 0)) };
+}
+const sameGates = (a, b) => a.every((row, t) => row.every((g, n) => g === b[t][n]));
+function cascade(W, x) {
+  const q = ranks(x)[1], marginOf = L => L[q] - Math.max(...L.filter((_, i) => i !== q));
+  const xr = referenceInput(x), ref = runGated(W, xr, null, null);
+  const rounds = [runGated(W, x, ref.gates, null)];
+  let states = ref.states;
+  for (let k = 1; k <= 20; k++) {
+    const r = runGated(W, x, null, states); rounds.push(r);
+    if (sameGates(r.gates, rounds[k - 1].gates)) break;
+    states = r.states;
+  }
+  const last = rounds[rounds.length - 1], truth = runGated(W, x, null, null);
+  const settle = last.gates.map((row, t) => row.map((g, n) => { let k = rounds.length - 1; while (k > 0 && rounds[k - 1].gates[t][n] === g) k--; return k; }));
+  const push = ranks(x).slice(3).map(t => { const y = x.slice(); y[t] = xr[t]; return { t, d: marginOf(truth.logits) - marginOf(runGated(W, y, null, null).logits) }; });
+  const threshold = (t, n) => Math.abs(W.Wi[n]) > 1e-9 ? -ref.states[t].reduce((s, h, j) => s + W.Wh[n][j] * h, 0) / W.Wi[n] : NaN;
+  return { q, xr, ref, refMargin: marginOf(ref.logits), rounds, margins: rounds.map(r => marginOf(r.logits)), settle, converged: sameGates(last.gates, truth.gates), truth: marginOf(truth.logits), answer: argmax(truth.logits), push, threshold };
+}
+let cascadeKey = null, cascadeVal = null;
+function cascadeNow() { const key = state.wver + ':' + state.x.join(','); if (key !== cascadeKey) { cascadeKey = key; cascadeVal = cascade(W, state.x); } return cascadeVal; }
+
+// the 270 reference inputs of the what-if: one per (p, q) at the mean magnitude set and two near-tie variants
+const REF = (() => {
+  const y = D.meanSet, sets = [y.slice(), y.slice(), y.slice()];
+  sets[1][2] = sets[1][1] - 0.05; sets[2][1] = sets[2][0] - 0.05;
+  const out = [];
+  for (const ys of sets) for (let a = 0; a < 10; a++) for (let b = 0; b < 10; b++) if (a !== b) {
+    const v = new Array(10).fill(0); v[a] = ys[0]; v[b] = ys[1];
+    let k = 2; for (let t = 0; t < 10; t++) if (t !== a && t !== b) v[t] = ys[k++];
+    out.push({ x: v, q: b });
+  }
+  return out;
+})();
+const refWrong = W => REF.reduce((s, r) => s + (run(W, r.x).pred !== r.q ? 1 : 0), 0);
+const REF_BASE = refWrong(base);
+
+// ---------- scene ----------
+const stage = document.getElementById('stage');
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+renderer.setClearColor(0x000000, 0);
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+stage.appendChild(renderer.domElement);
+const labelRenderer = new CSS2DRenderer();
+document.getElementById('labels').appendChild(labelRenderer.domElement);
+const scene = new THREE.Scene();
+scene.fog = new THREE.Fog(PAL.page, 18, 36);
+const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
+camera.position.set(0, 3.5, 15);
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true; controls.autoRotate = !reduced; controls.autoRotateSpeed = 0.35;
+controls.target.set(0, 0, 0);
+// ink specks: a faint field the machine floats in
+{
+  const g = new THREE.BufferGeometry(), pts = [];
+  for (let i = 0; i < 900; i++) { const r = 9 + Math.random() * 18, th = Math.random() * Math.PI * 2, ph = Math.acos(2 * Math.random() - 1); pts.push(r * Math.sin(ph) * Math.cos(th), r * Math.sin(ph) * Math.sin(th) * 0.6, r * Math.cos(ph)); }
+  g.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
+  scene.add(new THREE.Points(g, new THREE.PointsMaterial({ color: PAL.ink, size: 0.035, transparent: true, opacity: 0.22 })));
+}
+
+// layout: inputs on the left column, outputs on the right, core ring inside the place-cell ring
+const CORE = [2, 4, 7, 6, 1, 8];
+const SAT = [...Array(N).keys()].filter(n => !CORE.includes(n));
+const pos = { input: [], neuron: new Array(N), output: [] };
+for (let t = 0; t < 10; t++) { pos.input.push(new THREE.Vector3(-7.2, 4.0 - t * 0.9, 0)); pos.output.push(new THREE.Vector3(7.2, 4.0 - t * 0.9, 0)); }
+CORE.forEach((n, i) => { const a = i / 6 * Math.PI * 2 + 0.4; pos.neuron[n] = new THREE.Vector3(Math.cos(a) * 1.8, (i % 2 ? 0.9 : -0.9), Math.sin(a) * 1.8); });
+SAT.forEach((n, i) => { const a = i / 10 * Math.PI * 2 + 0.25; pos.neuron[n] = new THREE.Vector3(Math.cos(a) * 3.8, (i % 2 ? 1.7 : -1.7), Math.sin(a) * 3.8); });
+
+const nodes = [];  // {kind, index, mesh, label, el}
+const sphere = new THREE.SphereGeometry(1, 32, 24), outline = new THREE.MeshBasicMaterial({ color: PAL.ink, side: THREE.BackSide, depthTest: false, transparent: true });
+const PALE = new THREE.Color(PAL.page);
+function addNode(kind, index, p, radius, color) {
+  // drawn after the links and over them, as a drawing's specimens sit over its ink
+  const mat = new THREE.MeshBasicMaterial({ color, depthTest: false, transparent: true });
+  const mesh = new THREE.Mesh(sphere, mat);
+  mesh.position.copy(p); mesh.scale.setScalar(radius); mesh.userData = { kind, index }; mesh.renderOrder = 3;
+  const shell = new THREE.Mesh(sphere, outline); shell.scale.setScalar(1.1); shell.raycast = () => {}; shell.renderOrder = 2; mesh.add(shell);
+  scene.add(mesh);
+  // the renderer moves a zero-size anchor; the label hangs from it below a neuron's rim, beside an input or output
+  const anchor = document.createElement('div'), el = document.createElement('div');
+  anchor.className = 'anchor ' + kind; el.className = 'label' + (kind === 'neuron' ? '' : ' io'); anchor.appendChild(el);
+  const label = new CSS2DObject(anchor); label.position.set(0, kind === 'neuron' ? -1.12 : 0, 0); mesh.add(label);
+  nodes.push({ kind, index, mesh, el, mat });
+  return mesh;
+}
+for (let t = 0; t < 10; t++) addNode('input', t, pos.input[t], 0.17, PAL['surface-2']);
+for (let n = 0; n < N; n++) addNode('neuron', n, pos.neuron[n], CORE.includes(n) ? 0.34 : 0.27, CORE.includes(n) ? PAL.core : PAL.timer);
+for (let i = 0; i < 10; i++) addNode('output', i, pos.output[i], 0.17, PAL['surface-2']);
+const nodeOf = (kind, i) => nodes.find(n => n.kind === kind && n.index === i);
+
+// links: recurrent (always), from the current input (16), to the outputs (160, faint)
+const POS = new THREE.Color(PAL.pos), NEG = new THREE.Color(PAL.neg), DIM = new THREE.Color(PAL.page);  // faint links fade into the paper
+const res = new THREE.Vector2(innerWidth, innerHeight);
+function makeLines(segs, width) {
+  const geo = new LineSegmentsGeometry();
+  geo.setPositions(segs.flatMap(s => [s.a.x, s.a.y, s.a.z, s.b.x, s.b.y, s.b.z]));
+  geo.setColors(new Array(segs.length * 6).fill(0.2));
+  const mat = new LineMaterial({ linewidth: width, vertexColors: true, transparent: true, opacity: 0.95, resolution: res, worldUnits: false });
+  const obj = new LineSegments2(geo, mat); obj.computeLineDistances(); obj.userData.segs = segs; scene.add(obj);
+  return obj;
+}
+const rec = [];  // {i, j, w, a, b}
+const absW = base.Wh.flat().map(Math.abs).sort((a, b) => a - b);
+const wmax = absW[absW.length - 1], wcut = absW[Math.floor(absW.length * 0.6)];
+for (let i = 0; i < N; i++) for (let j = 0; j < N; j++) if (i !== j && Math.abs(base.Wh[i][j]) >= wcut) rec.push({ kind: 'Wh', i, j, a: pos.neuron[j], b: pos.neuron[i] });
+const recThin = makeLines(rec.filter(s => Math.abs(base.Wh[s.i][s.j]) < wmax * 0.12), 1.2);
+const recThick = makeLines(rec.filter(s => Math.abs(base.Wh[s.i][s.j]) >= wmax * 0.12), 2.6);
+const outSegs = []; for (let i = 0; i < 10; i++) for (let n = 0; n < N; n++) outSegs.push({ kind: 'Wo', i, j: n, a: pos.neuron[n], b: pos.output[i] });
+const outLines = makeLines(outSegs, 1.0);
+const inSegs = []; for (let n = 0; n < N; n++) inSegs.push({ kind: 'Wi', i: n, j: 0, a: pos.input[0].clone(), b: pos.neuron[n] });
+const inLines = makeLines(inSegs, 1.4);
+
+function weightOf(s) { return s.kind === 'Wh' ? W.Wh[s.i][s.j] : s.kind === 'Wo' ? W.Wo[s.i][s.j] : W.Wi[s.i]; }
+function colorLines(obj, scaleMax, emph) {
+  const cols = [];
+  for (const s of obj.userData.segs) {
+    const w = weightOf(s), c = (w >= 0 ? POS : NEG).clone();
+    const mag = Math.min(1, Math.abs(w) / scaleMax);
+    const e = emph(s);  // 0 dim … 1 bright
+    const k = 0.04 + e * (0.25 + 0.7 * Math.sqrt(mag));
+    c.lerp(DIM, 1 - k);
+    cols.push(c.r, c.g, c.b, c.r, c.g, c.b);
+  }
+  obj.geometry.setColors(cols);
+}
+function emphasis(s) {
+  const sel = state.sel;
+  if (!sel) return s.kind === 'Wo' ? 0.05 : s.kind === 'Wi' ? 0.7 : 0.45;
+  if (sel.kind === 'neuron') return (s.kind === 'Wh' && (s.i === sel.index || s.j === sel.index)) || (s.kind === 'Wo' && s.j === sel.index) || (s.kind === 'Wi' && s.i === sel.index) ? 1 : 0;
+  if (sel.kind === 'link') return s.kind === sel.link.kind && s.i === sel.link.i && s.j === sel.link.j ? 1 : 0;
+  if (sel.kind === 'output') return s.kind === 'Wo' && s.i === sel.index ? 1 : 0;
+  if (sel.kind === 'input') return s.kind === 'Wi' ? 1 : 0;
+  return 0.5;
+}
+const woMax = Math.max(...base.Wo.flat().map(Math.abs)), wiMax = Math.max(...base.Wi.map(Math.abs));
+function recolor() { colorLines(recThin, wmax, emphasis); colorLines(recThick, wmax, emphasis); colorLines(outLines, woMax, emphasis); colorLines(inLines, wiMax, emphasis); }
+
+// ---------- state → scene ----------
+function compute() {
+  state.trace = run(W, state.x);
+  state.C = contributions(W, state.x);
+  state.V = votes(W, state.C);
+}
+function activationAt(n) { const s = state.step; return s === 0 ? 0 : state.trace.h[s - 1][n]; }
+function paint() {
+  const tr = state.trace, s = state.step, order = ranks(state.x), q = order[1];
+  const cas = state.sel && state.sel.kind === 'cascade' && s > 0 ? cascadeNow() : null;
+  for (const nd of nodes) {
+    if (nd.kind === 'neuron') {
+      const a = activationAt(nd.index), scale = Math.max(2, D.neurons[nd.index].meanAct * 1.5);
+      const k = Math.min(1, a / scale);
+      const round = cas ? cas.settle[s - 1][nd.index] : 0;  // in the cascade view, tint by the round that settled this step's gate
+      const full = new THREE.Color(CORE.includes(nd.index) ? PAL.core : PAL.timer);
+      if (round > 0) nd.mat.color.set(roundColor(round)); else nd.mat.color.copy(PALE).lerp(full, 0.3 + 0.7 * k);
+      nd.mesh.scale.setScalar((CORE.includes(nd.index) ? 0.34 : 0.27) * (1 + 0.25 * k));
+      nd.el.innerHTML = `<b>n${nd.index}</b> ${a.toFixed(1)}` + (round > 0 ? ` <span class="round">r${round}</span>` : '');
+    } else if (nd.kind === 'input') {
+      const t = nd.index, seen = t < s;
+      nd.mat.color.set(!seen ? PAL['surface-2'] : t === order[0] ? PAL.max : t === q ? PAL.second : t === order[2] ? PAL.third : PAL.axis);
+      nd.mesh.scale.setScalar(t === s - 1 ? 0.22 : 0.17);
+      nd.el.innerHTML = `x<sub>${t}</sub> = ${fmt0(state.x[t])}` + (t === q ? ' <b>runner-up</b>' : t === order[0] ? ' largest' : '');
+      nd.el.classList.toggle('dim', !seen);
+    } else {
+      const i = nd.index, done = s === T;
+      nd.mat.color.set(done && i === tr.pred ? (tr.pred === q ? PAL.right : PAL.wrong) : PAL['surface-2']);
+      nd.el.innerHTML = done ? `<b>${i}</b> ${fmt(tr.logits[i], 0)}` : `<b>${i}</b>`;
+      nd.el.classList.toggle('dim', !done);
+    }
+  }
+  const t = Math.max(0, s - 1);
+  const p = pos.input[t];
+  inLines.geometry.setPositions(inSegs.flatMap(sg => [p.x, p.y, p.z, sg.b.x, sg.b.y, sg.b.z]));
+  inLines.visible = s > 0;
+  recolor();
+  document.getElementById('stepLabel').textContent = s === 0 ? 'before any input' : `after input ${s - 1}`;
+  const verdict = document.getElementById('verdict');
+  verdict.innerHTML = s < T ? `${s} of 10 inputs read` : `answer <b>position ${tr.pred}</b>, runner-up at ${q}: <b>${tr.pred === q ? 'right ✓' : 'wrong ✗'}</b>, margin ${fmt(tr.logits[tr.pred] - Math.max(...tr.logits.filter((_, i) => i !== tr.pred)), 1)}`;
+  for (let i = 0; i < 10; i++) {
+    const el = document.getElementById('logit' + i);
+    el.className = 'logit' + (s === T && i === tr.pred ? ' win' : '');
+    el.innerHTML = s === T ? `<span></span><span>${i === q ? '<span class="truth" title="the runner-up\'s position">▲ </span>' : ''}${fmt(tr.logits[i], 0)}</span>` : '';
+  }
+  for (let t2 = 0; t2 < 10; t2++) document.getElementById('rank' + t2).textContent = ['largest', 'runner-up', 'third'][order.indexOf(t2)] || '';
+  renderPanel();
+}
+
+// ---------- panel ----------
+const panel = document.getElementById('panel');
+function bars(values, { signed = true, labels = null, max = null, height = 56, title = '' } = {}) {
+  const w = 320, n = values.length, bw = w / n, m = max ?? Math.max(1e-9, ...values.map(Math.abs));
+  const mid = signed ? height / 2 : height;
+  let s = `<svg viewBox="0 0 ${w} ${height + 14}" role="img" aria-label="${title}">`;
+  s += `<line x1="0" x2="${w}" y1="${mid}" y2="${mid}" stroke="${PAL.axis}" />`;
+  values.forEach((v, i) => {
+    const hgt = Math.abs(v) / m * (signed ? height / 2 : height);
+    const y = v >= 0 ? mid - hgt : mid;
+    s += `<rect x="${i * bw + 2}" y="${y}" width="${bw - 4}" height="${Math.max(0.5, hgt)}" rx="2" fill="${v >= 0 ? PAL.pos : PAL.neg}"><title>${labels ? labels[i] : i}: ${v.toFixed(2)}</title></rect>`;
+    s += `<text x="${i * bw + bw / 2}" y="${height + 11}" text-anchor="middle">${labels ? labels[i] : i}</text>`;
+  });
+  return s + '</svg>';
+}
+const RANKS = ['largest', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th'];
+function renderPanel() {
+  const sel = state.sel;
+  if (!sel) {
+    panel.innerHTML = `<h2>How it decides</h2>
+      <p>Ten numbers arrive one at a time. Six core neurons track the record, the jump past it, and how far each number lands below a record; the ten timers remember <em>when</em> the record and the runner-up arrived, and each one votes for its own positions. Every input's votes add up exactly to the scores.</p>
+      <p>Click a neuron, a link, an input or an output. Scrub the steps below to watch the memory fill up. Drag a weight to see what it costs. Press <em>why this answer</em> for the chain reaction of clips behind the verdict.</p>
+      <h3>Average votes per unit of each input, by its rank</h3>
+      <table><tr><th>rank</th><th>for itself</th><th>for runner-up</th><th>for largest</th><th>for 3rd</th></tr>
+      ${D.votesByRank.slice(0, 5).map(v => `<tr><td>${RANKS[v.rank - 1]}</td><td>${fmt(v.self)}</td><td>${fmt(v.q)}</td><td>${fmt(v.p)}</td><td>${fmt(v.r)}</td></tr>`).join('')}</table>
+      <p class="hint">Base accuracy ${D.baseAccuracy} on Gaussian inputs. ${REF_BASE} of the 270 reference inputs are wrong.</p>`;
+    return;
+  }
+  if (sel.kind === 'neuron') {
+    const n = sel.index, d = D.neurons[n], a = activationAt(n);
+    const incoming = [...Array(N).keys()].filter(j => j !== n).sort((x, y) => Math.abs(W.Wh[n][y]) - Math.abs(W.Wh[n][x])).slice(0, 6);
+    const outgoing = [...Array(N).keys()].filter(i => i !== n).sort((x, y) => Math.abs(W.Wh[y][n]) - Math.abs(W.Wh[x][n])).slice(0, 6);
+    panel.innerHTML = `<h2>n${n} <span class="tag ${d.group === 'core' ? 'core' : 'timer'}">${d.group === 'core' ? 'core' : 'timer'}</span><span class="name">${NEURONS[n].name}</span></h2>
+      <p>${NEURONS[n].text}</p>
+      <div class="row"><span class="big">${a.toFixed(1)}</span><span class="hint">its value now (mean at the end ${d.meanAct})</span></div>
+      <h3>What it holds of each ranked input, per unit</h3>
+      ${bars(d.coefMean.slice(0, 6), { labels: RANKS.slice(0, 6), title: 'coefficient by rank' })}
+      <p class="hint">sd across routes: ${d.coefSd.slice(0, 3).map(v => v.toFixed(1)).join(', ')} on the top three. The route sets the rest.</p>
+      <h3>What it holds of the largest, by where the largest arrived</h3>
+      ${bars(d.bumpM, { signed: true, title: 'impulse response to the largest' })}
+      <h3>What it holds of the runner-up, by where the runner-up arrived</h3>
+      ${bars(d.bumpS, { signed: true, title: 'response to the runner-up' })}
+      <h3>Its vote for each answer position, per unit of its value</h3>
+      ${bars(d.readout, { title: 'readout row' })}
+      <h3>Fragility</h3>
+      <p class="hint">Noise of 0.002 on its incoming memory weights alone costs ${(d.rowDamage * 100).toFixed(2)} points of accuracy.</p>
+      <h3>Largest incoming memory weights</h3>
+      <div class="list">${incoming.map(j => `<button data-link="Wh,${n},${j}"><span>from n${j}</span><span class="${W.Wh[n][j] >= 0 ? 'pos' : 'neg'}">${fmt(W.Wh[n][j], 3)}</span></button>`).join('')}</div>
+      <h3>Largest outgoing</h3>
+      <div class="list">${outgoing.map(i => `<button data-link="Wh,${i},${n}"><span>to n${i}</span><span class="${W.Wh[i][n] >= 0 ? 'pos' : 'neg'}">${fmt(W.Wh[i][n], 3)}</span></button>`).join('')}
+      <button data-link="Wi,${n},0"><span>from the input</span><span class="${W.Wi[n] >= 0 ? 'pos' : 'neg'}">${fmt(W.Wi[n], 3)}</span></button></div>`;
+  } else if (sel.kind === 'link') {
+    const L = sel.link, w = weightOf(L), b = L.kind === 'Wh' ? base.Wh[L.i][L.j] : L.kind === 'Wo' ? base.Wo[L.i][L.j] : base.Wi[L.i];
+    const flat = L.kind === 'Wi' ? L.i : L.kind === 'Wh' ? 16 + L.i * 16 + L.j : 272 + L.i * 16 + L.j;
+    const acc = D.whatif.accuracy[flat], rank = D.whatif.rank[flat];
+    const name = L.kind === 'Wh' ? `n${L.j} → n${L.i}` : L.kind === 'Wo' ? `n${L.j} → output ${L.i}` : `input → n${L.i}`;
+    const mat = L.kind === 'Wh' ? 'memory' : L.kind === 'Wo' ? 'output' : 'input';
+    const wrong = refWrong(W);
+    const roleOf = n => NEURONS[n].name.toLowerCase();
+    const what = L.kind === 'Wh' ? `Scales what n${L.i} (${roleOf(L.i)}) receives from n${L.j} (${roleOf(L.j)}) at every step.`
+      : L.kind === 'Wo' ? `How much n${L.j} (${roleOf(L.j)}) votes for output position ${L.i}, per unit of its value at the end.`
+      : `How strongly each arriving input enters n${L.i} (${roleOf(L.i)}).`;
+    panel.innerHTML = `<h2>${name}</h2>
+      <p>${mat} weight <b>${L.kind}[${L.kind === 'Wi' ? L.i : L.i + ', ' + L.j}]</b> = <span class="big ${w >= 0 ? 'pos' : 'neg'}">${fmt(w, 3)}</span>${Math.abs(w - b) > 1e-9 ? ` <span class="hint">(was ${fmt(b, 3)})</span>` : ''}</p>
+      <p>${what}</p>
+      <h3>What if you change it</h3>
+      <div class="row"><span class="hint">${fmt(b - 0.5, 2)}</span><input type="range" id="wslider" min="${b - 0.5}" max="${b + 0.5}" step="0.005" value="${w}"><span class="hint">${fmt(b + 0.5, 2)}</span></div>
+      <div class="row"><button class="btn" id="wreset">reset this weight</button><span class="hint">step ${fmt(w - b, 3)}</span></div>
+      <p>Reference inputs now wrong: <b>${wrong}</b> of 270 (base ${REF_BASE}). This input's answer: <b>position ${state.trace.pred}</b>${state.trace.pred === ranks(state.x)[1] ? ', correct' : ', wrong'}.</p>
+      <h3>Measured accuracy after a step (2<sup>20</sup> inputs)</h3>
+      ${bars(acc.map(v => v - D.baseAccuracy), { labels: D.deltas.map(d => fmt(d, 2)), title: 'accuracy change by step', height: 64 })}
+      <p class="hint">Bars are accuracy minus the base ${D.baseAccuracy}. Predicted importance from the reference routes' margins: <b>rank ${rank} of 432</b> (relative margin sensitivity ${D.whatif.relSensitivity[flat]}).</p>`;
+    const slider = panel.querySelector('#wslider');
+    slider.addEventListener('input', () => { setWeight(L, parseFloat(slider.value)); });
+    panel.querySelector('#wreset').addEventListener('click', () => { setWeight(L, b); });
+  } else if (sel.kind === 'input') {
+    const t = sel.index, order = ranks(state.x), rk = order.indexOf(t), s = state.step;
+    const v = state.V[t], c = state.C[t];
+    panel.innerHTML = `<h2>input ${t} <span class="hint">${RANKS[rk]} largest</span></h2>
+      <p>x<sub>${t}</sub> = <span class="big">${fmt0(state.x[t])}</span>${t >= s ? ' <span class="hint">· not read yet at this step</span>' : ''}</p>
+      <h3>Its votes at the end: contribution to each output logit</h3>
+      ${bars(v, { title: 'votes by position' })}
+      <p class="hint">Exact: the logits are the sum of the ten inputs' votes. On average a ${RANKS[rk]} input votes ${fmt(D.votesByRank[rk].self)} per unit for its own slot.</p>
+      <h3>Its part of each neuron at the end</h3>
+      ${bars(c, { labels: [...Array(N).keys()].map(i => 'n' + i), title: 'contribution by neuron' })}`;
+  } else if (sel.kind === 'cascade') {
+    const c = cascadeNow(), K = c.rounds.length - 1, final = c.rounds[K];
+    const flat = c.settle.flat(), nStation = flat.filter(k => k === 1).length, nRetuned = flat.filter(k => k >= 2).length;
+    const cw = 30, ch = 13, gw = 10 * cw + 28, gh = 16 * ch + 16;
+    const now = state.step - 1;  // the step just read: a band behind its column
+    const head = () => (now >= 0 ? `<rect x="${28 + now * cw - 1}" y="0" width="${cw + 2}" height="${gh}" rx="3" fill="${PAL.ink}" fill-opacity="0.07"/>` : '')
+      + [...Array(T).keys()].map(t => `<text x="${28 + t * cw + cw / 2}" y="9" text-anchor="middle" class="${t === now ? 'now' : ''}">x${t}</text>`).join('')
+      + [...Array(N).keys()].map(n => `<text x="24" y="${16 + n * ch + ch - 3}" text-anchor="end" class="${CORE.includes(n) ? 'core' : ''}">n${n}</text>`).join('');
+    let grid = `<svg viewBox="0 0 ${gw} ${gh}" class="grid" role="img" aria-label="gates by step and neuron, colored by the round they settled">${head()}`;
+    for (let t = 0; t < T; t++) for (let n = 0; n < N; n++) {
+      const k = c.settle[t][n], on = final.gates[t][n], was = c.ref.gates[t][n], th = c.threshold(t, n);
+      const how = k === 0 ? 'unchanged' : k === 1 ? `a station: x${t} itself flipped it` + (Number.isFinite(th) && Math.abs(th) < 50 ? `, threshold ${fmt0(th)}` : '') : `retuned at round ${k}`;
+      grid += `<rect x="${28 + t * cw + 1}" y="${16 + n * ch + 1}" width="${cw - 2}" height="${ch - 2}" rx="2" fill="${roundColor(k)}" fill-opacity="${on ? 1 : 0.22}" stroke="${roundColor(k)}"><title>step ${t} (x${t} = ${fmt0(state.x[t])}), n${n}: ${was ? 'on' : 'off'} on the reference route → ${on ? 'on' : 'off'} (${how}); pre-activation ${fmt(final.pre[t][n], 2)}</title></rect>`;
+    }
+    grid += '</svg>';
+    const legend = `<div class="legend-row">${[['same as the reference', 0], ['station: its own input flipped it', 1], ['retuned at round 2', 2], ['round 3', 3], ['round 4', 4], ['later', 5]].map(([l, k]) => `<span style="--c:${roundColor(k)}">${l}</span>`).join('')}<span class="plain">filled on · outlined off</span></div>`;
+    const stations = [];
+    for (let t = 0; t < T; t++) for (let n = 0; n < N; n++) if (c.settle[t][n] === 1) stations.push({ t, n });
+    const sign0 = stations.filter(s => s.t === 0).length, rest = stations.filter(s => s.t > 0);
+    const stationList = (sign0 ? `<li>x<sub>0</sub> = ${fmt0(state.x[0])} is ${state.x[0] >= 0 ? 'positive' : 'negative'} where the reference value ${fmt0(c.xr[0])} is ${c.xr[0] >= 0 ? 'positive' : 'negative'}: before any input the state is zero, so the first input's sign alone sets every gate at step 0, and ${sign0} of them flip.</li>` : '')
+      + rest.slice(0, 10).map(({ t, n }) => { const th = c.threshold(t, n), on = final.gates[t][n]; return `<li>x<sub>${t}</sub> = ${fmt0(state.x[t])} turns <b>n${n}</b> ${on ? 'on' : 'off'}${Number.isFinite(th) && Math.abs(th) < 50 ? `; its threshold there is ${fmt0(th)}, and the reference value ${fmt0(c.xr[t])} kept it ${c.ref.gates[t][n] ? 'on' : 'off'}` : ''}</li>`; }).join('')
+      + (rest.length > 10 ? `<li class="hint">and ${rest.length - 10} more</li>` : '');
+    const stmap = (m, title) => `<svg viewBox="0 0 ${gw} ${gh}" class="grid" role="img" aria-label="${title}">${head()}` + m.flatMap((row, t) => row.map((v, n) => `<rect x="${28 + t * cw + 1}" y="${16 + n * ch + 1}" width="${cw - 2}" height="${ch - 2}" rx="2" fill="${PAL.pos}" fill-opacity="${Math.min(1, v / 0.25)}"><title>step ${t}, n${n}: ${(v * 100).toFixed(1)}% of near-tie inputs</title></rect>`)).join('') + '</svg>';
+    panel.innerHTML = `<h2>Why this answer</h2>
+      <p>The network answers <b>position ${c.answer}</b>; the runner-up is at position ${c.q}, with margin <b>${fmt(c.truth, 1)}</b>. On the <em>reference route</em>, the same top three with the seven lower inputs replaced by typical values below the third-largest, the margin is <b>${fmt(c.refMargin, 1)}</b>.</p>
+      <p>Round 0 applies the reference route's gates to these inputs, so the model is linear in them. Round 1 lets every gate be a threshold on its own step's input: the stations. Each later round lets the gates read the previous round's state, so stations retune later stations. ${c.converged ? `The cascade reached the model's own route in <b>${K} round${K === 1 ? '' : 's'}</b>.` : `After ${K} rounds the cascade has not reached the model's route.`}</p>
+      <h3>Margin for the truth, round by round</h3>
+      ${bars([c.refMargin, ...c.margins], { labels: ['ref', ...c.margins.map((_, k) => 'r' + k)], title: 'margin by round' })}
+      <h3>Which gates changed, and when</h3>
+      ${grid}${legend}
+      <p class="hint">${nStation + nRetuned} of 160 gates differ from the reference route: ${nStation} flipped by their own input, ${nRetuned} retuned by other gates. Scrub the steps to light the touched neurons in the machine.</p>
+      <h3>The stations</h3>
+      ${stations.length ? `<ul class="stations">${stationList}</ul>` : '<p class="hint">No gate is flipped by its own input: at round 1 this input sits on the reference route.</p>'}
+      <h3>Each lower input's push on the margin</h3>
+      ${bars(c.push.map(k => k.d), { labels: c.push.map(k => 'x' + k.t), title: 'margin change against the reference value' })}
+      <p class="hint">The margin with the input as it is, minus the margin with it at its reference value, the other nine held. Exact, one forward pass each.</p>
+      ${D.stations ? `<h3>At near ties, where the stations are</h3>
+      <p class="hint">Over 2<sup>19</sup> inputs at S = T: how often each gate is flipped by its own input against the reference route (top), and how often other gates then retune it (bottom). Full blue is 25% or more.</p>
+      ${stmap(D.stations.flip1, 'round-1 flip rate')}${stmap(D.stations.retune, 'retune rate')}` : ''}`;
+  } else if (sel.kind === 'output') {
+    const i = sel.index, tr = state.trace, h = tr.h[T - 1];
+    const parts = [...Array(N).keys()].map(n => ({ n, v: W.Wo[i][n] * h[n] })).sort((a, b) => Math.abs(b.v) - Math.abs(a.v)).slice(0, 8);
+    const byInput = state.V.map(v => v[i]);
+    panel.innerHTML = `<h2>output ${i}</h2>
+      <p>score <span class="big">${fmt(tr.logits[i], 1)}</span>${i === tr.pred ? ' <span class="hint">the answer</span>' : ''}${i === ranks(state.x)[1] ? ' <span class="hint">the runner-up\'s position</span>' : ''}</p>
+      <h3>Which inputs voted for it</h3>
+      ${bars(byInput, { labels: [...Array(10).keys()].map(t => 'x' + t), title: 'votes by input' })}
+      <h3>Which neurons carry it (weight × value)</h3>
+      <div class="list">${parts.map(p => `<button data-link="Wo,${i},${p.n}"><span>n${p.n} · ${fmt(W.Wo[i][p.n], 2)} × ${h[p.n].toFixed(1)}</span><span class="${p.v >= 0 ? 'pos' : 'neg'}">${fmt(p.v, 1)}</span></button>`).join('')}</div>`;
+  }
+  panel.querySelectorAll('[data-link]').forEach(b => b.addEventListener('click', () => { const [k, i, j] = b.dataset.link.split(','); select({ kind: 'link', link: { kind: k, i: +i, j: +j } }); }));
+}
+function setWeight(L, v) {
+  if (L.kind === 'Wh') W.Wh[L.i][L.j] = v; else if (L.kind === 'Wo') W.Wo[L.i][L.j] = v; else W.Wi[L.i] = v;
+  state.wver++; compute(); paint();
+}
+function select(sel) { state.sel = sel; paint(); history.replaceState(null, '', '#' + hashOf(sel) + (state.step < T ? '&step=' + state.step : '')); }
+function hashOf(sel) { if (!sel) return ''; if (sel.kind === 'cascade') return 'why'; if (sel.kind === 'neuron') return 'n' + sel.index; if (sel.kind === 'input') return 'x' + sel.index; if (sel.kind === 'output') return 'out' + sel.index; const L = sel.link; return L.kind === 'Wi' ? `Wi-${L.i}` : `${L.kind}-${L.i}-${L.j}`; }
+function fromHash() {
+  const [what, ...rest] = location.hash.slice(1).split('&'); let m;
+  for (const r of rest) {
+    if ((m = r.match(/^step=(\d+)$/))) { state.step = Math.min(T, +m[1]); stepEl.value = state.step; }
+    if ((m = r.match(/^preset=(.+)$/)) && D.examples[decodeURIComponent(m[1])]) { state.x = D.examples[decodeURIComponent(m[1])].slice(); presetEl.value = decodeURIComponent(m[1]); showInputs(); }
+  }
+  if (what === 'why') return { kind: 'cascade' };
+  if ((m = what.match(/^n(\d+)$/))) return { kind: 'neuron', index: +m[1] };
+  if ((m = what.match(/^x(\d)$/))) return { kind: 'input', index: +m[1] };
+  if ((m = what.match(/^out(\d)$/))) return { kind: 'output', index: +m[1] };
+  if ((m = what.match(/^(Wh|Wo)-(\d+)-(\d+)$/))) return { kind: 'link', link: { kind: m[1], i: +m[2], j: +m[3] } };
+  if ((m = what.match(/^Wi-(\d+)$/))) return { kind: 'link', link: { kind: 'Wi', i: +m[1], j: 0 } };
+  return null;
+}
+
+// ---------- picking ----------
+const ray = new THREE.Raycaster();
+ray.params.Line2 = { threshold: 6 };
+const mouse = new THREE.Vector2();
+let downAt = null;
+renderer.domElement.addEventListener('pointerdown', e => { downAt = [e.clientX, e.clientY]; });
+renderer.domElement.addEventListener('pointerup', e => {
+  if (!downAt || Math.hypot(e.clientX - downAt[0], e.clientY - downAt[1]) > 4) return;
+  const { w, h } = viewport();
+  mouse.set((e.clientX / w) * 2 - 1, -(e.clientY / h) * 2 + 1);
+  ray.setFromCamera(mouse, camera);
+  const hit = ray.intersectObjects(nodes.map(n => n.mesh))[0];
+  if (hit) { select({ kind: hit.object.userData.kind, index: hit.object.userData.index }); return; }
+  for (const obj of [recThick, recThin, outLines]) {
+    const h = ray.intersectObject(obj)[0];
+    if (h && h.faceIndex !== undefined) { const s = obj.userData.segs[h.faceIndex]; if (s) { select({ kind: 'link', link: { kind: s.kind, i: s.i, j: s.j } }); return; } }
+  }
+  select(null);
+});
+
+// ---------- input strip ----------
+const inputsEl = document.getElementById('inputs');
+for (let t = 0; t < 10; t++) {
+  const cell = document.createElement('div'); cell.className = 'cell';
+  cell.innerHTML = `<label><span>x<sub>${t}</sub></span><em id="rank${t}"></em></label><input type="number" step="0.05" id="x${t}"><div class="logit" id="logit${t}"></div>`;
+  inputsEl.appendChild(cell);
+  cell.querySelector('input').addEventListener('input', e => { const v = parseFloat(e.target.value); if (Number.isFinite(v)) { state.x[t] = v; compute(); paint(); } });
+  cell.querySelector('input').addEventListener('focus', () => select({ kind: 'input', index: t }));
+}
+function showInputs() { for (let t = 0; t < 10; t++) document.getElementById('x' + t).value = state.x[t].toFixed(2); }
+const presetEl = document.getElementById('preset');
+for (const k of Object.keys(D.examples)) { const o = document.createElement('option'); o.value = k; o.textContent = k; presetEl.appendChild(o); }
+presetEl.addEventListener('change', () => { state.x = D.examples[presetEl.value].slice(); state.step = T; stepEl.value = T; showInputs(); compute(); paint(); });
+function gauss() { const u = Math.random() || 1e-9, v = Math.random(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); }
+document.getElementById('random').addEventListener('click', () => { state.x = Array.from({ length: 10 }, gauss); state.step = T; stepEl.value = T; showInputs(); compute(); paint(); });
+document.getElementById('resetw').addEventListener('click', () => { W.Wi = base.Wi.slice(); W.Wh = base.Wh.map(r => r.slice()); W.Wo = base.Wo.map(r => r.slice()); state.wver++; compute(); paint(); });
+document.getElementById('why').addEventListener('click', () => select(state.sel && state.sel.kind === 'cascade' ? null : { kind: 'cascade' }));
+const stepEl = document.getElementById('step');
+stepEl.addEventListener('input', () => { state.step = +stepEl.value; state.playing = false; playBtn.textContent = 'play'; paint(); });
+const playBtn = document.getElementById('play');
+let lastTick = 0;
+playBtn.addEventListener('click', () => { state.playing = !state.playing; if (state.playing && state.step >= T) state.step = 0; playBtn.textContent = state.playing ? 'pause' : 'play'; lastTick = performance.now(); });
+
+// ---------- loop ----------
+function viewport() { return { w: innerWidth > 1100 ? innerWidth - 392 : innerWidth, h: innerHeight }; }
+function resize() {
+  const { w, h } = viewport();
+  stage.style.width = labelRenderer.domElement.parentElement.style.width = w + 'px';
+  renderer.setSize(w, h); labelRenderer.setSize(w, h); camera.aspect = w / h; camera.updateProjectionMatrix(); res.set(w, h);
+  // keep x = ±8.2 inside the view whatever the aspect
+  const half = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
+  const dist = Math.max(8.2 / (half * camera.aspect), 6.5 / half) + 1.5;
+  const dir = camera.position.clone().sub(controls.target).normalize();
+  camera.position.copy(controls.target).addScaledVector(dir, dist);
+}
+addEventListener('resize', resize);
+resize();
+function frame(now) {
+  if (state.playing && now - lastTick > (reduced ? 0 : 650)) { lastTick = now; state.step = Math.min(T, state.step + 1); stepEl.value = state.step; paint(); if (state.step === T) { state.playing = false; playBtn.textContent = 'play'; } }
+  controls.update();
+  renderer.render(scene, camera); labelRenderer.render(scene, camera);
+  requestAnimationFrame(frame);
+}
+showInputs(); state.sel = fromHash(); compute(); paint(); requestAnimationFrame(frame);
+</script>
+</body>
+</html>

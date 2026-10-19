@@ -1,0 +1,78 @@
+example: W_oh singular values [19. 18.  9.  6.]; share of ||W_oh||^2 in the top plane 0.78
+  readout row angle by position: [   7.  -39.  -79. -130. -172.  147.  102.   49.   66.   74.]  steps: [-46. -40. -52. -42. -41. -45. -53.  17.   9.]
+  q=0: state angle over p: mean    -5, readout row    +7, |diff| mean  21 max  60
+  q=1: state angle over p: mean   -43, readout row   -39, |diff| mean  13 max  33
+  q=2: state angle over p: mean   -92, readout row   -79, |diff| mean  14 max  34
+  q=3: state angle over p: mean  -151, readout row  -130, |diff| mean  20 max  42
+  q=4: state angle over p: mean  +167, readout row  -172, |diff| mean  21 max  32
+  q=5: state angle over p: mean  +134, readout row  +147, |diff| mean  14 max  42
+  q=6: state angle over p: mean  +111, readout row  +102, |diff| mean  23 max  50
+  q=7: state angle over p: mean   +85, readout row   +49, |diff| mean  44 max 102
+  q=8: state angle over p: mean   +77, readout row   +66, |diff| mean  34 max  75
+  q=9: state angle over p: mean   +81, readout row   +74, |diff| mean  20 max  43
+  two-impulse accuracy 1.000; mean |state angle - row angle| 22 deg
+s0: W_oh singular values [12.  8.  4.  3.]; share of ||W_oh||^2 in the top plane 0.81
+  readout row angle by position: [ -85.  128.  -31.  154.   -9. -164.   23. -135.   50. -117.]  steps: [-147. -159. -175. -163. -155. -174. -157. -175. -168.]
+  q=0: state angle over p: mean   -60, readout row   -85, |diff| mean  25 max  35
+  q=1: state angle over p: mean  +109, readout row  +128, |diff| mean  19 max  31
+  q=2: state angle over p: mean   -45, readout row   -31, |diff| mean  25 max  58
+  q=3: state angle over p: mean  +124, readout row  +154, |diff| mean  30 max  49
+  q=4: state angle over p: mean   -29, readout row    -9, |diff| mean  20 max  40
+  q=5: state angle over p: mean  +157, readout row  -164, |diff| mean  42 max  73
+  q=6: state angle over p: mean   +16, readout row   +23, |diff| mean  25 max  76
+  q=7: state angle over p: mean  -129, readout row  -135, |diff| mean  44 max 109
+  q=8: state angle over p: mean   +47, readout row   +50, |diff| mean  43 max 102
+  q=9: state angle over p: mean   -81, readout row  -117, |diff| mean  71 max 137
+  two-impulse accuracy 0.822; mean |state angle - row angle| 34 deg
+s1: W_oh singular values [9. 7. 4. 4.]; share of ||W_oh||^2 in the top plane 0.72
+  readout row angle by position: [  -9.  158.    6.  145.   11.  119.   -4. -140.  -92. -144.]  steps: [ 168. -152.  139. -134.  108. -123. -135.   47.  -51.]
+  q=0: state angle over p: mean   -13, readout row    -9, |diff| mean  14 max  28
+  q=1: state angle over p: mean  +132, readout row  +158, |diff| mean  37 max 148
+  q=2: state angle over p: mean    -7, readout row    +6, |diff| mean  27 max  63
+  q=3: state angle over p: mean  +127, readout row  +145, |diff| mean  38 max 134
+  q=4: state angle over p: mean    +1, readout row   +11, |diff| mean  36 max  98
+  q=5: state angle over p: mean  +117, readout row  +119, |diff| mean  39 max  97
+  q=6: state angle over p: mean   -12, readout row    -4, |diff| mean  52 max 145
+  q=7: state angle over p: mean  -136, readout row  -140, |diff| mean  58 max  89
+  q=8: state angle over p: mean   -75, readout row   -92, |diff| mean  46 max  92
+  q=9: state angle over p: mean  -120, readout row  -144, |diff| mean  50 max  96
+  two-impulse accuracy 0.833; mean |state angle - row angle| 40 deg
+s2: W_oh singular values [38. 14. 14.  8.]; share of ||W_oh||^2 in the top plane 0.84
+  readout row angle by position: [ -73.  -86.   88.   69.  -85.   88.   82.  -81.  112. -180.]  steps: [ -13.  174.  -19. -154.  173.   -6. -163. -166.   68.]
+  q=0: state angle over p: mean   -57, readout row   -73, |diff| mean  23 max  69
+  q=1: state angle over p: mean   -50, readout row   -86, |diff| mean  37 max  88
+  q=2: state angle over p: mean   +66, readout row   +88, |diff| mean  25 max  77
+  q=3: state angle over p: mean   -24, readout row   +69, |diff| mean  93 max 145
+  q=4: state angle over p: mean   -64, readout row   -85, |diff| mean  28 max 123
+  q=5: state angle over p: mean   +50, readout row   +88, |diff| mean  45 max 146
+  q=6: state angle over p: mean   +46, readout row   +82, |diff| mean  53 max 159
+  q=7: state angle over p: mean   -59, readout row   -81, |diff| mean  37 max 134
+  q=8: state angle over p: mean   -73, readout row  +112, |diff| mean 105 max 162
+  q=9: state angle over p: mean  -135, readout row  -180, |diff| mean  72 max  85
+  two-impulse accuracy 1.000; mean |state angle - row angle| 52 deg
+s3: W_oh singular values [14. 13.  8.  5.]; share of ||W_oh||^2 in the top plane 0.74
+  readout row angle by position: [ -84.  109.  -44.  153.   -0. -163.   47. -123.   84.   64.]  steps: [-167. -152. -163. -154. -163. -149. -170. -153.  -20.]
+  q=0: state angle over p: mean   -82, readout row   -84, |diff| mean  11 max  30
+  q=1: state angle over p: mean  +115, readout row  +109, |diff| mean  13 max  38
+  q=2: state angle over p: mean   -51, readout row   -44, |diff| mean  20 max  68
+  q=3: state angle over p: mean  +151, readout row  +153, |diff| mean  21 max  73
+  q=4: state angle over p: mean   -13, readout row    -0, |diff| mean  27 max  81
+  q=5: state angle over p: mean  -159, readout row  -163, |diff| mean  20 max  76
+  q=6: state angle over p: mean   +47, readout row   +47, |diff| mean  18 max  75
+  q=7: state angle over p: mean  -113, readout row  -123, |diff| mean  21 max 117
+  q=8: state angle over p: mean   +68, readout row   +84, |diff| mean  47 max 158
+  q=9: state angle over p: mean   -93, readout row   +64, |diff| mean 115 max 176
+  two-impulse accuracy 1.000; mean |state angle - row angle| 31 deg
+s4: W_oh singular values [14. 10.  4.  3.]; share of ||W_oh||^2 in the top plane 0.85
+  readout row angle by position: [ -69.  121.  -43.  149.   -1. -172.   29. -142.   31. -101.]  steps: [-170. -164. -168. -151. -171. -159. -171.  174. -133.]
+  q=0: state angle over p: mean   -65, readout row   -69, |diff| mean  28 max 158
+  q=1: state angle over p: mean  +121, readout row  +121, |diff| mean   8 max  14
+  q=2: state angle over p: mean   -46, readout row   -43, |diff| mean  28 max 128
+  q=3: state angle over p: mean  +133, readout row  +149, |diff| mean  16 max  34
+  q=4: state angle over p: mean   -17, readout row    -1, |diff| mean  27 max  50
+  q=5: state angle over p: mean  +160, readout row  -172, |diff| mean  28 max  55
+  q=6: state angle over p: mean   +26, readout row   +29, |diff| mean  24 max  53
+  q=7: state angle over p: mean  -155, readout row  -142, |diff| mean  31 max  66
+  q=8: state angle over p: mean   +63, readout row   +31, |diff| mean  34 max  65
+  q=9: state angle over p: mean  -111, readout row  -101, |diff| mean  24 max  75
+  two-impulse accuracy 0.989; mean |state angle - row angle| 25 deg

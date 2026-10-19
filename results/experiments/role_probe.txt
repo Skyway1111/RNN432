@@ -1,0 +1,19 @@
+roles: 0=max lagged, 1=max, 2=new-record, 3=max-last, 4=max\x[-2]-last, 5=max\x[-3]-last, 6=2nd max, 7=2nd max-last, 8=last+, 9=last-
+example: single neurons with a role fit R2 > 0.9: 5  n4:new-record 0.989 | n7:max-last 0.983 | n6:max\x[-2]-last 0.968 | n2:max lagged 0.962 | n1:max\x[-3]-last 0.926
+   best single-neuron R2 per role: [0.962 0.775 0.989 0.983 0.968 0.926 0.231 0.859 0.466 0.41 ]
+   decode-from-all-16 R2 per role: [0.998 0.997 0.991 0.999 0.997 0.968 0.906 0.974 0.818 0.819]
+s0: single neurons with a role fit R2 > 0.9: 3  n12:max\x[-3]-last 0.921 | n6:max\x[-3]-last 0.915 | n5:new-record 0.909
+   best single-neuron R2 per role: [0.817 0.671 0.909 0.912 0.856 0.921 0.175 0.766 0.521 0.331]
+   decode-from-all-16 R2 per role: [0.968 0.968 0.941 0.988 0.982 0.969 0.678 0.903 0.827 0.822]
+s1: single neurons with a role fit R2 > 0.9: 1  n10:new-record 0.997
+   best single-neuron R2 per role: [0.823 0.644 0.997 0.838 0.889 0.859 0.086 0.754 0.452 0.315]
+   decode-from-all-16 R2 per role: [0.996 0.996 0.997 0.998 0.993 0.982 0.775 0.925 0.814 0.816]
+s2: single neurons with a role fit R2 > 0.9: 1  n15:new-record 1.000
+   best single-neuron R2 per role: [0.792 0.641 1.    0.567 0.709 0.581 0.364 0.541 0.792 0.247]
+   decode-from-all-16 R2 per role: [1.    1.    1.    0.867 0.874 0.839 0.958 0.779 0.896 0.609]
+s3: single neurons with a role fit R2 > 0.9: 4  n3:max\x[-2]-last 0.959 | n1:max\x[-2]-last 0.952 | n14:max\x[-2]-last 0.951 | n9:last+ 0.921
+   best single-neuron R2 per role: [0.689 0.558 0.415 0.918 0.959 0.866 0.51  0.789 0.921 0.356]
+   decode-from-all-16 R2 per role: [0.995 0.931 0.675 0.992 0.998 0.989 0.744 0.943 0.962 0.878]
+s4: single neurons with a role fit R2 > 0.9: 1  n12:new-record 0.929
+   best single-neuron R2 per role: [0.795 0.65  0.929 0.81  0.642 0.885 0.304 0.644 0.509 0.241]
+   decode-from-all-16 R2 per role: [0.976 0.973 0.966 0.989 0.983 0.981 0.688 0.904 0.828 0.823]

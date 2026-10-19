@@ -1,0 +1,108 @@
+
+example: near-tie error mass over the grid (all gaps, mass-weighted): empirical 0.0293, Gaussian with oracle moments 0.0293, Gaussian with deductive moments 0.0319   (gaps < 0.1 only: 0.0043 / 0.0043 / 0.0049)
+  mean |skewness| of the margin over the lower inputs 0.58; sd ratio deductive/empirical median 0.59; mean offset (deductive - empirical) median +0.10, mad 0.50
+  P(wrong) by gap cell (rows S-T, cols M-S), family-averaged: empirical | oracle Gaussian | deductive Gaussian
+    S-T 0.01: 0.400 0.283 0.244 0.242 0.262 0.290 | 0.410 0.290 0.249 0.245 0.260 0.289 | 0.405 0.293 0.251 0.256 0.274 0.289
+    S-T 0.03: 0.235 0.109 0.073 0.068 0.078 0.102 | 0.236 0.109 0.072 0.068 0.077 0.100 | 0.253 0.134 0.085 0.078 0.085 0.109
+    S-T 0.07: 0.167 0.054 0.025 0.015 0.015 0.020 | 0.167 0.053 0.023 0.015 0.015 0.020 | 0.193 0.080 0.040 0.017 0.017 0.021
+    S-T 0.15: 0.142 0.033 0.011 0.005 0.004 0.003 | 0.143 0.034 0.011 0.005 0.004 0.004 | 0.165 0.053 0.023 0.006 0.004 0.001
+    S-T 0.30: 0.141 0.024 0.004 0.002 0.001 0.001 | 0.143 0.024 0.004 0.002 0.001 0.001 | 0.163 0.041 0.008 0.006 0.002 0.000
+    S-T 0.60: 0.165 0.028 0.002 0.001 0.000 0.000 | 0.167 0.028 0.002 0.001 0.000 0.000 | 0.170 0.035 0.005 0.002 0.000 0.000
+  calibration over all 25,920 configurations, binned by the deductive prediction: [lo, hi) share | mean predicted | mean empirical
+    [0.00, 0.02) 0.791 | 0.001 | 0.017
+    [0.02, 0.05) 0.028 | 0.033 | 0.100
+    [0.05, 0.10) 0.020 | 0.072 | 0.124
+    [0.10, 0.20) 0.027 | 0.145 | 0.192
+    [0.20, 0.35) 0.026 | 0.272 | 0.268
+    [0.35, 0.50) 0.018 | 0.422 | 0.369
+    [0.50, 1.01) 0.090 | 0.862 | 0.587
+
+s0: near-tie error mass over the grid (all gaps, mass-weighted): empirical 0.0766, Gaussian with oracle moments 0.0781, Gaussian with deductive moments 0.0985   (gaps < 0.1 only: 0.0104 / 0.0109 / 0.0118)
+  mean |skewness| of the margin over the lower inputs 0.84; sd ratio deductive/empirical median 0.92; mean offset (deductive - empirical) median +0.05, mad 0.25
+  P(wrong) by gap cell (rows S-T, cols M-S), family-averaged: empirical | oracle Gaussian | deductive Gaussian
+    S-T 0.01: 0.617 0.503 0.409 0.380 0.376 0.395 | 0.620 0.521 0.424 0.391 0.384 0.400 | 0.585 0.504 0.426 0.398 0.388 0.404
+    S-T 0.03: 0.531 0.364 0.231 0.180 0.178 0.218 | 0.549 0.391 0.251 0.190 0.184 0.221 | 0.543 0.411 0.282 0.224 0.218 0.258
+    S-T 0.07: 0.432 0.241 0.100 0.052 0.051 0.069 | 0.446 0.258 0.105 0.053 0.049 0.068 | 0.458 0.307 0.155 0.090 0.084 0.113
+    S-T 0.15: 0.401 0.207 0.066 0.025 0.021 0.024 | 0.408 0.214 0.067 0.024 0.020 0.023 | 0.424 0.265 0.110 0.043 0.030 0.041
+    S-T 0.30: 0.394 0.210 0.060 0.015 0.010 0.010 | 0.396 0.214 0.059 0.015 0.010 0.011 | 0.418 0.267 0.108 0.032 0.017 0.017
+    S-T 0.60: 0.414 0.258 0.089 0.015 0.008 0.006 | 0.415 0.260 0.086 0.015 0.008 0.008 | 0.428 0.295 0.147 0.038 0.016 0.019
+  calibration over all 25,920 configurations, binned by the deductive prediction: [lo, hi) share | mean predicted | mean empirical
+    [0.00, 0.02) 0.453 | 0.002 | 0.019
+    [0.02, 0.05) 0.052 | 0.034 | 0.069
+    [0.05, 0.10) 0.049 | 0.074 | 0.090
+    [0.10, 0.20) 0.072 | 0.147 | 0.139
+    [0.20, 0.35) 0.085 | 0.272 | 0.210
+    [0.35, 0.50) 0.074 | 0.423 | 0.346
+    [0.50, 1.01) 0.215 | 0.775 | 0.651
+
+s4: near-tie error mass over the grid (all gaps, mass-weighted): empirical 0.0965, Gaussian with oracle moments 0.0950, Gaussian with deductive moments 0.1186   (gaps < 0.1 only: 0.0118 / 0.0120 / 0.0140)
+  mean |skewness| of the margin over the lower inputs 0.77; sd ratio deductive/empirical median 0.89; mean offset (deductive - empirical) median +0.04, mad 0.30
+  P(wrong) by gap cell (rows S-T, cols M-S), family-averaged: empirical | oracle Gaussian | deductive Gaussian
+    S-T 0.01: 0.618 0.527 0.450 0.411 0.403 0.418 | 0.618 0.541 0.462 0.414 0.405 0.419 | 0.601 0.540 0.486 0.436 0.426 0.429
+    S-T 0.03: 0.528 0.387 0.276 0.220 0.218 0.248 | 0.535 0.403 0.284 0.217 0.214 0.250 | 0.551 0.456 0.362 0.283 0.281 0.296
+    S-T 0.07: 0.461 0.294 0.151 0.092 0.078 0.096 | 0.466 0.298 0.147 0.089 0.075 0.094 | 0.505 0.379 0.224 0.130 0.110 0.129
+    S-T 0.15: 0.419 0.229 0.086 0.049 0.040 0.040 | 0.417 0.230 0.085 0.048 0.039 0.039 | 0.456 0.304 0.129 0.065 0.053 0.055
+    S-T 0.30: 0.404 0.220 0.071 0.035 0.027 0.023 | 0.401 0.217 0.066 0.031 0.025 0.022 | 0.422 0.283 0.112 0.044 0.035 0.036
+    S-T 0.60: 0.445 0.285 0.097 0.034 0.024 0.020 | 0.440 0.279 0.092 0.029 0.022 0.020 | 0.447 0.322 0.157 0.046 0.032 0.028
+  calibration over all 25,920 configurations, binned by the deductive prediction: [lo, hi) share | mean predicted | mean empirical
+    [0.00, 0.02) 0.446 | 0.002 | 0.027
+    [0.02, 0.05) 0.048 | 0.033 | 0.071
+    [0.05, 0.10) 0.047 | 0.072 | 0.090
+    [0.10, 0.20) 0.063 | 0.147 | 0.125
+    [0.20, 0.35) 0.078 | 0.273 | 0.188
+    [0.35, 0.50) 0.068 | 0.421 | 0.313
+    [0.50, 1.01) 0.249 | 0.814 | 0.684
+
+example/0: near-tie error mass over the grid (all gaps, mass-weighted): empirical 0.0623, Gaussian with oracle moments 0.0622, Gaussian with deductive moments 0.0611   (gaps < 0.1 only: 0.0060 / 0.0060 / 0.0065)
+  mean |skewness| of the margin over the lower inputs 0.65; sd ratio deductive/empirical median 0.57; mean offset (deductive - empirical) median +0.14, mad 0.56
+  P(wrong) by gap cell (rows S-T, cols M-S), family-averaged: empirical | oracle Gaussian | deductive Gaussian
+    S-T 0.01: 0.441 0.340 0.308 0.321 0.350 0.394 | 0.450 0.345 0.311 0.326 0.356 0.399 | 0.449 0.348 0.295 0.299 0.323 0.356
+    S-T 0.03: 0.301 0.172 0.133 0.146 0.190 0.262 | 0.303 0.171 0.130 0.146 0.192 0.267 | 0.328 0.197 0.133 0.133 0.172 0.236
+    S-T 0.07: 0.238 0.095 0.051 0.048 0.071 0.134 | 0.237 0.094 0.049 0.045 0.067 0.130 | 0.275 0.122 0.058 0.046 0.063 0.118
+    S-T 0.15: 0.214 0.068 0.022 0.014 0.015 0.038 | 0.213 0.068 0.021 0.014 0.013 0.036 | 0.254 0.099 0.041 0.016 0.013 0.027
+    S-T 0.30: 0.223 0.069 0.015 0.003 0.001 0.006 | 0.222 0.068 0.016 0.003 0.002 0.006 | 0.257 0.107 0.033 0.009 0.002 0.004
+    S-T 0.60: 0.252 0.097 0.021 0.001 0.000 0.000 | 0.253 0.097 0.021 0.002 0.000 0.000 | 0.273 0.130 0.042 0.006 0.000 0.000
+  calibration over all 25,920 configurations, binned by the deductive prediction: [lo, hi) share | mean predicted | mean empirical
+    [0.00, 0.02) 0.718 | 0.001 | 0.025
+    [0.02, 0.05) 0.031 | 0.033 | 0.101
+    [0.05, 0.10) 0.027 | 0.072 | 0.125
+    [0.10, 0.20) 0.032 | 0.145 | 0.187
+    [0.20, 0.35) 0.031 | 0.270 | 0.275
+    [0.35, 0.50) 0.025 | 0.424 | 0.365
+    [0.50, 1.01) 0.136 | 0.874 | 0.677
+
+s0/0: near-tie error mass over the grid (all gaps, mass-weighted): empirical 0.1885, Gaussian with oracle moments 0.1891, Gaussian with deductive moments 0.1888   (gaps < 0.1 only: 0.0194 / 0.0195 / 0.0186)
+  mean |skewness| of the margin over the lower inputs 0.69; sd ratio deductive/empirical median 0.95; mean offset (deductive - empirical) median +0.15, mad 0.35
+  P(wrong) by gap cell (rows S-T, cols M-S), family-averaged: empirical | oracle Gaussian | deductive Gaussian
+    S-T 0.01: 0.674 0.653 0.589 0.507 0.486 0.491 | 0.674 0.652 0.592 0.511 0.487 0.494 | 0.639 0.617 0.549 0.478 0.464 0.466
+    S-T 0.03: 0.657 0.617 0.531 0.422 0.399 0.416 | 0.656 0.617 0.535 0.427 0.400 0.418 | 0.626 0.590 0.498 0.407 0.383 0.395
+    S-T 0.07: 0.606 0.542 0.425 0.289 0.252 0.276 | 0.607 0.545 0.432 0.293 0.253 0.278 | 0.584 0.522 0.417 0.289 0.250 0.266
+    S-T 0.15: 0.528 0.453 0.323 0.166 0.103 0.100 | 0.530 0.456 0.325 0.166 0.102 0.099 | 0.515 0.447 0.323 0.163 0.099 0.097
+    S-T 0.30: 0.495 0.422 0.289 0.136 0.061 0.040 | 0.495 0.422 0.288 0.135 0.060 0.039 | 0.489 0.424 0.300 0.147 0.066 0.043
+    S-T 0.60: 0.491 0.424 0.299 0.145 0.056 0.030 | 0.489 0.422 0.297 0.143 0.057 0.032 | 0.488 0.429 0.315 0.162 0.066 0.042
+  calibration over all 25,920 configurations, binned by the deductive prediction: [lo, hi) share | mean predicted | mean empirical
+    [0.00, 0.02) 0.366 | 0.002 | 0.025
+    [0.02, 0.05) 0.045 | 0.034 | 0.072
+    [0.05, 0.10) 0.047 | 0.073 | 0.103
+    [0.10, 0.20) 0.057 | 0.148 | 0.157
+    [0.20, 0.35) 0.063 | 0.274 | 0.249
+    [0.35, 0.50) 0.063 | 0.424 | 0.410
+    [0.50, 1.01) 0.360 | 0.847 | 0.846
+
+s4/0: near-tie error mass over the grid (all gaps, mass-weighted): empirical 0.1851, Gaussian with oracle moments 0.1834, Gaussian with deductive moments 0.1894   (gaps < 0.1 only: 0.0174 / 0.0174 / 0.0175)
+  mean |skewness| of the margin over the lower inputs 0.70; sd ratio deductive/empirical median 0.87; mean offset (deductive - empirical) median +0.10, mad 0.35
+  P(wrong) by gap cell (rows S-T, cols M-S), family-averaged: empirical | oracle Gaussian | deductive Gaussian
+    S-T 0.01: 0.664 0.621 0.536 0.463 0.457 0.472 | 0.665 0.623 0.544 0.469 0.459 0.474 | 0.633 0.591 0.521 0.457 0.453 0.464
+    S-T 0.03: 0.632 0.564 0.440 0.337 0.333 0.368 | 0.633 0.568 0.446 0.341 0.334 0.369 | 0.620 0.557 0.448 0.350 0.340 0.374
+    S-T 0.07: 0.587 0.499 0.343 0.218 0.202 0.222 | 0.586 0.498 0.345 0.218 0.200 0.219 | 0.592 0.510 0.360 0.232 0.205 0.231
+    S-T 0.15: 0.535 0.439 0.270 0.142 0.112 0.106 | 0.534 0.438 0.270 0.140 0.111 0.104 | 0.535 0.442 0.278 0.148 0.119 0.116
+    S-T 0.30: 0.510 0.414 0.257 0.123 0.088 0.074 | 0.507 0.411 0.253 0.119 0.086 0.071 | 0.495 0.407 0.253 0.127 0.091 0.084
+    S-T 0.60: 0.511 0.424 0.285 0.130 0.082 0.065 | 0.507 0.419 0.279 0.127 0.080 0.065 | 0.492 0.412 0.284 0.127 0.082 0.073
+  calibration over all 25,920 configurations, binned by the deductive prediction: [lo, hi) share | mean predicted | mean empirical
+    [0.00, 0.02) 0.404 | 0.002 | 0.030
+    [0.02, 0.05) 0.042 | 0.033 | 0.075
+    [0.05, 0.10) 0.042 | 0.073 | 0.103
+    [0.10, 0.20) 0.053 | 0.148 | 0.157
+    [0.20, 0.35) 0.063 | 0.274 | 0.233
+    [0.35, 0.50) 0.055 | 0.423 | 0.389
+    [0.50, 1.01) 0.342 | 0.860 | 0.831

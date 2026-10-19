@@ -1,0 +1,7 @@
+c = 0, 2, 4, 6, 8; 16 runs each; advantage: sampling's ops to 10% relative RMSE over these (modes on the bench: 0.35, 1.64, 7.3, 34, 92)
+  s2/15     generic, N 4000, 10 moves  passes  324000; rel RMSE 0.056 0.119 0.328 0.902 2.568; bias -0.00 -0.02 -0.01 -0.10 -0.02; advantage 0.01 0.05 0.11 0.13 0.15
+  s2/15     line-collapsed, N 2000, 3  passes  286622; rel RMSE 0.041 0.100 0.151 0.232 0.450; bias +0.01 -0.02 -0.04 -0.05 -0.02; advantage 0.02 0.08 0.57 2.17 5.49
+  s1/12     generic, N 4000, 10 moves  passes  324000; rel RMSE 0.030 0.064 0.234 0.841 2.301; bias -0.00 -0.00 -0.04 -0.05 -0.08; advantage 0.01 0.12 0.15 0.17 0.19
+  s1/12     line-collapsed, N 2000, 3  passes  406772; rel RMSE 0.038 0.117 0.190 0.452 1.545; bias -0.01 -0.03 -0.06 -0.07 -0.41; advantage 0.01 0.03 0.19 0.46 0.34
+  example/0 generic, N 4000, 10 moves  passes  324000; rel RMSE 0.037 0.071 0.233 0.496 0.797; bias -0.01 +0.00 +0.08 -0.06 -0.04; advantage 0.03 0.08 0.08 0.11 0.17
+  example/0 line-collapsed, N 2000, 3  passes  280557; rel RMSE 0.026 0.062 0.198 0.486 0.706; bias +0.01 +0.00 -0.04 -0.09 -0.12; advantage 0.06 0.12 0.13 0.14 0.25

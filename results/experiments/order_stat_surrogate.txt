@@ -1,0 +1,8 @@
+(p,q) | M,S: R2 0.1708  surrogate accuracy 0.9898
+(p,q) | M,S,T: R2 0.2483  surrogate accuracy 0.9925
+(p,q) | M,S,T and ReLUs: R2 0.2573  surrogate accuracy 0.9911
+(p,q) | all sorted values and ReLUs: R2 0.3311  surrogate accuracy 0.9913
+(p,q,r) | M,S,T and ReLUs: R2 0.3844  surrogate accuracy 0.9756
+(p,q,r) | all sorted values and ReLUs: R2 0.5188  surrogate accuracy 0.9743
+(p,q,r) | M,S,T, last input, ReLUs: R2 0.6400  surrogate accuracy 0.9413
+true accuracy 0.9530394077301025

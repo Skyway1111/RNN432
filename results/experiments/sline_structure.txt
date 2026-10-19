@@ -1,0 +1,19 @@
+1. the error set along S-lines
+  s0/0       error share at the T end 0.70, M end 0.29; lines with 0, 1, 2, >2 switches 0.30, 0.41, 0.28, 0.01; variance left 0.47
+  example/0  error share at the T end 0.84, M end 0.14; lines with 0, 1, 2, >2 switches 0.28, 0.41, 0.30, 0.01; variance left 0.26
+  s4/0       error share at the T end 0.73, M end 0.26; lines with 0, 1, 2, >2 switches 0.30, 0.41, 0.29, 0.01; variance left 0.52
+
+2. exact integral against 2,000 nodes, and its cost
+  s0/0       max |exact - nodes| 0.0007, mean +0.00000; passes per line mean 4.92, 90th percentile 9.3
+  example/0  max |exact - nodes| 0.0006, mean -0.00000; passes per line mean 7.69, 90th percentile 14.5
+  s4/0       max |exact - nodes| 0.0005, mean -0.00000; passes per line mean 4.40, 90th percentile 8.2
+
+3. which part needs the Kronecker sequence (whole suite)
+  3 x 3, positions Kronecker, lower inputs Kronecker    : ops 1.12e+08, rmse 0.0014, bias -0.0001, mse/samp 0.63
+  3 x 3, positions medians  , lower inputs Kronecker    : ops 1.04e+08, rmse 0.0196, bias +0.0194, mse/samp 118.24
+  3 x 3, positions Kronecker, lower inputs 16-run design: ops 1.11e+08, rmse 0.0025, bias +0.0010, mse/samp 2.09
+  3 x 3, positions medians  , lower inputs 16-run design: ops 1.03e+08, rmse 0.0209, bias +0.0205, mse/samp 133.05
+  6 x 6, positions Kronecker, lower inputs Kronecker    : ops 4.46e+08, rmse 0.0007, bias +0.0001, mse/samp 0.62
+  6 x 6, positions medians  , lower inputs Kronecker    : ops 4.24e+08, rmse 0.0136, bias +0.0134, mse/samp 233.46
+  6 x 6, positions Kronecker, lower inputs 16-run design: ops 4.43e+08, rmse 0.0016, bias +0.0007, mse/samp 3.25
+  6 x 6, positions medians  , lower inputs 16-run design: ops 4.22e+08, rmse 0.0142, bias +0.0138, mse/samp 253.57

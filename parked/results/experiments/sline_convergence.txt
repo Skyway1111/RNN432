@@ -1,0 +1,15 @@
+4 x 4: ops 1.99e+08, rmse 8.99e-04, bias -1.2e-04, sampling 1.31e-03, mse/samp 0.471
+8 x 8: ops 7.95e+08, rmse 4.92e-04, bias +1.5e-04, sampling 6.55e-04, mse/samp 0.563
+16 x 16: ops 3.18e+09, rmse 1.57e-04, bias +8.6e-06, sampling 3.28e-04, mse/samp 0.231
+32 x 32: ops 1.27e+10, rmse 7.57e-05, bias +4.8e-05, sampling 1.64e-04, mse/samp 0.213
+48 x 48: ops 2.86e+10, rmse 3.67e-05, bias -4.1e-06, sampling 1.09e-04, mse/samp 0.113
+64 x 64: ops 5.09e+10, rmse 3.00e-05, bias -1.7e-06, sampling 8.19e-05, mse/samp 0.134
+log-log slope of rmse against ops -0.64 (sampling -0.50); the truth's sd about 1.1e-05
+
+the same strata and lattice with one correct/incorrect input per node instead of the exact S-line (S from the lattice's tenth coordinate), k x k strata per family
+7 x 7: ops 1.02e+08, rmse 1.28e-03, sampling 1.83e-03, mse/samp 0.488
+19 x 19: ops 7.49e+08, rmse 4.04e-04, sampling 6.75e-04, mse/samp 0.358
+40 x 40: ops 3.32e+09, rmse 1.82e-04, sampling 3.21e-04, mse/samp 0.321
+80 x 80: ops 1.33e+10, rmse 8.30e-05, sampling 1.60e-04, mse/samp 0.268
+120 x 120: ops 2.99e+10, rmse 3.87e-05, sampling 1.07e-04, mse/samp 0.131
+log-log slope -0.60

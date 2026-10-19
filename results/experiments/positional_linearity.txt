@@ -1,0 +1,1 @@
+logits ~ linear in x per (p,q): R2 0.7656  surrogate accuracy 0.9844  true 0.9533

@@ -1,0 +1,8 @@
+1. cells (top-three key x activation pattern) with mass above 1e-6, by step
+  s0/0       2 (2/key), 32 (16/key), 136 (23/key), 403 (17/key), 959 (16/key), 1158 (10/key), 1392 (7/key), 1692 (5/key), 1990 (4/key), 2537 (4/key)
+  example/0  2 (2/key), 34 (17/key), 235 (39/key), 829 (35/key), 2267 (38/key), 4069 (34/key), 4974 (24/key), 5452 (16/key), 6187 (12/key), 7215 (10/key)
+
+2. projection error in accuracy (projected - exact on the same 2^21 inputs)
+  s0/0       every step: control +0.0008, keys -0.2767, keys x patterns -0.2145; keys x patterns once after step 3, 6, 9: -0.0303, -0.0660, -0.1410
+  example/0  every step: control -0.0002, keys -0.5575, keys x patterns -0.2746; keys x patterns once after step 3, 6, 9: -0.0240, -0.0628, -0.1037
+  s4/0       every step: control -0.0005, keys -0.3212, keys x patterns -0.2432; keys x patterns once after step 3, 6, 9: -0.0326, -0.0734, -0.1585

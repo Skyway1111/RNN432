@@ -1,0 +1,9 @@
+1. exact V_9 against a 20,000-node grid over x_9
+  s0/0       max |exact - grid| 4.3e-04, mean V_9 0.7966
+  example/0  max |exact - grid| 5.3e-04, mean V_9 0.9072
+
+2. sketches, held-out rms (mean error) in probability units
+  s0/0       t = 9: V mean 0.804, sd 0.306; constant 0.285 (-0.0001); linear PC1-1 0.273 (-0.0016); linear PC1-4 0.267 (-0.0023); linear PC1-16 0.236 (-0.0047); quadratic PC1-4 0.252 (-0.0027); quadratic logits 0.222 (-0.0069)
+  s0/0       t = 8: V mean 0.810, sd 0.225; constant 0.211 (-0.0033); linear PC1-1 0.200 (-0.0027); linear PC1-4 0.198 (-0.0033); linear PC1-16 0.181 (-0.0037); quadratic PC1-4 0.202 (-0.0048)
+  example/0  t = 9: V mean 0.907, sd 0.221; constant 0.215 (+0.0006); linear PC1-1 0.206 (-0.0005); linear PC1-4 0.190 (-0.0045); linear PC1-16 0.170 (-0.0080); quadratic PC1-4 0.178 (-0.0057); quadratic logits 0.156 (-0.0115)
+  example/0  t = 8: V mean 0.910, sd 0.162; constant 0.160 (-0.0009); linear PC1-1 0.154 (-0.0014); linear PC1-4 0.145 (-0.0039); linear PC1-16 0.133 (-0.0063); quadratic PC1-4 0.155 (-0.0086)

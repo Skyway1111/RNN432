@@ -1,0 +1,7 @@
+_ext/
+__pycache__/
+data/cache/
+web/_shots/
+.claude/settings.local.json
+# docs stay on disk, outside version control
+*.md

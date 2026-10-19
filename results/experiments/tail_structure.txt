@@ -1,0 +1,12 @@
+example/0: P(level c) for c = 0, 2, 4, 6, 8: 9.3e-02 1.4e-02 2.1e-03 2.8e-04 4.8e-05
+   events at c >= 4 (559379): at most one positive 0.32; predicted rank 1, 3, 4 or lower 0.13, 0.53, 0.34; max at position 7-9 0.05
+s0/0: P(level c) for c = 0, 2, 4, 6, 8: 2.0e-01 8.0e-03 3.1e-04 5.6e-05 2.4e-05
+   events at c >= 4 (83448): at most one positive 0.27; predicted rank 1, 3, 4 or lower 0.30, 0.47, 0.24; max at position 7-9 0.26
+s1/0: P(level c) for c = 0, 2, 4, 6, 8: 1.8e-01 2.3e-03 8.4e-05 1.0e-05 3.6e-06
+   events at c >= 4 (22566): at most one positive 0.64; predicted rank 1, 3, 4 or lower 0.58, 0.16, 0.27; max at position 7-9 0.44
+s2/0: P(level c) for c = 0, 2, 4, 6, 8: 7.8e-02 2.0e-03 1.4e-04 1.8e-05 2.8e-06
+   events at c >= 4 (38123): at most one positive 0.00; predicted rank 1, 3, 4 or lower 0.76, 0.21, 0.03; max at position 7-9 0.60
+s3/0: P(level c) for c = 0, 2, 4, 6, 8: 9.6e-02 1.6e-03 1.2e-04 2.1e-05 2.3e-06
+   events at c >= 4 (31752): at most one positive 0.90; predicted rank 1, 3, 4 or lower 0.24, 0.16, 0.59; max at position 7-9 0.31
+s4/0: P(level c) for c = 0, 2, 4, 6, 8: 1.9e-01 6.3e-03 3.4e-04 3.0e-05 8.8e-06
+   events at c >= 4 (90697): at most one positive 0.34; predicted rank 1, 3, 4 or lower 0.32, 0.57, 0.11; max at position 7-9 0.23

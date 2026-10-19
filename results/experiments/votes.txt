@@ -1,0 +1,57 @@
+(1) each neuron's coefficient on the input of rank k (1 = max, 2 = 2nd max, 3 = 3rd): mean, and sd in brackets
+     rank:   1 (M)          2 (S)          3 (T)          4              5            6-10 summed
+  n 0:  +11.4 [12.1]    -3.6 [14.0]    -3.5 [ 7.8]    -1.5 [ 4.2]    -0.5 [ 2.1]    -0.6 [ 1.1]   mean h  10.8
+  n 1:   +6.6 [ 7.4]    +0.9 [ 7.2]    -0.5 [ 3.9]    -0.9 [ 3.4]    -1.0 [ 3.2]    -5.3 [ 5.3]   mean h  14.5
+  n 2:  +12.6 [ 6.1]    +4.1 [ 5.8]    +1.2 [ 2.7]    +0.4 [ 1.2]    +0.2 [ 0.7]    +0.1 [ 0.4]   mean h  25.0
+  n 3:   +2.3 [ 6.1]    +1.3 [10.0]    +1.2 [ 9.2]    +0.4 [ 6.7]    +0.1 [ 4.3]    -0.1 [ 2.9]   mean h   6.3
+  n 4:   +0.9 [ 3.2]    -0.7 [ 2.8]    -0.2 [ 1.0]    -0.0 [ 0.3]    -0.0 [ 0.1]    -0.0 [ 0.1]   mean h   0.6
+  n 5:   +1.3 [ 4.0]    +1.0 [ 5.7]    -0.1 [ 6.1]    -0.6 [ 4.2]    -0.4 [ 2.0]    -0.3 [ 1.0]   mean h   2.8
+  n 6:   +6.6 [ 5.5]    +1.2 [ 5.6]    -0.5 [ 3.8]    -0.9 [ 3.4]    -1.1 [ 3.4]    -5.4 [ 5.5]   mean h  14.8
+  n 7:   +9.3 [ 4.7]    +0.6 [ 5.4]    -1.0 [ 4.2]    -1.2 [ 4.0]    -1.3 [ 4.0]    -6.5 [ 6.6]   mean h  18.8
+  n 8:   +6.7 [ 9.3]    +2.8 [ 9.2]    -0.9 [ 4.6]    -1.2 [ 3.8]    -1.3 [ 3.8]    -6.1 [ 6.2]   mean h  16.6
+  n 9:   +0.1 [ 2.9]    +0.0 [ 3.2]    -0.0 [ 1.4]    -0.0 [ 0.6]    -0.0 [ 0.3]    -0.0 [ 0.2]   mean h   0.2
+  n10:   +9.7 [11.1]    -1.7 [11.8]    -2.5 [ 8.1]    -1.4 [ 5.6]    -0.6 [ 3.6]    -0.4 [ 2.2]   mean h  11.0
+  n11:   +9.9 [10.4]    -1.4 [11.9]    -2.6 [ 8.6]    -1.6 [ 5.9]    -0.8 [ 3.6]    -0.6 [ 2.1]   mean h  11.1
+  n12:  +13.3 [13.8]    -1.3 [15.5]    -2.7 [10.9]    -1.5 [ 7.0]    -0.5 [ 3.8]    -0.5 [ 2.1]   mean h  16.6
+  n13:   +5.2 [ 5.7]    +0.5 [ 8.5]    +0.6 [ 7.6]    +0.6 [ 6.0]    +0.2 [ 4.0]    -0.0 [ 2.6]   mean h   9.6
+  n14:  +11.1 [10.5]    -0.4 [11.2]    -2.6 [ 6.7]    -1.8 [ 4.1]    -0.8 [ 2.6]    -1.3 [ 1.7]   mean h  14.3
+  n15:   +6.9 [ 8.9]    +0.5 [11.4]    -0.0 [10.4]    -0.1 [ 7.7]    -0.1 [ 4.9]    -0.2 [ 3.0]   mean h  11.3
+
+(2) votes per unit input, by the input's rank: for its own position, for q, for p, for r, and the mean over the other positions
+  rank  1: self  -22.3 [ 35.7]  for q   +9.5  for p  -22.3  for r   +1.0  others   +0.5
+  rank  2: self  +35.1 [ 39.8]  for q  +35.1  for p  +45.4  for r  -18.5  others   -4.3
+  rank  3: self  +41.2 [ 42.8]  for q  -16.5  for p   -4.3  for r  +41.2  others   -4.7
+  rank  4: self  +27.0 [ 37.2]  for q   -7.9  for p   -5.6  for r   -8.3  others   -3.0
+  rank  5: self  +15.8 [ 27.9]  for q   -3.5  for p   -2.8  for r   -3.3  others   -1.6
+  rank  6: self   +9.8 [ 21.3]  for q   -1.6  for p   -1.3  for r   -1.4  others   -0.9
+  rank  7: self   +7.4 [ 18.3]  for q   -0.9  for p   -0.8  for r   -0.8  others   -0.6
+  rank  8: self   +6.6 [ 17.3]  for q   -0.8  for p   -0.7  for r   -0.7  others   -0.5
+  rank  9: self   +6.3 [ 17.0]  for q   -0.7  for p   -0.6  for r   -0.6  others   -0.5
+  rank 10: self   +6.2 [ 16.9]  for q   -0.7  for p   -0.6  for r   -0.6  others   -0.5
+
+(3) the max's self-vote by its position, and by whether it came before or after q
+  p = 0: self  -24.4  before q  -24.4  after q   +nan
+  p = 1: self  -22.1  before q  -23.8  after q   -8.4
+  p = 2: self  -21.6  before q  -24.7  after q  -10.8
+  p = 3: self  -21.5  before q  -25.2  after q  -14.0
+  p = 4: self  -19.6  before q  -22.0  after q  -16.5
+  p = 5: self  -13.5  before q  -14.1  after q  -12.9
+  p = 6: self  -11.8  before q  -11.3  after q  -12.1
+  p = 7: self   -9.1  before q   -7.7  after q   -9.6
+  p = 8: self  -28.5  before q  -22.5  after q  -29.2
+  p = 9: self  -51.0  before q   +nan  after q  -51.0
+
+(4) the 2nd max's self-vote by its position, and by case
+  q = 0: self  +34.2 [ 50.6]  demoted  +34.2  runner-up   +nan
+  q = 1: self  +28.9 [ 48.3]  demoted  +30.3  runner-up  +17.8
+  q = 2: self  +26.4 [ 42.3]  demoted  +28.9  runner-up  +17.8
+  q = 3: self  +26.0 [ 43.8]  demoted  +30.3  runner-up  +17.3
+  q = 4: self  +30.8 [ 36.1]  demoted  +37.4  runner-up  +22.7
+  q = 5: self  +37.2 [ 34.9]  demoted  +48.4  runner-up  +28.2
+  q = 6: self  +40.2 [ 31.9]  demoted  +53.3  runner-up  +33.6
+  q = 7: self  +41.9 [ 29.2]  demoted  +52.6  runner-up  +39.0
+  q = 8: self  +44.8 [ 34.1]  demoted  +50.1  runner-up  +44.1
+  q = 9: self  +40.5 [ 35.6]  demoted   +nan  runner-up  +40.5
+
+(5) variance of the 2nd max's self-vote explained by q: 0.026; by (q, p): 0.084; by (q, p, r): 0.097
+    the max's self-vote: by p 0.098; by (p, q) 0.130; by (p, q, r) 0.136

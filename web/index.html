@@ -23,8 +23,8 @@
   </div>
 </header>
 <main id="story"></main>
-<section id="words"><div class="wrap">
-  <h2>The words</h2>
+<section id="glossary"><div class="wrap">
+  <h2>Glossary</h2>
   <p>Every term on this page is pictured before it is named. Here they are again, one line each, in the order they appear.</p>
   <dl>
     <div><dt>input</dt><dd>One of the ten numbers, x<sub>0</sub> to x<sub>9</sub>, read one per step in the order they arrive.</dd></div>
@@ -57,14 +57,15 @@
 <script src="neurons.js"></script>
 <script src="story.js"></script>
 <script src="hero.js"></script>
+<script src="parts.js"></script>
 
-<script>Story.part('puzzle', { kicker: 'Part one', title: 'The puzzle', color: 'indigo', html: `
+<script>Story.part('overview', { kicker: 'Part one', title: 'Overview', color: 'indigo', paint: Parts.overview, html: `
   <p>Before taking a machine apart, look at it whole: the numbers it is made of, the game it was trained to play, and the one rule it repeats. Nothing here is harder than multiplying and adding.</p>` });</script>
 <script src="ch/numbers.js"></script>
 <script src="ch/game.js"></script>
 <script src="ch/rule.js"></script>
 
-<script>Story.part('works', { kicker: 'Part two', title: 'How it works', color: 'gold', html: `
+<script>Story.part('works', { kicker: 'Part two', title: 'How it works', color: 'gold', paint: Parts.works, html: `
   <p>Each of the sixteen neurons turns out to track something you can name. Once you know what, the network stops being 432 numbers and becomes a small machine: a record keeper, four comparators, a clock, and ten timers whose votes point to the answer.</p>` });</script>
 <script src="ch/record.js"></script>
 <script src="ch/clock.js"></script>
@@ -72,7 +73,7 @@
 <script src="ch/sixteen.js"></script>
 <script src="ch/learned.js"></script>
 
-<script>Story.part('fails', { kicker: 'Part three', title: 'Where it fails', color: 'vermilion', html: `
+<script>Story.part('fails', { kicker: 'Part three', title: 'Where it fails', color: 'vermilion', paint: Parts.fails, html: `
   <p>The network is right on <b data-fact="acc"></b> of random inputs. This part is about the rest. Most of its mistakes come from one fact no smooth machine can escape, and the most confident ones from a shortcut it learned. Then we break it on purpose, and say plainly what is still not explained.</p>` });</script>
 <script src="ch/ties.js"></script>
 <script src="ch/dims.js"></script>

@@ -2,7 +2,7 @@
 on a console error, a missing fact, a JS forward pass off az.model by more than 1e-9, accuracy over 20,000 inputs
 slower than 150 ms, a measured number in the prose outside a data-fact or data-live span, a data-live span the page
 left empty, or a field guide without its sixteen plates and their silencing tests. Screenshots of the hero, each
-chapter and the field guide go to web/_shots/ (gitignored) for review.
+part, each chapter and the field guide go to web/_shots/ (gitignored) for review.
 
 python -m web.check [CHAPTER ...] [--steps]   (--steps also shoots every step of the named chapters, motion reduced)
 """
@@ -19,7 +19,7 @@ LITERAL = {"432", "256", "160", "20000", "200000"}  # structural constants the p
 
 
 def numbers_outside_facts(page) -> list[str]:
-    texts = page.evaluate("""() => [...document.querySelectorAll('.step, #hero, .part, #words, #coda, .guide')].map(s => {
+    texts = page.evaluate("""() => [...document.querySelectorAll('.step, #hero, .part, #glossary, #coda, .guide')].map(s => {
         const c = s.cloneNode(true); c.querySelectorAll('[data-fact], [data-live], code, .mono, nav, footer').forEach(e => e.remove()); return c.textContent; })""")
     bad = []
     for t in texts:
@@ -45,6 +45,10 @@ def main() -> None:
         page.wait_for_timeout(3000)  # the hero's bloom, and the field guide's silencing tests
         if not only:
             page.screenshot(path=str(SHOTS / "00-hero.png"))
+            for pid in page.evaluate("() => [...document.querySelectorAll('.part')].map(s => s.id)"):
+                page.evaluate(f"document.querySelector('#{pid}').scrollIntoView({{block: 'center', behavior: 'instant'}})")
+                page.wait_for_timeout(250)
+                page.screenshot(path=str(SHOTS / f"00-part-{pid}.png"))
         err = page.evaluate("""() => { let e = 0; DATA.parity.x.forEach((x, i) => M.run(M.base, x).logits.forEach((v, k) =>
             e = Math.max(e, Math.abs(v - DATA.parity.logits[i][k])))); return e; }""")
         ms = page.evaluate("() => { M.accuracy(M.base, 20000); const t = performance.now(); M.accuracy(M.base, 20000); return performance.now() - t; }")

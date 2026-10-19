@@ -1,9 +1,10 @@
 // The scroll engine. A chapter registers {title, steps: [html], hint, mount(fig, bar) -> {step(k)}, after(el)}; a part
-// registers {kicker, title, html, color} and sits between chapters, its title on a swipe of its pigment, which also
-// colors its chapters' numbers and rail ticks. Story.start() lays everything out in registration order, builds the
-// hero index and the rail, paints each figure's panel and mounts it when it nears the screen, and calls step(k) as
-// the step whose text crosses the middle of the screen changes. A chapter's hint names its gesture on the figure
-// until the first touch; its after(el), if any, fills a full-width section below its steps when it mounts.
+// registers {kicker, title, html, color, paint(host)} and sits between chapters, its title on a swipe of its pigment,
+// which also colors its chapters' numbers and rail ticks, beside its own painting. Story.start() lays everything out
+// in registration order, builds the hero index and the rail, paints each part and mounts each figure when it nears
+// the screen, and calls step(k) as the step whose text crosses the middle of the screen changes. A chapter's hint
+// names its gesture on the figure until the first touch; its after(el), if any, fills a full-width section below its
+// steps when it mounts.
 // <a data-ch="ID"> in prose becomes a link reading "chapter N", so chapters can be reordered without retyping numbers.
 // ?final mounts everything at its last step (for web/check.py).
 (function () {
@@ -53,14 +54,19 @@
   function buildPart(p) {
     const sec = document.createElement('section');
     sec.className = 'part'; sec.id = p.id;
-    sec.innerHTML = `<div class="wrap"><p class="kicker">${p.kicker}</p><h2><span class="swipe"></span>${p.title}</h2>${p.html}</div>`;
+    sec.innerHTML = `<div class="wrap"><div class="intro"><p class="kicker">${p.kicker}</p><h2><span class="swipe"></span>${p.title}</h2>${p.html}</div>${p.paint ? '<div class="art" role="img" aria-label="A painting of the part\'s subject, from the weights"></div>' : ''}</div>`;
     if (p.color) V.swipe(sec.querySelector('.swipe'), V.C['wash' + p.color[0].toUpperCase() + p.color.slice(1)], 500 + items.indexOf(p));
+    p.sec = sec;
     return sec;
+  }
+  function paint(p) {
+    if (p.painted || !p.paint) return;
+    p.painted = true;
+    try { p.paint(p.sec.querySelector('.art')); } catch (e) { console.error(`part ${p.id}: ${e.stack || e}`); }
   }
 
   function mount(ch) {
     if (ch.ctl) return;
-    V.panel(ch.sec.querySelector('.panel'), 1000 + 7 * ch.n);
     try { ch.ctl = ch.mount(ch.sec.querySelector('.fig'), ch.sec.querySelector('.fig-bar')) || {}; }
     catch (e) { console.error(`chapter ${ch.id}: ${e.stack || e}`); ch.ctl = {}; }
     if (ch.after) {
@@ -102,8 +108,10 @@
     items.forEach(it => root.appendChild(it.kind === 'part' ? buildPart(it) : buildChapter(it)));
     if (toc) index(toc, rail);
     facts(document);
-    if (final) { chapters.forEach(mount); return; }
-    const near = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) mount(chapters.find(c => c.sec === e.target)); }), { rootMargin: '100% 0px' });
+    const parts = items.filter(it => it.kind === 'part');
+    if (final) { parts.forEach(paint); chapters.forEach(mount); return; }
+    const near = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { const it = items.find(c => c.sec === e.target); it.kind === 'part' ? paint(it) : mount(it); } }), { rootMargin: '100% 0px' });
+    parts.forEach(p => near.observe(p.sec));
     const mid = new IntersectionObserver(es => es.forEach(e => {
       if (!e.isIntersecting) return;
       const ch = chapters.find(c => c.sec.contains(e.target));

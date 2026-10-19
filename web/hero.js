@@ -20,12 +20,12 @@
     const cx = wide ? w * 0.715 : w * 0.5, cy = wide ? vh * 0.46 : vh * 0.25, R = wide ? Math.min(w * 0.165, vh * 0.29) : Math.min(w * 0.3, vh * 0.17);
     const pos = V.place(cx, cy, R), rad = n => R * (0.05 + 0.017 * Math.sqrt(mean[n]));
     const washes = [
-      { at: 0, w: V.wash(cx + 0.06 * R, cy - 0.04 * R, 1.58 * R, 1.44 * R, V.C.washIndigo, 11, { alpha: 0.021, layers: 54, rough: 0.32, hole: 0.5, spots: 6 }) },
+      { at: 0, w: V.wash(cx + 0.06 * R, cy - 0.04 * R, 1.58 * R, 1.44 * R, V.C.washIndigo, 11, { alpha: 0.016, layers: 46, rough: 0.32, hole: 0.56, spots: 6 }) },
       { at: 0.08, w: V.wash(cx - 0.02 * R, cy + 0.02 * R, 0.52 * R, 0.48 * R, V.C.washGold, 12, { alpha: 0.013, layers: 30, rough: 0.28 }) },
       // the paper left bare under each timer, as if masked before the ground went down
       ...V.PLACE.filter(([n]) => !V.CORE.includes(n)).map(([n], k) => {
-        const r = rad(n) * 1.5, p = pos[n];
-        return { at: 0.12 + 0.02 * k, w: V.wash(p.x, p.y, r, r, V.C.ink, 200 + n, { alpha: 0.3, layers: 8, rough: 0.14, per: 2, spots: 0, glaze: 'destination-out' }) };
+        const r = rad(n) * 1.85, p = pos[n];
+        return { at: 0.12 + 0.02 * k, w: V.wash(p.x, p.y, r, r, V.C.ink, 200 + n, { alpha: 0.34, layers: 10, rough: 0.14, per: 2, spots: 0, glaze: 'destination-out' }) };
       }),
       ...V.PLACE.map(([n], k) => {
         const core = V.CORE.includes(n), r = rad(n) * (core ? 1.5 : 1.2), p = pos[n];
@@ -33,8 +33,8 @@
       }),
       // the lamp in each core neuron: a small, dense gold bloom
       ...V.CORE.map((n, k) => {
-        const r = rad(n) * 0.8, p = pos[n];
-        return { at: 0.3 + 0.03 * k, w: V.wash(p.x - 0.05 * r, p.y + 0.05 * r, r, r, V.C.washGold, 150 + n, { alpha: 0.11, layers: 18, rough: 0.12, per: 2, spots: 2 }) };
+        const r = rad(n) * 0.7, p = pos[n];
+        return { at: 0.3 + 0.03 * k, w: V.wash(p.x - 0.05 * r, p.y + 0.05 * r, r, r, V.C.washGold, 150 + n, { alpha: 0.07, layers: 18, rough: 0.12, per: 2, spots: 2 }) };
       }),
     ];
     return { w, h, cx, cy, R, pos, rad, washes };
@@ -48,7 +48,7 @@
     ctx.save(); ctx.globalAlpha = ramp(u, 0.35, 0.7);
     if (w > 900) ctx.rect(w * 0.47, 0, w, h); else ctx.rect(0, 0, w, g.cy + 1.6 * g.R);
     ctx.clip();
-    V.spatter(ctx, g.cx + 0.06 * g.R, g.cy, 1.5 * g.R, 1.35 * g.R, V.C.washIndigo, 21, 110, 0.95, 1.1);
+    V.spatter(ctx, g.cx + 0.06 * g.R, g.cy, 1.5 * g.R, 1.35 * g.R, V.C.washIndigo, 21, 80, 1.0, 1);
     V.spatter(ctx, g.cx, g.cy, 0.5 * g.R, 0.45 * g.R, V.C.washGold, 22, 24, 0.3, 0.9);
     ctx.restore();
     ink(ctx, u);
@@ -66,7 +66,7 @@
       ctx.beginPath(); ctx.moveTo(cx + 1.09 * R * c, cy + 1.09 * R * s); ctx.lineTo(cx + 1.15 * R * c, cy + 1.15 * R * s); ctx.stroke();
       ctx.strokeStyle = V.alpha(V.C.ink, 0.07); ctx.lineWidth = 0.6;
       ctx.beginPath(); ctx.moveTo(cx + 0.3 * R * c, cy + 0.3 * R * s); ctx.lineTo(cx + 1.09 * R * c, cy + 1.09 * R * s); ctx.stroke();
-      V.text(ctx, String(q), cx + 1.35 * R * c, cy + 1.35 * R * s, { size: 16, align: 'center', base: 'middle', color: V.alpha(V.C.ink, 0.55), face: 'serif', style: 'italic' });
+      V.text(ctx, String(q), cx + 1.35 * R * c, cy + 1.35 * R * s, { size: 16, align: 'center', base: 'middle', color: V.alpha(V.C.ink, 0.7), face: 'serif', style: 'italic', halo: V.alpha(V.C.page, 0.8) });
     }
     // ink between the neurons, drawn from sender to receiver, ending at their circles
     ctx.lineCap = 'round';
@@ -75,7 +75,7 @@
       if (f <= 0) return;
       const dx = b.x - a.x, dy = b.y - a.y, d = Math.hypot(dx, dy), mx = (a.x + b.x) / 2 - dy * bend, my = (a.y + b.y) / 2 + dx * bend;
       const t1 = rad(l.j) / d, t2 = 1 - rad(l.i) / d, s = l.c / cmax;
-      ctx.strokeStyle = l.w >= 0 ? INK_POS : INK_NEG; ctx.globalAlpha = 0.3 + 0.55 * s; ctx.lineWidth = 0.6 + 2.2 * s ** 1.5;
+      ctx.strokeStyle = l.w >= 0 ? INK_POS : INK_NEG; ctx.globalAlpha = 0.5 + 0.5 * s; ctx.lineWidth = 0.9 + 2.4 * s ** 1.5;
       ctx.beginPath();
       const end = t1 + (t2 - t1) * f;
       for (let i = 0; i <= 24; i++) { const t = t1 + (end - t1) * i / 24, x = (1 - t) ** 2 * a.x + 2 * (1 - t) * t * mx + t * t * b.x, y = (1 - t) ** 2 * a.y + 2 * (1 - t) * t * my + t * t * b.y; i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }
@@ -85,9 +85,9 @@
     ctx.globalAlpha = ramp(u, 0.45, 0.8);
     for (const [n] of V.PLACE) {
       const p = pos[n], r = rad(n);
-      ctx.strokeStyle = V.alpha(V.C.ink, 0.85); ctx.lineWidth = V.CORE.includes(n) ? 1.4 : 1.1;
+      ctx.strokeStyle = V.alpha(V.C.ink, 0.9); ctx.lineWidth = V.CORE.includes(n) ? 1.6 : 1.3;
       ctx.beginPath(); ctx.arc(p.x, p.y, r, 0, 2 * Math.PI); ctx.stroke();
-      V.text(ctx, 'n' + n, p.x + r * 0.75 + 4, p.y + r * 0.75 + 11, { size: 13.5, color: V.alpha(V.C.ink, 0.75), face: 'serif', style: 'italic' });
+      V.text(ctx, 'n' + n, p.x + r * 0.75 + 4, p.y + r * 0.75 + 11, { size: 14, color: V.alpha(V.C.ink, 0.9), face: 'serif', style: 'italic', weight: 500, halo: V.alpha(V.C.page, 0.85) });
     }
     ctx.globalAlpha = 1;
   }

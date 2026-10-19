@@ -1,7 +1,7 @@
 // Drawing helpers every chapter shares: palette, canvases in design pixels (scaled with the page's root size and
 // snapped to device pixels, so a 4K screen gets the same picture, larger and crisp), colors for signed values,
 // tweens that respect reduced motion, a 3-D projection, toolbar controls, one tooltip, and the watercolor: washes,
-// spatter, the panel every figure sits on, and the brush swipe under a part's title.
+// spatter, and the brush swipe under a part's title.
 (function () {
   const root = document.documentElement;
   const cssVar = k => getComputedStyle(root).getPropertyValue('--' + k).trim();
@@ -116,11 +116,13 @@
   // Text on a canvas: sans for numbers and ticks; serif italic (face: 'serif') for a figure's notes and titles.
   function font(size, weight, face, style) { return `${style || ''} ${weight} ${size}px ${face === 'serif' ? SERIF : FONT}`; }
   // Text that would leave the canvas shrinks just enough to stay on it, so a phone's narrow figure keeps its titles.
-  function text(ctx, s, x, y, { color = C.muted, size = 13, align = 'left', base = 'alphabetic', weight = 400, face, style } = {}) {
+  // `halo` paints a thin ring of that color under the letters, for a label over a wash.
+  function text(ctx, s, x, y, { color = C.muted, size = 13, align = 'left', base = 'alphabetic', weight = 400, face, style, halo } = {}) {
     ctx.fillStyle = color; ctx.font = font(size, weight, face, style); ctx.textAlign = align; ctx.textBaseline = base;
     const W = ctx.canvas.width / K - 6, wd = ctx.measureText(s).width;
     const room = align === 'left' ? W - x : align === 'right' ? x - 6 : 2 * Math.min(x - 6, W - x);
     if (wd > room && room > 0) ctx.font = font(Math.max(8, size * room / wd), weight, face, style);
+    if (halo) { ctx.strokeStyle = halo; ctx.lineWidth = 3; ctx.lineJoin = 'round'; ctx.strokeText(s, x, y); }
     ctx.fillText(s, x, y);
   }
   // A figure's title: serif, in ink, at the top left of a panel.
@@ -196,31 +198,27 @@
     return pts;
   }
   function trace(ctx, pts, ox, oy) { ctx.moveTo(pts[0].x - ox, pts[0].y - oy); for (const p of pts) ctx.lineTo(p.x - ox, p.y - oy); ctx.closePath(); }
-  // shape 'ellipse' (the default) or 'rect'; hole is a fraction of the radius for an ellipse and an inset in design
-  // pixels for a rect, where each layer re-tears its own inner edge, jittered by holeJitter, so the pigment pools at
-  // the rim and fades inward; rim strokes the outer edge once more, as the drying line; res scales the sheet below
-  // device resolution for washes too soft to need it.
-  function wash(cx, cy, rx, ry, color, seed, { layers = 40, alpha: a = 0.03, rough = 0.26, per = 3, jitter = 0.06, holeJitter = jitter, spots = 5, hole = 0, glaze = 'multiply', shape = 'ellipse', rim = 0, rimAlpha = 0.18, res = 1 } = {}) {
+  // shape 'ellipse' (the default) or 'rect'; hole, a fraction of the radius, leaves the paper bare inside; res scales
+  // the sheet below device resolution for washes too soft to need it.
+  function wash(cx, cy, rx, ry, color, seed, { layers = 40, alpha: a = 0.03, rough = 0.26, per = 3, jitter = 0.06, spots = 5, hole = 0, glaze = 'multiply', shape = 'ellipse', res = 1 } = {}) {
     const rnd = seeded(seed), rect = shape === 'rect', [r, g, b] = hex(color);
     const padx = rect ? rx * 1.1 + 36 : 1.7 * Math.max(rx, ry), pady = rect ? ry * 1.1 + 36 : padx;
     const base = rect ? box : ring;
-    const outer = tear(base(cx, cy, rx, ry, rough, rnd), 4, rnd), inner = hole && !rect ? tear(ring(cx, cy, rx * hole, ry * hole, rough, rnd), 4, rnd) : null;
+    const outer = tear(base(cx, cy, rx, ry, rough, rnd), 4, rnd), inner = hole ? tear(base(cx, cy, rx * hole, ry * hole, rough, rnd), 4, rnd) : null;
     const scaled = (pts, s) => pts.map(p => ({ x: cx + (p.x - cx) * s, y: cy + (p.y - cy) * s, v: p.v }));
     const polys = Array.from({ length: layers }, () => {
-      // a rect's inner edge sits a little high, so the pigment settles thicker along the bottom, as on a tilted board
-      const s = 1 + jitter * rnd.gauss(), hk = hole * Math.min(2.4, Math.max(0.25, 1 + holeJitter * rnd.gauss())), lift = hole * (0.2 + 0.3 * rnd());
-      return { out: tear(scaled(outer, s), per, rnd),
-        in: inner ? tear(scaled(inner, 1 + holeJitter * rnd.gauss()), per, rnd) : hole && rect ? tear(box(cx, cy - lift, rx - hk, ry - hk, rough * 1.6, rnd), 3, rnd) : null,
+      const s = 1 + jitter * rnd.gauss();
+      return { out: tear(scaled(outer, s), per, rnd), in: inner && tear(scaled(inner, 1 + jitter * rnd.gauss()), per, rnd),
         spots: Array.from({ length: spots }, () => [(rnd() - 0.5) * 2 * rx, (rnd() - 0.5) * 2 * ry, (0.08 + 0.3 * rnd()) * Math.min(rx, ry)]) };
     });
-    let sheet = null, tmp = null, k = 0, drawn = 0, rimmed = false;
+    let sheet = null, tmp = null, k = 0, drawn = 0;
     return {
       size: polys.length,
       // lay down layers up to `to` (all by default) at device scale K
       grow(K, to = polys.length) {
         const Ks = K * res;
         if (!sheet || k !== Ks) {
-          k = Ks; drawn = 0; rimmed = false;
+          k = Ks; drawn = 0;
           sheet = document.createElement('canvas'); tmp = document.createElement('canvas');
           sheet.width = tmp.width = Math.ceil(2 * padx * Ks); sheet.height = tmp.height = Math.ceil(2 * pady * Ks);
         }
@@ -241,11 +239,6 @@
             tc.fillStyle = gr; tc.beginPath(); tc.arc(padx + dx, pady + dy, sr, 0, 2 * Math.PI); tc.fill();
           }
           sc.setTransform(1, 0, 0, 1, 0, 0); sc.drawImage(tmp, 0, 0); sc.setTransform(Ks, 0, 0, Ks, 0, 0);
-        }
-        if (rim && drawn === polys.length && !rimmed) {
-          rimmed = true;
-          sc.strokeStyle = `rgba(0,0,0,${rimAlpha})`; sc.lineWidth = rim; sc.lineJoin = 'round'; sc.filter = 'blur(0.5px)';
-          sc.beginPath(); trace(sc, outer, x0, y0); sc.stroke(); sc.filter = 'none';
         }
         sc.setTransform(1, 0, 0, 1, 0, 0); sc.globalCompositeOperation = 'source-in';
         sc.fillStyle = `rgb(${r},${g},${b})`; sc.fillRect(0, 0, sheet.width, sheet.height);
@@ -269,18 +262,6 @@
       ctx.globalAlpha = base * (0.2 + 0.5 * rnd()); ctx.beginPath(); ctx.arc(x, y, size * (0.4 + 1.8 * rnd() ** 2), 0, 2 * Math.PI); ctx.fill();
     }
     ctx.restore();
-  }
-  // The panel a figure sits on: a pale wash over its box, bleeding a little past it, the pigment pooled at a torn
-  // rim and faded inward, so the chart's own paper stays nearly bare. `host` is the bleed wrapper around the box.
-  function panel(host, seed, color = C.washIndigo) {
-    return canvas(host, (ctx, w, h) => {
-      const fig = host.parentElement.getBoundingClientRect(), P = (w - fig.width / S) / 2, Q = (h - fig.height / S) / 2;
-      const cx = w / 2, cy = h / 2, rx = w / 2 - P - 3, ry = h / 2 - Q - 3, opts = { shape: 'rect', rough: 0.045, per: 2, jitter: 0.006, res: 0.5 };
-      const tint = wash(cx, cy, rx, ry, color, seed, { ...opts, layers: 9, alpha: 0.0045, spots: 9 });
-      const edge = wash(cx, cy, rx, ry, color, seed + 1, { ...opts, layers: 24, alpha: 0.0105, hole: 16, holeJitter: 0.7, spots: 2, rim: 3, rimAlpha: 0.32 });
-      tint.grow(K); tint.draw(ctx); edge.grow(K); edge.draw(ctx);
-      spatter(ctx, cx, cy, rx * 0.62, ry * 0.62, color, seed + 2, 16, 1.52, 0.8);  // only where the band is, never on a chart's text
-    });
   }
   // One stroke of a wide brush, for a title to sit on: `host` is a box behind the text. A darker pigment goes on
   // thinner, so the three parts' strokes weigh the same.
@@ -310,5 +291,5 @@
 
   window.V = { C, CORE, reduced, FONT, SERIF, xi, get S() { return S; }, snap, crisp, canvas, mix, diverge, alpha, rankColor, cellColor, ease, lerp, tween, project,
     fmt, sfmt, pct, tip, button, slider, select, note, readout, text, title, width, roundRect, rect, bar, hline, vline, handle, chip, legend, arrow,
-    get K() { return K; }, seeded, wash, spatter, panel, swipe, PLACE, place };
+    get K() { return K; }, seeded, wash, spatter, swipe, PLACE, place };
 })();

@@ -51,7 +51,7 @@
       ctx.strokeStyle = V.C.ink; ctx.lineWidth = 2; ctx.beginPath();
       for (let t = 0; t < 10; t++) { const y = geo.mid - rec(x, t) * geo.unit; t ? ctx.lineTo(cx(t) - slot / 2, y) : ctx.moveTo(cx(t) - slot / 2, y); ctx.lineTo(cx(t) + slot / 2, y); }
       ctx.stroke();
-      V.text(ctx, 'black line: the record so far', w - right, top - 26, { size: 13, color: V.C.ink, align: 'right', face: 'serif', style: 'italic' });
+      if (w >= 560) V.text(ctx, 'black line: the record so far', w - right, top - 26, { size: 13, color: V.C.ink, align: 'right', face: 'serif', style: 'italic' });  // a phone's figure has no room beside the title
       list.forEach((cell, i) => {
         const y0 = top + aH + 40 + i * pH, base = y0 + pH - 22, f = fit(cell), P = PANELS[cell];
         const vals = Array.from({ length: 10 }, (_, t) => r.h[t + 1][cell]), qv = Array.from({ length: 10 }, (_, t) => f.k * P.q(x, t));

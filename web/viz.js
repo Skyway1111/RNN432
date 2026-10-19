@@ -1,12 +1,13 @@
 // Drawing helpers every chapter shares: palette, canvases in design pixels (scaled with the page's root size and
 // snapped to device pixels, so a 4K screen gets the same picture, larger and crisp), colors for signed values,
-// tweens that respect reduced motion, a 3-D projection, toolbar controls, one tooltip, and watercolor washes.
+// tweens that respect reduced motion, a 3-D projection, toolbar controls, one tooltip, and the watercolor: washes,
+// spatter, the panel every figure sits on, and the brush swipe under a part's title.
 (function () {
   const root = document.documentElement;
   const cssVar = k => getComputedStyle(root).getPropertyValue('--' + k).trim();
   const C = {};
   for (const k of ['page', 'surface', 'surface-2', 'ink', 'ink-2', 'muted', 'grid', 'axis', 'pos', 'neg', 'mid', 'max', 'second', 'third', 'other',
-    'core', 'timer', 'right', 'wrong', 'wash-gold', 'wash-indigo', 'wash-slate'])
+    'core', 'timer', 'right', 'wrong', 'wash-gold', 'wash-indigo', 'wash-slate', 'wash-vermilion'])
     C[k.replace(/-(\w)/, (_, c) => (c === '2' ? '2' : c.toUpperCase()))] = cssVar(k);
   const FONT = cssVar('sans') || 'system-ui, sans-serif', SERIF = cssVar('serif') || 'Georgia, serif';
   const CORE = [2, 4, 7, 6, 1, 8];
@@ -21,7 +22,9 @@
   const snap = v => Math.round(v * K) / K;           // a device-pixel edge
   const crisp = v => (Math.round(v * K) + 0.5) / K;  // the center of a device pixel, for 1-px lines
 
-  // A canvas filling `parent`, redrawn by draw(ctx, w, h) in design pixels on every resize.
+  // A canvas filling `parent`, redrawn by draw(ctx, w, h) in design pixels on every resize, and once more when the
+  // page's fonts finish loading, since a canvas drawn before that set its text in the fallback face.
+  const canvases = new Set();
   function canvas(parent, draw) {
     const cv = document.createElement('canvas');
     parent.appendChild(cv);
@@ -40,8 +43,10 @@
       api.w = r.width / S; api.h = r.height / S; cv.width = Math.round(r.width * d); cv.height = Math.round(r.height * d);
       api.redraw();
     }).observe(parent);
+    canvases.add(api);
     return api;
   }
+  if (document.fonts) document.fonts.addEventListener('loadingdone', () => canvases.forEach(c => c.redraw()));
 
   function hex(c) { const n = parseInt(c.slice(1), 16); return [n >> 16, (n >> 8) & 255, n & 255]; }
   function mix(a, b, t) { const p = hex(a), q = hex(b); return `rgb(${p.map((v, i) => Math.round(v + (q[i] - v) * t)).join(',')})`; }
@@ -184,53 +189,108 @@
     return pts;
   }
   const ring = (cx, cy, rx, ry, rough, rnd) => Array.from({ length: 10 }, (_, i) => { const a = 2 * Math.PI * i / 10; return { x: cx + rx * Math.cos(a), y: cy + ry * Math.sin(a), v: rough * (0.5 + rnd()) }; });
+  // a rectangle with five points a side, so its torn edge wanders a little but stays an edge
+  function box(cx, cy, rx, ry, rough, rnd) {
+    const c = [[cx - rx, cy - ry], [cx + rx, cy - ry], [cx + rx, cy + ry], [cx - rx, cy + ry]], pts = [];
+    c.forEach(([x0, y0], i) => { const [x1, y1] = c[(i + 1) % 4]; for (let k = 0; k < 5; k++) pts.push({ x: x0 + (x1 - x0) * k / 5, y: y0 + (y1 - y0) * k / 5, v: rough * (0.5 + rnd()) }); });
+    return pts;
+  }
   function trace(ctx, pts, ox, oy) { ctx.moveTo(pts[0].x - ox, pts[0].y - oy); for (const p of pts) ctx.lineTo(p.x - ox, p.y - oy); ctx.closePath(); }
-  function wash(cx, cy, rx, ry, color, seed, { layers = 40, alpha: a = 0.03, rough = 0.26, per = 3, jitter = 0.06, spots = 5, hole = 0, glaze = 'multiply' } = {}) {
-    const rnd = seeded(seed), pad = 1.7 * Math.max(rx, ry), [r, g, b] = hex(color);
-    const outer = tear(ring(cx, cy, rx, ry, rough, rnd), 4, rnd), inner = hole ? tear(ring(cx, cy, rx * hole, ry * hole, rough, rnd), 4, rnd) : null;
+  // shape 'ellipse' (the default) or 'rect'; hole is a fraction of the radius for an ellipse and an inset in design
+  // pixels for a rect, where each layer re-tears its own inner edge, jittered by holeJitter, so the pigment pools at
+  // the rim and fades inward; rim strokes the outer edge once more, as the drying line; res scales the sheet below
+  // device resolution for washes too soft to need it.
+  function wash(cx, cy, rx, ry, color, seed, { layers = 40, alpha: a = 0.03, rough = 0.26, per = 3, jitter = 0.06, holeJitter = jitter, spots = 5, hole = 0, glaze = 'multiply', shape = 'ellipse', rim = 0, rimAlpha = 0.18, res = 1 } = {}) {
+    const rnd = seeded(seed), rect = shape === 'rect', [r, g, b] = hex(color);
+    const padx = rect ? rx * 1.1 + 36 : 1.7 * Math.max(rx, ry), pady = rect ? ry * 1.1 + 36 : padx;
+    const base = rect ? box : ring;
+    const outer = tear(base(cx, cy, rx, ry, rough, rnd), 4, rnd), inner = hole && !rect ? tear(ring(cx, cy, rx * hole, ry * hole, rough, rnd), 4, rnd) : null;
     const scaled = (pts, s) => pts.map(p => ({ x: cx + (p.x - cx) * s, y: cy + (p.y - cy) * s, v: p.v }));
     const polys = Array.from({ length: layers }, () => {
-      const s = 1 + jitter * rnd.gauss();
-      return { out: tear(scaled(outer, s), per, rnd), in: inner && tear(scaled(inner, 1 + jitter * rnd.gauss()), per, rnd),
+      // a rect's inner edge sits a little high, so the pigment settles thicker along the bottom, as on a tilted board
+      const s = 1 + jitter * rnd.gauss(), hk = hole * Math.min(2.4, Math.max(0.25, 1 + holeJitter * rnd.gauss())), lift = hole * (0.2 + 0.3 * rnd());
+      return { out: tear(scaled(outer, s), per, rnd),
+        in: inner ? tear(scaled(inner, 1 + holeJitter * rnd.gauss()), per, rnd) : hole && rect ? tear(box(cx, cy - lift, rx - hk, ry - hk, rough * 1.6, rnd), 3, rnd) : null,
         spots: Array.from({ length: spots }, () => [(rnd() - 0.5) * 2 * rx, (rnd() - 0.5) * 2 * ry, (0.08 + 0.3 * rnd()) * Math.min(rx, ry)]) };
     });
-    let sheet = null, tmp = null, k = 0, drawn = 0;
+    let sheet = null, tmp = null, k = 0, drawn = 0, rimmed = false;
     return {
       size: polys.length,
       // lay down layers up to `to` (all by default) at device scale K
       grow(K, to = polys.length) {
-        if (!sheet || k !== K) {
-          k = K; drawn = 0;
+        const Ks = K * res;
+        if (!sheet || k !== Ks) {
+          k = Ks; drawn = 0; rimmed = false;
           sheet = document.createElement('canvas'); tmp = document.createElement('canvas');
-          sheet.width = sheet.height = tmp.width = tmp.height = Math.ceil(2 * pad * K);
+          sheet.width = tmp.width = Math.ceil(2 * padx * Ks); sheet.height = tmp.height = Math.ceil(2 * pady * Ks);
         }
-        const sc = sheet.getContext('2d'), tc = tmp.getContext('2d'), x0 = cx - pad, y0 = cy - pad;
-        sc.setTransform(K, 0, 0, K, 0, 0); tc.setTransform(K, 0, 0, K, 0, 0);
+        if (drawn && drawn >= Math.min(to, polys.length)) return;  // nothing new to lay down
+        const sc = sheet.getContext('2d'), tc = tmp.getContext('2d'), x0 = cx - padx, y0 = cy - pady;
+        sc.setTransform(Ks, 0, 0, Ks, 0, 0); tc.setTransform(Ks, 0, 0, Ks, 0, 0);
         // Layers lay down coverage only, then the sheet takes the pigment's exact color: at a few percent per layer an
         // 8-bit color quantizes to a different hue (#24507d at 1.6% is (1, 1, 2), violet), but coverage keeps.
         for (; drawn < Math.min(to, polys.length); drawn++) {
           const P = polys[drawn];
-          tc.clearRect(0, 0, 2 * pad, 2 * pad);
+          tc.clearRect(0, 0, 2 * padx, 2 * pady);
           tc.globalCompositeOperation = 'source-over'; tc.fillStyle = `rgba(0,0,0,${a})`;
           tc.beginPath(); trace(tc, P.out, x0, y0); if (P.in) trace(tc, P.in, x0, y0); tc.fill('evenodd');
           tc.globalCompositeOperation = 'destination-out';
           for (const [dx, dy, sr] of P.spots) {
-            const gr = tc.createRadialGradient(pad + dx, pad + dy, 0, pad + dx, pad + dy, sr);
+            const gr = tc.createRadialGradient(padx + dx, pady + dy, 0, padx + dx, pady + dy, sr);
             gr.addColorStop(0, 'rgba(0,0,0,0.9)'); gr.addColorStop(1, 'rgba(0,0,0,0)');
-            tc.fillStyle = gr; tc.beginPath(); tc.arc(pad + dx, pad + dy, sr, 0, 2 * Math.PI); tc.fill();
+            tc.fillStyle = gr; tc.beginPath(); tc.arc(padx + dx, pady + dy, sr, 0, 2 * Math.PI); tc.fill();
           }
-          sc.setTransform(1, 0, 0, 1, 0, 0); sc.drawImage(tmp, 0, 0); sc.setTransform(K, 0, 0, K, 0, 0);
+          sc.setTransform(1, 0, 0, 1, 0, 0); sc.drawImage(tmp, 0, 0); sc.setTransform(Ks, 0, 0, Ks, 0, 0);
+        }
+        if (rim && drawn === polys.length && !rimmed) {
+          rimmed = true;
+          sc.strokeStyle = `rgba(0,0,0,${rimAlpha})`; sc.lineWidth = rim; sc.lineJoin = 'round'; sc.filter = 'blur(0.5px)';
+          sc.beginPath(); trace(sc, outer, x0, y0); sc.stroke(); sc.filter = 'none';
         }
         sc.setTransform(1, 0, 0, 1, 0, 0); sc.globalCompositeOperation = 'source-in';
         sc.fillStyle = `rgb(${r},${g},${b})`; sc.fillRect(0, 0, sheet.width, sheet.height);
         sc.globalCompositeOperation = 'source-over';
+        if (drawn === polys.length) tmp = null;
       },
       // glaze the sheet onto ctx (in design pixels)
       draw(ctx) {
         if (!sheet) return;
-        ctx.save(); ctx.globalCompositeOperation = glaze; ctx.drawImage(sheet, cx - pad, cy - pad, 2 * pad, 2 * pad); ctx.restore();
+        ctx.save(); ctx.globalCompositeOperation = glaze; ctx.drawImage(sheet, cx - padx, cy - pady, 2 * padx, 2 * pady); ctx.restore();
       },
     };
+  }
+  // Flicked pigment: n dots of `color` around (cx, cy), spread `sx` by `sy`, kept off the disc of radius `clear`.
+  function spatter(ctx, cx, cy, sx, sy, color, seed, n = 60, clear = 0, size = 1) {
+    const rnd = seeded(seed), base = ctx.globalAlpha;
+    ctx.save(); ctx.globalCompositeOperation = 'multiply'; ctx.fillStyle = color;
+    for (let i = 0; i < n; i++) {
+      const x = cx + rnd.gauss() * sx, y = cy + rnd.gauss() * sy;
+      if (Math.hypot((x - cx) / sx, (y - cy) / sy) < clear) continue;
+      ctx.globalAlpha = base * (0.2 + 0.5 * rnd()); ctx.beginPath(); ctx.arc(x, y, size * (0.4 + 1.8 * rnd() ** 2), 0, 2 * Math.PI); ctx.fill();
+    }
+    ctx.restore();
+  }
+  // The panel a figure sits on: a pale wash over its box, bleeding a little past it, the pigment pooled at a torn
+  // rim and faded inward, so the chart's own paper stays nearly bare. `host` is the bleed wrapper around the box.
+  function panel(host, seed, color = C.washIndigo) {
+    return canvas(host, (ctx, w, h) => {
+      const fig = host.parentElement.getBoundingClientRect(), P = (w - fig.width / S) / 2, Q = (h - fig.height / S) / 2;
+      const cx = w / 2, cy = h / 2, rx = w / 2 - P - 3, ry = h / 2 - Q - 3, opts = { shape: 'rect', rough: 0.045, per: 2, jitter: 0.006, res: 0.5 };
+      const tint = wash(cx, cy, rx, ry, color, seed, { ...opts, layers: 9, alpha: 0.0045, spots: 9 });
+      const edge = wash(cx, cy, rx, ry, color, seed + 1, { ...opts, layers: 24, alpha: 0.0105, hole: 16, holeJitter: 0.7, spots: 2, rim: 3, rimAlpha: 0.32 });
+      tint.grow(K); tint.draw(ctx); edge.grow(K); edge.draw(ctx);
+      spatter(ctx, cx, cy, rx * 0.62, ry * 0.62, color, seed + 2, 16, 1.52, 0.8);  // only where the band is, never on a chart's text
+    });
+  }
+  // One stroke of a wide brush, for a title to sit on: `host` is a box behind the text. A darker pigment goes on
+  // thinner, so the three parts' strokes weigh the same.
+  function swipe(host, color, seed) {
+    const [r, g, b] = hex(color), lum = (0.3 * r + 0.59 * g + 0.11 * b) / 255;
+    return canvas(host, (ctx, w, h) => {
+      const s = wash(w * 0.5, h * 0.56, w * 0.46, h * 0.27, color, seed, { shape: 'rect', layers: 24, alpha: 0.017 + 0.017 * lum, rough: 0.13, per: 2, jitter: 0.045, spots: 4, res: 0.5 });
+      s.grow(K); s.draw(ctx);
+      spatter(ctx, w * 0.5, h * 0.56, w * 0.5, h * 0.3, color, seed + 1, 18, 1.1, 0.9);
+    });
   }
 
   // The network's map, shared by the hero and the field guide: n2 at the center, the comparators around it in the
@@ -250,5 +310,5 @@
 
   window.V = { C, CORE, reduced, FONT, SERIF, xi, get S() { return S; }, snap, crisp, canvas, mix, diverge, alpha, rankColor, cellColor, ease, lerp, tween, project,
     fmt, sfmt, pct, tip, button, slider, select, note, readout, text, title, width, roundRect, rect, bar, hline, vline, handle, chip, legend, arrow,
-    get K() { return K; }, seeded, wash, PLACE, place };
+    get K() { return K; }, seeded, wash, spatter, panel, swipe, PLACE, place };
 })();

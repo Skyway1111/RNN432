@@ -1,8 +1,9 @@
 // The scroll engine. A chapter registers {title, steps: [html], hint, mount(fig, bar) -> {step(k)}, after(el)}; a part
-// registers {kicker, title, html} and sits between chapters. Story.start() lays everything out in registration order,
-// builds the hero index and the rail, mounts each figure when it nears the screen, and calls step(k) as the step whose
-// text crosses the middle of the screen changes. A chapter's hint names its gesture on the figure until the first
-// touch; its after(el), if any, fills a full-width section below its steps when it mounts.
+// registers {kicker, title, html, color} and sits between chapters, its title on a swipe of its pigment, which also
+// colors its chapters' numbers and rail ticks. Story.start() lays everything out in registration order, builds the
+// hero index and the rail, paints each figure's panel and mounts it when it nears the screen, and calls step(k) as
+// the step whose text crosses the middle of the screen changes. A chapter's hint names its gesture on the figure
+// until the first touch; its after(el), if any, fills a full-width section below its steps when it mounts.
 // <a data-ch="ID"> in prose becomes a link reading "chapter N", so chapters can be reordered without retyping numbers.
 // ?final mounts everything at its last step (for web/check.py).
 (function () {
@@ -36,7 +37,8 @@
     const hint = ch.hint ? `<div class="hint">${ICON[ch.hint.icon || 'drag']}<span>${ch.hint.text}</span></div>` : '';
     sec.innerHTML = `<div class="wrap"><div class="ch-head"><span class="num">${ch.n}</span><h2>${ch.title}</h2></div>
       <div class="ch-body"><div class="prose">${ch.steps.map((s, k) => `<div class="step" data-step="${k}">${s}</div>`).join('')}</div>
-      <div class="figure"><div class="fig"></div><div class="fig-bar">${hint}</div></div></div>${ch.after ? '<div class="after"></div>' : ''}</div>`;
+      <div class="figure"><div class="fig" role="img" aria-label="${ch.title}: the chapter's figure, drawn live from the weights"><div class="panel"></div></div><div class="fig-bar">${hint}</div></div></div>${ch.after ? '<div class="after"></div>' : ''}</div>`;
+    if (ch.color) sec.style.setProperty('--part', `var(--wash-${ch.color})`);
     ch.sec = sec; ch.current = -1; ch.ctl = null; ch.touched = false;
     ch.hintEl = sec.querySelector('.hint');
     if (ch.hintEl) {
@@ -51,12 +53,14 @@
   function buildPart(p) {
     const sec = document.createElement('section');
     sec.className = 'part'; sec.id = p.id;
-    sec.innerHTML = `<div class="wrap"><p class="kicker">${p.kicker}</p><h2>${p.title}</h2>${p.html}</div>`;
+    sec.innerHTML = `<div class="wrap"><p class="kicker">${p.kicker}</p><h2><span class="swipe"></span>${p.title}</h2>${p.html}</div>`;
+    if (p.color) V.swipe(sec.querySelector('.swipe'), V.C['wash' + p.color[0].toUpperCase() + p.color.slice(1)], 500 + items.indexOf(p));
     return sec;
   }
 
   function mount(ch) {
     if (ch.ctl) return;
+    V.panel(ch.sec.querySelector('.panel'), 1000 + 7 * ch.n);
     try { ch.ctl = ch.mount(ch.sec.querySelector('.fig'), ch.sec.querySelector('.fig-bar')) || {}; }
     catch (e) { console.error(`chapter ${ch.id}: ${e.stack || e}`); ch.ctl = {}; }
     if (ch.after) {
@@ -85,7 +89,7 @@
         continue;
       }
       (group || toc).insertAdjacentHTML('beforeend', `<a href="#${it.id}"><span>${it.n}</span>${it.title}</a>`);
-      rail.insertAdjacentHTML('beforeend', `<a href="#${it.id}" title="${it.n}. ${it.title}">${it.n}</a>`);
+      rail.insertAdjacentHTML('beforeend', `<a href="#${it.id}" title="${it.n}. ${it.title}" style="--part: var(--wash-${it.color || 'indigo'})">${it.n}</a>`);
     }
   }
 
@@ -93,6 +97,8 @@
     const root = document.getElementById('story'), toc = document.getElementById('toc');
     const rail = document.createElement('nav'); rail.id = 'rail'; rail.setAttribute('aria-label', 'Chapters'); document.body.appendChild(rail);
     chapters.forEach((ch, i) => (ch.n = i + 1));
+    let color = null;
+    for (const it of items) { if (it.kind === 'part') color = it.color; else it.color = color; }
     items.forEach(it => root.appendChild(it.kind === 'part' ? buildPart(it) : buildChapter(it)));
     if (toc) index(toc, rail);
     facts(document);

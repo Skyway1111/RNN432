@@ -16,17 +16,40 @@
       <p class="lede">A neural network of 432 numbers was trained to do one small thing: read ten numbers, one at a time, and point to the second-largest.</p>
       <p class="lede">This page takes it apart until you can see what each of its sixteen neurons does, how they decide together, and why they sometimes get it wrong.</p>
       <p class="live">Nearly every figure is computed from the network's 432 numbers as you watch. The painting is too: its circles are the neurons, its ink the links that matter most.</p>
+      <p class="live">Scroll to read. Each chapter's picture changes as its text goes by, and most of them can be played with.</p>
     </div>
     <nav id="toc" aria-label="Contents"></nav>
+    <p class="more">After the story, <a href="explorer/index.html">the explorer</a> lets you click any neuron or weight, edit any input, and watch the whole network react in three dimensions.</p>
   </div>
 </header>
 <main id="story"></main>
+<section id="words"><div class="wrap">
+  <h2>The words</h2>
+  <p>Every term on this page is pictured before it is named. Here they are again, one line each, in the order they appear.</p>
+  <dl>
+    <div><dt>input</dt><dd>One of the ten numbers, x<sub>0</sub> to x<sub>9</sub>, read one per step in the order they arrive.</dd></div>
+    <div><dt>neuron</dt><dd>One of the sixteen numbers the network carries from one step to the next. Together they are its memory.</dd></div>
+    <div><dt>weight</dt><dd>A number the network multiplies by. Input weights let a new number in, memory weights push the neurons on each other, output weights turn them into scores. There are 432.</dd></div>
+    <div><dt>clip</dt><dd>The one bend in the rule: a neuron whose sum comes out negative is set to zero. Also called a ReLU.</dd></div>
+    <div><dt>score</dt><dd>A position's total after the last input, a weighted sum of the sixteen neurons. The highest score is the answer.</dd></div>
+    <div><dt>runner-up</dt><dd>The second-largest of the ten inputs. The network's job is to point to its position.</dd></div>
+    <div><dt>record</dt><dd>The largest input seen so far, or zero if all were negative.</dd></div>
+    <div><dt>jump</dt><dd>How far a new input beats the record, and zero when it doesn't.</dd></div>
+    <div><dt>comparator</dt><dd>A core neuron that measures how far a new input lands below a record, or below the runner-up so far.</dd></div>
+    <div><dt>timer</dt><dd>One of the ten neurons outside the core. Each holds more or less of the record depending on when it arrived, and votes on positions.</dd></div>
+    <div><dt>vote</dt><dd>One input's exact share of a position's score. The ten shares add up to the score.</dd></div>
+    <div><dt>veto</dt><dd>A timer's standing vote against its position, lifted when the runner-up arrives there.</dd></div>
+    <div><dt>margin</dt><dd>The right answer's score minus the best other score. Positive means the network is right, and larger means surer.</dd></div>
+    <div><dt>tie</dt><dd>Two inputs almost equal. The right answer jumps there, and a network whose scores move smoothly must be wrong in a sliver beside it.</dd></div>
+    <div><dt>cascade</dt><dd>One changed clip changing the memory, which changes later clips, step after step.</dd></div>
+  </dl>
+</div></section>
 <section id="coda"><div class="wrap">
   <h2>The whole machine, in four sentences</h2>
   <p>A record keeper and a jump detector track the largest number so far, and four comparators measure how far each new number lands below a record or the runner-up. Their memory weights turn part of the memory a fixed angle each step, like a clock hand, so its angle carries when things happened. Ten timers read that turning memory, most of them watching for the runner-up at one or two positions, and all sixteen neurons' votes add up exactly to the scores. The mistakes sit where numbers nearly tie, where no continuous machine can be sure, and the most confident ones where a shortcut the network learned points the wrong way.</p>
   <p>To poke at it yourself, <a href="explorer/index.html">the explorer</a> lets you click any neuron or weight, edit any input, and watch the chain reaction behind any answer.</p>
 </div></section>
-<footer><div class="wrap">Every quoted number comes from an experiment in <code>experiments/</code>, with its raw output in <code>results/</code>, and every figure is computed from the weights as you watch.</div></footer>
+<footer><div class="wrap">The network is the Alignment Research Center's M<sub>16,10</sub>. Every quoted number comes from a recorded experiment in the project behind this page (<code>experiments/</code>, raw output in <code>results/</code>), and every figure is computed from the weights as you watch.</div></footer>
 
 <script src="data.js"></script>
 <script src="model.js"></script>
@@ -35,13 +58,13 @@
 <script src="story.js"></script>
 <script src="hero.js"></script>
 
-<script>Story.part('puzzle', { kicker: 'Part one', title: 'The puzzle', html: `
+<script>Story.part('puzzle', { kicker: 'Part one', title: 'The puzzle', color: 'indigo', html: `
   <p>Before taking a machine apart, look at it whole: the numbers it is made of, the game it was trained to play, and the one rule it repeats. Nothing here is harder than multiplying and adding.</p>` });</script>
 <script src="ch/numbers.js"></script>
 <script src="ch/game.js"></script>
 <script src="ch/rule.js"></script>
 
-<script>Story.part('works', { kicker: 'Part two', title: 'How it works', html: `
+<script>Story.part('works', { kicker: 'Part two', title: 'How it works', color: 'gold', html: `
   <p>Each of the sixteen neurons turns out to track something you can name. Once you know what, the network stops being 432 numbers and becomes a small machine: a record keeper, four comparators, a clock, and ten timers whose votes point to the answer.</p>` });</script>
 <script src="ch/record.js"></script>
 <script src="ch/clock.js"></script>
@@ -49,7 +72,7 @@
 <script src="ch/sixteen.js"></script>
 <script src="ch/learned.js"></script>
 
-<script>Story.part('fails', { kicker: 'Part three', title: 'Where it fails', html: `
+<script>Story.part('fails', { kicker: 'Part three', title: 'Where it fails', color: 'vermilion', html: `
   <p>The network is right on <b data-fact="acc"></b> of random inputs. This part is about the rest. Most of its mistakes come from one fact no smooth machine can escape, and the most confident ones from a shortcut it learned. Then we break it on purpose, and say plainly what is still not explained.</p>` });</script>
 <script src="ch/ties.js"></script>
 <script src="ch/dims.js"></script>

@@ -19,7 +19,7 @@ LITERAL = {"432", "256", "160", "20000", "200000"}  # structural constants the p
 
 
 def numbers_outside_facts(page) -> list[str]:
-    texts = page.evaluate("""() => [...document.querySelectorAll('.step, #hero, .part, #coda, .guide')].map(s => {
+    texts = page.evaluate("""() => [...document.querySelectorAll('.step, #hero, .part, #words, #coda, .guide')].map(s => {
         const c = s.cloneNode(true); c.querySelectorAll('[data-fact], [data-live], code, .mono, nav, footer').forEach(e => e.remove()); return c.textContent; })""")
     bad = []
     for t in texts:

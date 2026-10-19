@@ -1,7 +1,8 @@
 // The hero: the network painted from its weights, on the map V.place lays out. Each neuron is an ink circle sized by
-// its mean activity over a loose wash, gold for the core six and slate for the ten timers; a blue ground leaves the
-// paper bare around the core and under each timer; ink joins the 30 links whose cut costs the most accuracy (results/experiments/
-// neuron_atlas.npy), tinted by sign. The paint blooms once on load; reduced motion shows it finished.
+// its mean activity over a loose wash, gold for the core six, lit like lamps, and slate for the ten timers; an indigo
+// ground leaves the paper bare around the core and under each timer, and flicks of it land around the edge; ink joins
+// the 30 links whose cut costs the most accuracy (results/experiments/neuron_atlas.npy), tinted by sign. The paint
+// blooms once on load; reduced motion shows it finished.
 (function () {
   const host = document.getElementById('painting');
   if (!host) return;
@@ -19,16 +20,21 @@
     const cx = wide ? w * 0.715 : w * 0.5, cy = wide ? vh * 0.46 : vh * 0.25, R = wide ? Math.min(w * 0.165, vh * 0.29) : Math.min(w * 0.3, vh * 0.17);
     const pos = V.place(cx, cy, R), rad = n => R * (0.05 + 0.017 * Math.sqrt(mean[n]));
     const washes = [
-      { at: 0, w: V.wash(cx + 0.06 * R, cy - 0.04 * R, 1.55 * R, 1.42 * R, V.C.washIndigo, 11, { alpha: 0.016, layers: 44, rough: 0.3, hole: 0.5 }) },
-      { at: 0.08, w: V.wash(cx - 0.02 * R, cy + 0.02 * R, 0.5 * R, 0.46 * R, V.C.washGold, 12, { alpha: 0.012, layers: 30, rough: 0.28 }) },
+      { at: 0, w: V.wash(cx + 0.06 * R, cy - 0.04 * R, 1.58 * R, 1.44 * R, V.C.washIndigo, 11, { alpha: 0.021, layers: 54, rough: 0.32, hole: 0.5, spots: 6 }) },
+      { at: 0.08, w: V.wash(cx - 0.02 * R, cy + 0.02 * R, 0.52 * R, 0.48 * R, V.C.washGold, 12, { alpha: 0.013, layers: 30, rough: 0.28 }) },
       // the paper left bare under each timer, as if masked before the ground went down
       ...V.PLACE.filter(([n]) => !V.CORE.includes(n)).map(([n], k) => {
         const r = rad(n) * 1.5, p = pos[n];
         return { at: 0.12 + 0.02 * k, w: V.wash(p.x, p.y, r, r, V.C.ink, 200 + n, { alpha: 0.3, layers: 8, rough: 0.14, per: 2, spots: 0, glaze: 'destination-out' }) };
       }),
       ...V.PLACE.map(([n], k) => {
-        const core = V.CORE.includes(n), r = rad(n) * (core ? 1.45 : 1.2), p = pos[n];
+        const core = V.CORE.includes(n), r = rad(n) * (core ? 1.5 : 1.2), p = pos[n];
         return { at: 0.18 + 0.025 * k, w: V.wash(p.x - 0.12 * r, p.y + 0.1 * r, r, r * 0.95, core ? V.C.washGold : V.C.washSlate, 100 + n, { alpha: core ? 0.06 : 0.04, layers: 28, rough: 0.1, per: 2, spots: 3 }) };
+      }),
+      // the lamp in each core neuron: a small, dense gold bloom
+      ...V.CORE.map((n, k) => {
+        const r = rad(n) * 0.8, p = pos[n];
+        return { at: 0.3 + 0.03 * k, w: V.wash(p.x - 0.05 * r, p.y + 0.05 * r, r, r, V.C.washGold, 150 + n, { alpha: 0.11, layers: 18, rough: 0.12, per: 2, spots: 2 }) };
       }),
     ];
     return { w, h, cx, cy, R, pos, rad, washes };
@@ -38,18 +44,28 @@
     if (!g || g.w !== w || g.h !== h) g = layout(w, h);
     const u = progress();
     for (const s of g.washes) { s.w.grow(V.K, Math.round(ramp(u, s.at, s.at + 0.5) * s.w.size)); s.w.draw(ctx); }
+    // flicked pigment around the ground, kept off the title's side, and a little gold around the core
+    ctx.save(); ctx.globalAlpha = ramp(u, 0.35, 0.7);
+    if (w > 900) ctx.rect(w * 0.47, 0, w, h); else ctx.rect(0, 0, w, g.cy + 1.6 * g.R);
+    ctx.clip();
+    V.spatter(ctx, g.cx + 0.06 * g.R, g.cy, 1.5 * g.R, 1.35 * g.R, V.C.washIndigo, 21, 110, 0.95, 1.1);
+    V.spatter(ctx, g.cx, g.cy, 0.5 * g.R, 0.45 * g.R, V.C.washGold, 22, 24, 0.3, 0.9);
+    ctx.restore();
     ink(ctx, u);
   });
 
   function ink(ctx, u) {
     const { pos, R, cx, cy, rad } = g, rnd = V.seeded(7);
-    // the dial of answer positions, in pencil
+    // the dial of answer positions, in pencil, with a faint spoke to each
     ctx.globalAlpha = ramp(u, 0.55, 0.9);
     ctx.strokeStyle = V.alpha(V.C.ink, 0.22); ctx.lineWidth = 0.8;
     ctx.beginPath(); ctx.arc(cx, cy, 1.12 * R, 0, 2 * Math.PI); ctx.stroke();
     for (let q = 0; q < 10; q++) {
       const a = (-90 + q * 36) * Math.PI / 180, c = Math.cos(a), s = Math.sin(a);
+      ctx.strokeStyle = V.alpha(V.C.ink, 0.22); ctx.lineWidth = 0.8;
       ctx.beginPath(); ctx.moveTo(cx + 1.09 * R * c, cy + 1.09 * R * s); ctx.lineTo(cx + 1.15 * R * c, cy + 1.15 * R * s); ctx.stroke();
+      ctx.strokeStyle = V.alpha(V.C.ink, 0.07); ctx.lineWidth = 0.6;
+      ctx.beginPath(); ctx.moveTo(cx + 0.3 * R * c, cy + 0.3 * R * s); ctx.lineTo(cx + 1.09 * R * c, cy + 1.09 * R * s); ctx.stroke();
       V.text(ctx, String(q), cx + 1.35 * R * c, cy + 1.35 * R * s, { size: 16, align: 'center', base: 'middle', color: V.alpha(V.C.ink, 0.55), face: 'serif', style: 'italic' });
     }
     // ink between the neurons, drawn from sender to receiver, ending at their circles
